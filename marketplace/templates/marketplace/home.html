@@ -61,6 +61,16 @@
 </head>
 <body>
     <div class="container">
+        <div style="margin-bottom: 20px; text-align: right;">
+            {% if user.is_authenticated %}
+                <span style="margin-right: 10px;">Hello, {{ user.username }}!</span>
+                <a href="{% url 'logout' %}" style="color: #e74c3c; text-decoration: none;">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}" style="color: #2980b9; text-decoration: none; margin-right: 10px;">Login</a>
+                <a href="{% url 'register' %}" style="color: #27ae60; text-decoration: none;">Register</a>
+            {% endif %}
+        </div>
+
         <h1>Welcome to RenewExperts</h1>
         <p>The premium marketplace for renewable energy equipment. Connect, trade, and build a greener future.</p>
         <a href="#" class="btn">Browse Products (Coming Soon)</a>
