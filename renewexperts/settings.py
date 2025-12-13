@@ -146,21 +146,14 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Email Configuration - Gmail SMTP
-# IMPORTANT: Never commit credentials! Use environment variables only.
-EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
+# Email Configuration - Resend
+# IMPORTANT: Never commit API keys! Use environment variables only.
+RESEND_API_KEY = os.environ.get('RESEND_API_KEY')
+RESEND_FROM_EMAIL = os.environ.get('RESEND_FROM_EMAIL', 'onboarding@resend.dev')
 
-# Dacă nu sunt setate variabilele de mediu, folosim console backend pentru development
-if EMAIL_HOST_USER and EMAIL_HOST_PASSWORD:
-    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    EMAIL_HOST = 'smtp.gmail.com'
-    EMAIL_PORT = 587
-    EMAIL_USE_TLS = True
-    EMAIL_TIMEOUT = 30  # Mărim timeout-ul pentru conexiuni mai lente
-    EMAIL_USE_SSL = False  # Folosim TLS, nu SSL
-    DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-else:
-    # Fallback pentru development când nu sunt setate credențialele
+# Pentru compatibilitate, păstrăm DEFAULT_FROM_EMAIL
+DEFAULT_FROM_EMAIL = RESEND_FROM_EMAIL
+
+# Dacă nu avem Resend configurat, folosim console backend pentru development
+if not RESEND_API_KEY:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-    DEFAULT_FROM_EMAIL = 'noreply@renewexperts.com'

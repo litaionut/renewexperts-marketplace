@@ -116,10 +116,3 @@ Aceasta este mai complicată deoarece consola Railway nu suportă input interact
 ## Verificare
 Accesați `https://Nume-Proiect.up.railway.app/admin/` și logați-vă cu credențialele create.
 
-
-
-
-
-
-
-
