@@ -25,3 +25,31 @@ class UserRegistrationForm(forms.ModelForm):
             user.save()
         return user
 
+
+class ContactForm(forms.Form):
+    name = forms.CharField(
+        max_length=100, 
+        label="Your Name",
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter your name'})
+    )
+    email = forms.EmailField(
+        label="Your Email",
+        widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'your.email@example.com'})
+    )
+    subject = forms.CharField(
+        max_length=200, 
+        label="Subject",
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'What is this about?'})
+    )
+    message = forms.CharField(
+        label="Your Message",
+        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5, 'placeholder': 'Write your message here...'})
+    )
+
+
+
+
+
+
+
+
