@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.conf import settings
 from .forms import UserRegistrationForm, ContactForm
+from .models import Profile
 from django.contrib import messages
 from threading import Thread
 import logging
@@ -22,10 +24,62 @@ def register_view(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)
-            messages.success(request, f"Welcome, {user.username}!")
-            return redirect('dashboard')
+            # Creează utilizatorul dar îl setează inactiv
+            user = form.save(commit=False)
+            user.is_active = False  # Utilizatorul nu poate loga până verifică email-ul
+            user.save()
+            
+            # Generează codul de verificare
+            code = user.profile.generate_verification_code()
+            
+            # Trimite email de verificare prin Resend
+            try:
+                if not settings.RESEND_API_KEY:
+                    messages.error(request, "Email service is not configured. Please contact administrator.")
+                    user.delete()  # Șterge utilizatorul dacă nu putem trimite email
+                    return render(request, 'marketplace/register.html', {'form': form})
+                
+                resend.api_key = settings.RESEND_API_KEY
+                
+                email_subject = "Verify your RenewExperts account"
+                email_html = f"""
+                <html>
+                    <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+                        <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+                            <h2 style="color: #27ae60;">Welcome to RenewExperts!</h2>
+                            <p>Hi {user.username},</p>
+                            <p>Thank you for registering. Please verify your email address by entering this code:</p>
+                            <div style="text-align: center; margin: 30px 0;">
+                                <h1 style="color: #27ae60; font-size: 36px; letter-spacing: 8px; margin: 20px 0; font-weight: bold;">{code}</h1>
+                            </div>
+                            <p>This code will expire in 24 hours.</p>
+                            <p>If you didn't create this account, please ignore this email.</p>
+                            <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
+                            <p style="color: #999; font-size: 12px;">This is an automated message, please do not reply.</p>
+                        </div>
+                    </body>
+                </html>
+                """
+                
+                resend.Emails.send({
+                    "from": settings.RESEND_FROM_EMAIL,
+                    "to": [user.email],
+                    "subject": email_subject,
+                    "html": email_html,
+                })
+                
+                # Salvează user_id în sesiune pentru pagina de verificare
+                request.session['verification_user_id'] = user.id
+                
+                messages.success(request, "Registration successful! Please check your email for verification code.")
+                return redirect('verify_email')
+                
+            except Exception as e:
+                logger.error(f"Failed to send verification email: {str(e)}")
+                messages.error(request, "Account creation failed. Please try again or contact support.")
+                user.delete()  # Șterge utilizatorul dacă nu putem trimite email
+                if settings.DEBUG:
+                    messages.error(request, f"Error: {str(e)}")
     else:
         form = UserRegistrationForm()
     return render(request, 'marketplace/register.html', {'form': form})
@@ -38,6 +92,11 @@ def login_view(request):
             password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
             if user is not None:
+                # Verifică dacă utilizatorul a verificat email-ul
+                if not user.is_active:
+                    messages.warning(request, "Please verify your email address before logging in. Check your inbox for the verification code.")
+                    request.session['verification_user_id'] = user.id
+                    return redirect('verify_email')
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}.")
                 return redirect('dashboard')
@@ -128,3 +187,107 @@ This email was sent from the RenewExperts Marketplace contact form."""
         form = ContactForm()
     
     return render(request, 'marketplace/contact.html', {'form': form})
+
+def verify_email_view(request):
+    """View pentru verificarea codului de email"""
+    user_id = request.session.get('verification_user_id')
+    
+    if not user_id:
+        messages.error(request, "Session expired. Please register again.")
+        return redirect('register')
+    
+    try:
+        user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        messages.error(request, "Invalid session. Please register again.")
+        return redirect('register')
+    
+    # Dacă utilizatorul este deja verificat, redirecționează
+    if user.is_active and user.profile.is_email_verified:
+        messages.info(request, "Email already verified!")
+        return redirect('login')
+    
+    if request.method == 'POST':
+        code = request.POST.get('code', '').strip()
+        
+        if user.profile.verification_code == code:
+            # Codul este corect - activează utilizatorul
+            user.is_active = True
+            user.profile.is_email_verified = True
+            user.profile.verification_code = ''  # Șterge codul
+            user.profile.save()
+            user.save()
+            
+            # Șterge user_id din sesiune
+            del request.session['verification_user_id']
+            
+            # Loghează utilizatorul automat
+            login(request, user)
+            
+            messages.success(request, "Email verified successfully! Welcome to RenewExperts!")
+            return redirect('dashboard')
+        else:
+            messages.error(request, "Invalid verification code. Please try again.")
+    
+    return render(request, 'marketplace/verify_email.html', {'user': user})
+
+def resend_verification_view(request):
+    """View pentru retrimiterea codului de verificare"""
+    user_id = request.session.get('verification_user_id')
+    
+    if not user_id:
+        messages.error(request, "Session expired. Please register again.")
+        return redirect('register')
+    
+    try:
+        user = User.objects.get(id=user_id, is_active=False)
+        
+        # Generează un cod nou
+        code = user.profile.generate_verification_code()
+        
+        # Trimite email nou
+        try:
+            if not settings.RESEND_API_KEY:
+                messages.error(request, "Email service is not configured.")
+                return redirect('verify_email')
+            
+            resend.api_key = settings.RESEND_API_KEY
+            
+            email_html = f"""
+            <html>
+                <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+                    <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+                        <h2 style="color: #27ae60;">Your RenewExperts Verification Code</h2>
+                        <p>Hi {user.username},</p>
+                        <p>Your new verification code is:</p>
+                        <div style="text-align: center; margin: 30px 0;">
+                            <h1 style="color: #27ae60; font-size: 36px; letter-spacing: 8px; margin: 20px 0; font-weight: bold;">{code}</h1>
+                        </div>
+                        <p>This code will expire in 24 hours.</p>
+                        <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
+                        <p style="color: #999; font-size: 12px;">This is an automated message, please do not reply.</p>
+                    </div>
+                </body>
+            </html>
+            """
+            
+            resend.Emails.send({
+                "from": settings.RESEND_FROM_EMAIL,
+                "to": [user.email],
+                "subject": "Your RenewExperts Verification Code",
+                "html": email_html,
+            })
+            
+            messages.success(request, "Verification code resent! Please check your email.")
+            return redirect('verify_email')
+            
+        except Exception as e:
+            logger.error(f"Failed to resend verification email: {str(e)}")
+            messages.error(request, "Failed to resend code. Please try again later.")
+            if settings.DEBUG:
+                messages.error(request, f"Error: {str(e)}")
+            return redirect('verify_email')
+            
+    except User.DoesNotExist:
+        messages.error(request, "Invalid session.")
+        return redirect('register')
