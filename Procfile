@@ -1,1 +1,1 @@
-web: python manage.py migrate && gunicorn renewexperts.wsgi --log-file -
+web: python manage.py migrate && gunicorn renewexperts.wsgi --log-file - --timeout 120

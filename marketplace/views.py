@@ -6,6 +6,10 @@ from django.core.mail import send_mail
 from django.conf import settings
 from .forms import UserRegistrationForm, ContactForm
 from django.contrib import messages
+from threading import Thread
+import logging
+
+logger = logging.getLogger(__name__)
 
 def home(request):
     return render(request, 'marketplace/home.html')
@@ -50,6 +54,21 @@ def logout_view(request):
     messages.info(request, "You have successfully logged out.")
     return redirect('home')
 
+def send_email_async(subject, message, recipient_email):
+    """Funcție helper pentru trimiterea email-urilor în background"""
+    try:
+        send_mail(
+            subject,
+            message,
+            settings.DEFAULT_FROM_EMAIL,
+            [recipient_email],
+            fail_silently=False,
+        )
+        logger.info(f"Email sent successfully to {recipient_email}")
+    except Exception as e:
+        logger.error(f"Failed to send email: {str(e)}")
+        # Nu aruncăm excepția, doar o logăm
+
 def contact_view(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
@@ -62,8 +81,7 @@ def contact_view(request):
             
             # Creează conținutul emailului
             email_subject = f"Contact Form: {subject}"
-            email_message = f"""
-New message from {name} ({email})
+            email_message = f"""New message from {name} ({email})
 
 Subject: {subject}
 
@@ -71,25 +89,22 @@ Message:
 {message}
 
 ---
-This email was sent from the RenewExperts Marketplace contact form.
-            """
+This email was sent from the RenewExperts Marketplace contact form."""
             
-            # Adresa unde vei primi emailurile (poți schimba asta)
+            # Adresa unde vei primi emailurile
             recipient_email = 'litaionutm9@gmail.com'
             
+            # Trimite email-ul în background pentru a nu bloca request-ul
             try:
-                send_mail(
-                    email_subject,
-                    email_message,
-                    settings.DEFAULT_FROM_EMAIL,
-                    [recipient_email],
-                    fail_silently=False,
-                )
+                email_thread = Thread(target=send_email_async, args=(email_subject, email_message, recipient_email))
+                email_thread.daemon = True
+                email_thread.start()
+                
                 messages.success(request, "Thank you! Your message has been sent successfully.")
                 return redirect('contact')
             except Exception as e:
-                messages.error(request, f"Sorry, there was an error sending your message. Please try again later.")
-                # În dezvoltare, poți afișa eroarea pentru debugging
+                logger.error(f"Error creating email thread: {str(e)}")
+                messages.error(request, "Sorry, there was an error sending your message. Please try again later.")
                 if settings.DEBUG:
                     messages.error(request, f"Error: {str(e)}")
     else:
