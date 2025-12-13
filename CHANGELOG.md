@@ -2,6 +2,48 @@
 
 Toate modificările notabile ale acestui proiect vor fi documentate în acest fișier.
 
+## [1.2.0] - 2025-12-13
+
+### Added
+- **Verificare Email la Înregistrare**: Sistem complet de verificare email pentru protecție împotriva robotilor
+  - Generare automată cod de verificare de 6 cifre
+  - Model `Profile` cu `verification_code` și `is_email_verified`
+  - Trimitere email de verificare prin Resend la înregistrare
+  - Pagină de verificare email la `/verify-email/`
+  - Funcționalitate "Resend Code" pentru retrimitere cod
+  - Blocare login pentru utilizatori neverificați
+  - Activare automată cont și autentificare după verificare
+  - Signal handlers Django pentru creare automată Profile la creare User
+
+### Changed
+- Utilizatorii noi sunt creați cu `is_active=False` până la verificarea emailului
+- Login view verifică dacă utilizatorul a verificat email-ul înainte de autentificare
+- Signal handler îmbunătățit pentru gestionare automată profile utilizatori existenți
+
+### Security
+- Previne înregistrarea conturilor cu email-uri false/nevalide
+- Protecție împotriva robotilor și spam-ului
+- Verificare obligatorie înainte de activare cont
+
+### Technical Details
+- Model nou: `marketplace.models.Profile` cu relație OneToOne cu User
+- Migrare nouă: `0001_initial.py` pentru model Profile
+- View-uri noi: `verify_email_view`, `resend_verification_view`
+- Template nou: `verify_email.html` pentru introducerea codului
+- Integrare cu Resend pentru trimitere coduri de verificare
+- Session management pentru stocare temporară `verification_user_id`
+
+### User Flow
+1. Utilizatorul completează formularul de înregistrare
+2. Contul este creat cu `is_active=False`
+3. Cod de 6 cifre este generat și trimis pe email
+4. Utilizatorul este redirecționat la pagina de verificare
+5. Utilizatorul introduce codul primit pe email
+6. La verificare corectă, contul este activat și utilizatorul este logat automat
+7. Redirect către dashboard
+
+---
+
 ## [1.1.0] - 2025-12-13
 
 ### Added
