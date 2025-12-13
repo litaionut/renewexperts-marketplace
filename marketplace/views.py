@@ -61,6 +61,11 @@ def send_email_async(subject, message, recipient_email):
         if not settings.EMAIL_HOST_USER or not settings.EMAIL_HOST_PASSWORD:
             logger.error("Email credentials not configured! Set EMAIL_USER and EMAIL_PASSWORD environment variables.")
             return False
+        
+        # Verifică dacă backend-ul este configurat corect
+        if settings.EMAIL_BACKEND != 'django.core.mail.backends.smtp.EmailBackend':
+            logger.error(f"Email backend is not SMTP: {settings.EMAIL_BACKEND}")
+            return False
             
         send_mail(
             subject,
@@ -73,6 +78,10 @@ def send_email_async(subject, message, recipient_email):
         return True
     except Exception as e:
         logger.error(f"Failed to send email: {str(e)}")
+        # Log detalii despre configurație pentru debugging
+        logger.error(f"EMAIL_HOST_USER: {settings.EMAIL_HOST_USER is not None}")
+        logger.error(f"EMAIL_HOST: {getattr(settings, 'EMAIL_HOST', 'Not set')}")
+        logger.error(f"EMAIL_PORT: {getattr(settings, 'EMAIL_PORT', 'Not set')}")
         return False
 
 def contact_view(request):

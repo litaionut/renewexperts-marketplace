@@ -157,7 +157,8 @@ if EMAIL_HOST_USER and EMAIL_HOST_PASSWORD:
     EMAIL_HOST = 'smtp.gmail.com'
     EMAIL_PORT = 587
     EMAIL_USE_TLS = True
-    EMAIL_TIMEOUT = 10  # Timeout în secunde pentru conexiunea SMTP
+    EMAIL_TIMEOUT = 30  # Mărim timeout-ul pentru conexiuni mai lente
+    EMAIL_USE_SSL = False  # Folosim TLS, nu SSL
     DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 else:
     # Fallback pentru development când nu sunt setate credențialele
