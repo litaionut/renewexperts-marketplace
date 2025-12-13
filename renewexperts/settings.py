@@ -20,6 +20,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 import os
+from dotenv import load_dotenv
+from pathlib import Path
+
+# Încarcă variabilele din fișierul .env
+# Specificăm explicit calea pentru a fi siguri
+env_path = Path(BASE_DIR) / '.env'
+load_dotenv(dotenv_path=env_path)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-2)__3vax=dsfm6)lt0px%o11e@d@w4u^85p!ecl770yfxfkfdm')
@@ -141,11 +148,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Email Configuration - Gmail SMTP
 # IMPORTANT: Never commit credentials! Use environment variables only.
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_TIMEOUT = 10  # Timeout în secunde pentru conexiunea SMTP
 EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER or 'noreply@renewexperts.com'
+
+# Dacă nu sunt setate variabilele de mediu, folosim console backend pentru development
+if EMAIL_HOST_USER and EMAIL_HOST_PASSWORD:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+    EMAIL_TIMEOUT = 10  # Timeout în secunde pentru conexiunea SMTP
+    DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+else:
+    # Fallback pentru development când nu sunt setate credențialele
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    DEFAULT_FROM_EMAIL = 'noreply@renewexperts.com'

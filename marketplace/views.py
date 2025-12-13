@@ -57,6 +57,11 @@ def logout_view(request):
 def send_email_async(subject, message, recipient_email):
     """Funcție helper pentru trimiterea email-urilor în background"""
     try:
+        # Verifică dacă credențialele sunt configurate
+        if not settings.EMAIL_HOST_USER or not settings.EMAIL_HOST_PASSWORD:
+            logger.error("Email credentials not configured! Set EMAIL_USER and EMAIL_PASSWORD environment variables.")
+            return False
+            
         send_mail(
             subject,
             message,
@@ -65,9 +70,10 @@ def send_email_async(subject, message, recipient_email):
             fail_silently=False,
         )
         logger.info(f"Email sent successfully to {recipient_email}")
+        return True
     except Exception as e:
         logger.error(f"Failed to send email: {str(e)}")
-        # Nu aruncăm excepția, doar o logăm
+        return False
 
 def contact_view(request):
     if request.method == 'POST':
@@ -93,6 +99,12 @@ This email was sent from the RenewExperts Marketplace contact form."""
             
             # Adresa unde vei primi emailurile
             recipient_email = 'litaionutm9@gmail.com'
+            
+            # Verifică dacă emailul este configurat înainte de a trimite
+            if not settings.EMAIL_HOST_USER or not settings.EMAIL_HOST_PASSWORD:
+                messages.warning(request, "Email service is not configured. Please contact the administrator.")
+                logger.warning("Email not sent: EMAIL_USER or EMAIL_PASSWORD not set")
+                return render(request, 'marketplace/contact.html', {'form': form})
             
             # Trimite email-ul în background pentru a nu bloca request-ul
             try:
