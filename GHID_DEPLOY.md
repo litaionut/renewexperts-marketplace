@@ -116,3 +116,68 @@ Aceasta este mai complicată deoarece consola Railway nu suportă input interact
 ## Verificare
 Accesați `https://Nume-Proiect.up.railway.app/admin/` și logați-vă cu credențialele create.
 
+---
+
+## 5. Configurare Formular de Contact cu Email (Resend)
+
+### Instalare Resend
+```bash
+pip install resend
+pip freeze > requirements.txt  # Actualizează requirements.txt
+```
+
+### Configurare în `settings.py`
+```python
+# Email Configuration - Resend
+RESEND_API_KEY = os.environ.get('RESEND_API_KEY')
+RESEND_FROM_EMAIL = os.environ.get('RESEND_FROM_EMAIL', 'onboarding@resend.dev')
+DEFAULT_FROM_EMAIL = RESEND_FROM_EMAIL
+
+if not RESEND_API_KEY:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+```
+
+### Creare Formular (în `forms.py`)
+```python
+class ContactForm(forms.Form):
+    name = forms.CharField(max_length=100)
+    email = forms.EmailField()
+    subject = forms.CharField(max_length=200)
+    message = forms.CharField(widget=forms.Textarea)
+```
+
+### View pentru Formular (în `views.py`)
+```python
+import resend
+
+def contact_view(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            # Procesează formularul și trimite email prin Resend
+            resend.api_key = settings.RESEND_API_KEY
+            resend.Emails.send({
+                "from": settings.RESEND_FROM_EMAIL,
+                "to": ["your-email@example.com"],
+                "subject": f"Contact: {form.cleaned_data['subject']}",
+                "text": form.cleaned_data['message']
+            })
+    # ... rest of view
+```
+
+### Variabile de Mediu pe Railway
+1. Creați cont pe [Resend.com](https://resend.com)
+2. Obțineți API key din dashboard
+3. În Railway Dashboard -> Variables, adăugați:
+   - `RESEND_API_KEY` = (API key-ul de la Resend)
+   - `RESEND_FROM_EMAIL` = `onboarding@resend.dev` (sau domeniu verificat)
+
+### Pentru Dezvoltare Locală
+Creați fișierul `.env` în rădăcina proiectului:
+```
+RESEND_API_KEY=your_api_key_here
+RESEND_FROM_EMAIL=onboarding@resend.dev
+```
+
+**Notă:** Fișierul `.env` este deja în `.gitignore`, deci nu va fi commitat.
+
