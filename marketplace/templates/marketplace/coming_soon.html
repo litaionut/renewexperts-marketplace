@@ -1,0 +1,135 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RenewExperts Marketplace — Coming Soon</title>
+    <meta
+      name="description"
+      content="Renewable Energy Experts Marketplace — launching soon. Join the waitlist to get notified when we launch."
+    />
+    <link rel="stylesheet" href="{% static 'marketplace/comingsoon.css' %}" />
+  </head>
+
+  <body>
+    <main class="page">
+      <section class="hero">
+        <div class="hero-bg" aria-hidden="true"></div>
+
+        <div class="container">
+          <div class="badge" aria-label="Coming soon">
+            <span class="badge-icon" aria-hidden="true">
+              <!-- Zap icon (simple inline svg) -->
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+              </svg>
+            </span>
+            <span>Coming Soon</span>
+          </div>
+
+          <header class="headline">
+            <h1>
+              Renewable Energy<br />
+              <span class="accent">Experts Marketplace</span>
+            </h1>
+            <p class="subtitle">
+              Connect with certified renewable energy professionals. From solar installation to wind power consulting,
+              find the right expert for your sustainable future.
+            </p>
+          </header>
+
+          <section class="signup" aria-label="Get notified on launch">
+            <form class="signup-form" method="get" action="">
+              <label class="sr-only" for="launch-email">Email</label>
+              <div class="field">
+                <span class="field-icon" aria-hidden="true">
+                  <!-- Mail icon -->
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16v16H4z"></path>
+                    <path d="M4 6l8 7 8-7"></path>
+                  </svg>
+                </span>
+                <input
+                  id="launch-email"
+                  name="email"
+                  type="email"
+                  placeholder="Enter your email"
+                  autocomplete="email"
+                  required
+                />
+              </div>
+              <button type="submit">Notify Me</button>
+            </form>
+
+            <p class="fineprint">Be the first to know when we launch. No spam, ever.</p>
+
+            {% if request.GET.email %}
+              <div class="success" role="status" aria-live="polite">
+                <div class="success-icon" aria-hidden="true">
+                  <!-- Check circle -->
+                  <svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M8 12l2.5 2.5L16 9"></path>
+                  </svg>
+                </div>
+                <h3>You’re on the list!</h3>
+                <p>We’ll notify you as soon as we launch.</p>
+                <p class="success-note">
+                  (Preview mode: this doesn’t store the email yet — we’ll wire up saving in the next step.)
+                </p>
+              </div>
+            {% endif %}
+          </section>
+
+          <section class="features" aria-label="Platform highlights">
+            <article class="card">
+              <div class="card-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                </svg>
+              </div>
+              <h3>Verified Experts</h3>
+              <p>All professionals are vetted and certified in renewable energy solutions</p>
+            </article>
+
+            <article class="card">
+              <div class="card-icon" aria-hidden="true">
+                <!-- Wind -->
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 12h10a3 3 0 1 0-3-3"></path>
+                  <path d="M3 18h14a3 3 0 1 0-3-3"></path>
+                  <path d="M3 6h7a3 3 0 1 1-3 3"></path>
+                </svg>
+              </div>
+              <h3>Multiple Specialties</h3>
+              <p>Solar, wind, hydro, and more - find experts in all renewable energy fields</p>
+            </article>
+
+            <article class="card">
+              <div class="card-icon" aria-hidden="true">
+                <!-- Users -->
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="8.5" cy="7" r="4"></circle>
+                  <path d="M20 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+              </div>
+              <h3>Easy Matching</h3>
+              <p>Our platform connects you with the perfect expert for your specific needs</p>
+            </article>
+          </section>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div class="container">
+          <p>© 2025 Renewable Energy Experts Marketplace. Launching soon.</p>
+        </div>
+      </footer>
+    </main>
+  </body>
+</html>
+
+

@@ -20,6 +20,9 @@ logger = logging.getLogger(__name__)
 def home(request):
     return render(request, 'marketplace/home.html')
 
+def launch_view(request):
+    return render(request, 'marketplace/coming_soon.html')
+
 @login_required
 def dashboard(request):
     return render(request, 'marketplace/dashboard.html')
