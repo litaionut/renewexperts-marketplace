@@ -71,6 +71,13 @@
               <button type="submit">Notify Me</button>
             </form>
 
+            {% if turnstile_site_key %}
+              <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+              <div class="captcha">
+                <div class="cf-turnstile" data-sitekey="{{ turnstile_site_key }}"></div>
+              </div>
+            {% endif %}
+
             <p class="fineprint">Be the first to know when we launch. No spam, ever.</p>
             <div class="social">
               <a class="linkedin-btn" href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">

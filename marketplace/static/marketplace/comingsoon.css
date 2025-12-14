@@ -156,6 +156,12 @@ body {
   justify-content: center;
 }
 
+.captcha {
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+}
+
 .field {
   position: relative;
   flex: 1;

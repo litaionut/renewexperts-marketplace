@@ -8,24 +8,66 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.conf import settings
 from django.urls import reverse
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 from .forms import UserRegistrationForm, ContactForm
 from .models import Profile, WaitlistSignup
 from django.contrib import messages
 from threading import Thread
 import logging
 import resend
+import requests
+from django_ratelimit.decorators import ratelimit
 
 logger = logging.getLogger(__name__)
 
 def home(request):
     return render(request, 'marketplace/home.html')
 
+@ratelimit(key='ip', rate='5/m', method='POST', block=False)
+@ratelimit(key='post:email', rate='3/h', method='POST', block=False)
 def launch_view(request):
     if request.method == 'POST':
+        if getattr(request, 'limited', False):
+            messages.error(request, "Too many attempts. Please try again later.")
+            return redirect('launch')
+
         email = (request.POST.get('email') or '').strip().lower()
         if not email:
             messages.error(request, "Please enter your email address.")
             return redirect('launch')
+
+        try:
+            validate_email(email)
+        except ValidationError:
+            messages.error(request, "Please enter a valid email address.")
+            return redirect('launch')
+
+        # Captcha verification (Cloudflare Turnstile) - enforced only if configured
+        if getattr(settings, 'TURNSTILE_SECRET_KEY', None):
+            token = (request.POST.get('cf-turnstile-response') or '').strip()
+            if not token:
+                messages.error(request, "Captcha is required. Please try again.")
+                return redirect('launch')
+
+            try:
+                verify_resp = requests.post(
+                    "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+                    data={
+                        "secret": settings.TURNSTILE_SECRET_KEY,
+                        "response": token,
+                        "remoteip": request.META.get("REMOTE_ADDR"),
+                    },
+                    timeout=5,
+                )
+                verify_data = verify_resp.json()
+                if not verify_data.get("success"):
+                    messages.error(request, "Captcha verification failed. Please try again.")
+                    return redirect('launch')
+            except Exception as e:
+                logger.error(f"Turnstile verification error: {str(e)}")
+                messages.error(request, "Captcha verification failed. Please try again.")
+                return redirect('launch')
 
         # Create signup record (avoid duplicates)
         signup, created = WaitlistSignup.objects.get_or_create(email=email)
@@ -72,7 +114,9 @@ def launch_view(request):
             messages.info(request, "You're already on the list — we’ll notify you at launch.")
         return redirect('launch')
 
-    return render(request, 'marketplace/coming_soon.html')
+    return render(request, 'marketplace/coming_soon.html', {
+        "turnstile_site_key": getattr(settings, "TURNSTILE_SITE_KEY", None),
+    })
 
 @login_required
 def dashboard(request):

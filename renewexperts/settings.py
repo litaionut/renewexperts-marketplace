@@ -157,3 +157,7 @@ DEFAULT_FROM_EMAIL = RESEND_FROM_EMAIL
 # Dacă nu avem Resend configurat, folosim console backend pentru development
 if not RESEND_API_KEY:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Captcha (Cloudflare Turnstile) for waitlist form
+TURNSTILE_SITE_KEY = os.environ.get('TURNSTILE_SITE_KEY')
+TURNSTILE_SECRET_KEY = os.environ.get('TURNSTILE_SECRET_KEY')
