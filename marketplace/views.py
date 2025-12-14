@@ -1,9 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, SetPasswordForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
 from django.conf import settings
+from django.urls import reverse
 from .forms import UserRegistrationForm, ContactForm
 from .models import Profile
 from django.contrib import messages
@@ -291,3 +295,107 @@ def resend_verification_view(request):
     except User.DoesNotExist:
         messages.error(request, "Invalid session.")
         return redirect('register')
+
+def password_reset_request_view(request):
+    """View pentru solicitarea resetării parolei"""
+    if request.method == 'POST':
+        email = request.POST.get('email', '').strip()
+        
+        if not email:
+            messages.error(request, "Please enter your email address.")
+            return render(request, 'marketplace/password_reset_request.html')
+        
+        try:
+            user = User.objects.get(email=email)
+            
+            # Generează token pentru resetare parolă
+            token = default_token_generator.make_token(user)
+            
+            # Construiește URL-ul pentru resetare
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            reset_url = request.build_absolute_uri(
+                reverse('password_reset_confirm', kwargs={'uidb64': uid, 'token': token})
+            )
+            
+            # Trimite email cu link-ul de resetare
+            try:
+                if not settings.RESEND_API_KEY:
+                    messages.error(request, "Email service is not configured. Please contact administrator.")
+                    return render(request, 'marketplace/password_reset_request.html')
+                
+                resend.api_key = settings.RESEND_API_KEY
+                
+                email_subject = "Reset your RenewExperts password"
+                email_html = f"""
+                <html>
+                    <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+                        <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+                            <h2 style="color: #27ae60;">Password Reset Request</h2>
+                            <p>Hi {user.username},</p>
+                            <p>You requested to reset your password. Click the button below to reset it:</p>
+                            <div style="text-align: center; margin: 30px 0;">
+                                <a href="{reset_url}" style="background-color: #27ae60; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold;">Reset Password</a>
+                            </div>
+                            <p>Or copy and paste this link into your browser:</p>
+                            <p style="word-break: break-all; color: #666; font-size: 12px;">{reset_url}</p>
+                            <p style="color: #999; font-size: 12px; margin-top: 30px;">This link will expire in 1 hour.</p>
+                            <p style="color: #999; font-size: 12px;">If you didn't request a password reset, please ignore this email.</p>
+                            <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
+                            <p style="color: #999; font-size: 12px;">This is an automated message, please do not reply.</p>
+                        </div>
+                    </body>
+                </html>
+                """
+                
+                resend.Emails.send({
+                    "from": settings.RESEND_FROM_EMAIL,
+                    "to": [user.email],
+                    "subject": email_subject,
+                    "html": email_html,
+                })
+                
+                messages.success(request, "Password reset link has been sent to your email. Please check your inbox.")
+                return redirect('password_reset')
+                
+            except Exception as e:
+                logger.error(f"Failed to send password reset email: {str(e)}")
+                messages.error(request, "Failed to send password reset email. Please try again later.")
+                if settings.DEBUG:
+                    messages.error(request, f"Error: {str(e)}")
+                    
+        except User.DoesNotExist:
+            # Nu dezvăluim că emailul nu există (securitate)
+            messages.success(request, "If an account exists with that email, a password reset link has been sent.")
+            return redirect('password_reset')
+    
+    return render(request, 'marketplace/password_reset_request.html')
+
+def password_reset_confirm_view(request, uidb64, token):
+    """View pentru confirmarea și resetarea parolei"""
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    
+    if user is None:
+        messages.error(request, "Invalid password reset link.")
+        return redirect('password_reset')
+    
+    # Verifică token-ul
+    if not default_token_generator.check_token(user, token):
+        messages.error(request, "Invalid or expired password reset link. Please request a new one.")
+        return redirect('password_reset')
+    
+    if request.method == 'POST':
+        form = SetPasswordForm(user, request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your password has been reset successfully. Please log in with your new password.")
+            return redirect('login')
+        else:
+            messages.error(request, "Please correct the errors below.")
+    else:
+        form = SetPasswordForm(user)
+    
+    return render(request, 'marketplace/password_reset_confirm.html', {'form': form})
