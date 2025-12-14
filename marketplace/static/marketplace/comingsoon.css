@@ -173,6 +173,47 @@ body {
   font-size: 13px;
 }
 
+.social {
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+}
+
+.linkedin-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(100, 116, 139, 0.25);
+  background: rgba(255, 255, 255, 0.85);
+  color: #0a66c2;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 13px;
+  transition: transform 60ms ease, background-color 140ms ease, border-color 140ms ease;
+}
+
+.linkedin-btn:hover {
+  background: rgba(10, 102, 194, 0.08);
+  border-color: rgba(10, 102, 194, 0.35);
+}
+
+.linkedin-btn:active {
+  transform: translateY(1px);
+}
+
+.linkedin-icon {
+  display: inline-flex;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: rgba(10, 102, 194, 0.12);
+  align-items: center;
+  justify-content: center;
+  color: #0a66c2;
+}
+
 .success {
   margin-top: 16px;
   padding: 18px;
