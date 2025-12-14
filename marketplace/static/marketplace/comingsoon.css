@@ -108,6 +108,47 @@ body {
   margin: 0 auto 44px;
 }
 
+.alerts {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 14px;
+}
+
+.alert {
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(100, 116, 139, 0.25);
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--text);
+  font-size: 14px;
+  box-shadow: var(--shadow);
+}
+
+.alert-success {
+  border-color: rgba(5, 150, 105, 0.35);
+  background: rgba(5, 150, 105, 0.10);
+  color: #065f46;
+}
+
+.alert-error,
+.alert-danger {
+  border-color: rgba(220, 38, 38, 0.35);
+  background: rgba(220, 38, 38, 0.08);
+  color: #991b1b;
+}
+
+.alert-warning {
+  border-color: rgba(234, 179, 8, 0.45);
+  background: rgba(234, 179, 8, 0.12);
+  color: #854d0e;
+}
+
+.alert-info {
+  border-color: rgba(59, 130, 246, 0.35);
+  background: rgba(59, 130, 246, 0.10);
+  color: #1e3a8a;
+}
+
 .signup-form {
   display: flex;
   gap: 12px;

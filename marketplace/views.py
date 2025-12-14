@@ -9,7 +9,7 @@ from django.utils.encoding import force_bytes, force_str
 from django.conf import settings
 from django.urls import reverse
 from .forms import UserRegistrationForm, ContactForm
-from .models import Profile
+from .models import Profile, WaitlistSignup
 from django.contrib import messages
 from threading import Thread
 import logging
@@ -21,6 +21,57 @@ def home(request):
     return render(request, 'marketplace/home.html')
 
 def launch_view(request):
+    if request.method == 'POST':
+        email = (request.POST.get('email') or '').strip().lower()
+        if not email:
+            messages.error(request, "Please enter your email address.")
+            return redirect('launch')
+
+        # Create signup record (avoid duplicates)
+        signup, created = WaitlistSignup.objects.get_or_create(email=email)
+
+        # Send confirmation email via Resend (best-effort)
+        if not settings.RESEND_API_KEY:
+            messages.warning(request, "Waitlist saved, but email service is not configured.")
+            return redirect('launch')
+
+        def send_waitlist_confirmation(to_email: str):
+            try:
+                resend.api_key = settings.RESEND_API_KEY
+                resend.Emails.send({
+                    "from": settings.RESEND_FROM_EMAIL,
+                    "to": [to_email],
+                    "subject": "You're on the RenewExperts waitlist",
+                    "html": f"""
+                    <html>
+                      <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+                        <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+                          <h2 style="color: #059669;">Thanks for joining our waitlist!</h2>
+                          <p>We’ve added <strong>{to_email}</strong> to the RenewExperts Marketplace launch list.</p>
+                          <p>We’ll email you as soon as we launch.</p>
+                          <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
+                          <p style="color: #999; font-size: 12px;">This is an automated message, please do not reply.</p>
+                        </div>
+                      </body>
+                    </html>
+                    """,
+                })
+            except Exception as e:
+                logger.error(f"Failed to send waitlist confirmation email: {str(e)}")
+
+        try:
+            t = Thread(target=send_waitlist_confirmation, args=(email,))
+            t.daemon = True
+            t.start()
+        except Exception as e:
+            logger.error(f"Failed to start email thread: {str(e)}")
+
+        if created:
+            messages.success(request, "You're on the list! Please check your email for confirmation.")
+        else:
+            messages.info(request, "You're already on the list — we’ll notify you at launch.")
+        return redirect('launch')
+
     return render(request, 'marketplace/coming_soon.html')
 
 @login_required

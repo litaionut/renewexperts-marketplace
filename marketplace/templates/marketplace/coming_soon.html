@@ -40,7 +40,16 @@
           </header>
 
           <section class="signup" aria-label="Get notified on launch">
-            <form class="signup-form" method="get" action="">
+            {% if messages %}
+              <div class="alerts" aria-live="polite">
+                {% for message in messages %}
+                  <div class="alert alert-{{ message.tags|default:'info' }}">{{ message }}</div>
+                {% endfor %}
+              </div>
+            {% endif %}
+
+            <form class="signup-form" method="post" action="{% url 'launch' %}">
+              {% csrf_token %}
               <label class="sr-only" for="launch-email">Email</label>
               <div class="field">
                 <span class="field-icon" aria-hidden="true">
@@ -75,23 +84,6 @@
                 Follow on LinkedIn
               </a>
             </div>
-
-            {% if request.GET.email %}
-              <div class="success" role="status" aria-live="polite">
-                <div class="success-icon" aria-hidden="true">
-                  <!-- Check circle -->
-                  <svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <path d="M8 12l2.5 2.5L16 9"></path>
-                  </svg>
-                </div>
-                <h3>You’re on the list!</h3>
-                <p>We’ll notify you as soon as we launch.</p>
-                <p class="success-note">
-                  (Preview mode: this doesn’t store the email yet — we’ll wire up saving in the next step.)
-                </p>
-              </div>
-            {% endif %}
           </section>
 
           <section class="features" aria-label="Platform highlights">
