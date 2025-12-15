@@ -34,9 +34,13 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-2)__3vax=dsfm6)lt0px%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['*', '.railway.app']
+ALLOWED_HOSTS = ['*', '.railway.app', 'renewexperts.com', 'www.renewexperts.com']
 
-CSRF_TRUSTED_ORIGINS = ['https://*.railway.app']
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.railway.app',
+    'https://renewexperts.com',
+    'https://www.renewexperts.com',
+]
 
 # Application definition
 
