@@ -1,18 +1,159 @@
 {% extends 'marketplace/base.html' %}
 
+{% load static %}
+
+{% block title %}RenewExperts Marketplace | Renewable Energy Equipment Marketplace{% endblock %}
+{% block meta_description %}A modern renewable energy marketplace for solar, storage, and HVAC—compare offers, connect with verified suppliers, and join the waitlist for early access.{% endblock %}
+{% block og_title %}RenewExperts Marketplace — Buy & Sell Renewable Energy Equipment{% endblock %}
+{% block og_description %}Compare offers, connect with verified suppliers, and join the waitlist for early access to the RenewExperts Marketplace.{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'marketplace/home.css' %}">
+{% endblock %}
+
 {% block content %}
-<div class="p-5 mb-4 bg-light rounded-3 text-center">
-    <div class="container-fluid py-5">
-        <h1 class="display-5 fw-bold text-dark">Welcome to RenewExperts</h1>
-        <p class="col-md-8 fs-4 mx-auto text-secondary">The premium marketplace for renewable energy equipment. Connect, trade, and build a greener future.</p>
-        {% if not user.is_authenticated %}
-            <div class="mt-4">
-                <a href="{% url 'register' %}" class="btn btn-success btn-lg me-2">Sign Up</a>
-                <a href="{% url 'login' %}" class="btn btn-outline-primary btn-lg">Login</a>
+<section class="home-hero rounded-4 p-4 p-md-5 mb-4">
+    <div class="row align-items-center g-4">
+        <div class="col-lg-7">
+            <div class="hero-badge mb-3">
+                <span class="dot"></span>
+                Early access is live — join the waitlist
             </div>
-        {% else %}
-            <button class="btn btn-primary btn-lg" type="button">Browse Products (Coming Soon)</button>
-        {% endif %}
+            <h1 class="display-5 fw-bold text-white mb-3">
+                Renewable energy equipment marketplace, built for speed and trust.
+            </h1>
+            <p class="lead text-white-75 mb-4">
+                Compare offers for solar, storage, and HVAC. Connect with verified suppliers and get notified when we launch.
+            </p>
+
+            <div class="d-flex flex-wrap gap-2">
+                <a class="btn btn-light btn-lg" href="{% url 'launch' %}">
+                    Join the waitlist
+                </a>
+                {% if not user.is_authenticated %}
+                    <a class="btn btn-outline-light btn-lg" href="{% url 'register' %}">Create account</a>
+                    <a class="btn btn-ghost btn-lg" href="{% url 'login' %}">Login</a>
+                {% else %}
+                    <a class="btn btn-outline-light btn-lg" href="{% url 'dashboard' %}">Go to dashboard</a>
+                {% endif %}
+            </div>
+
+            <div class="hero-meta mt-4">
+                <div class="meta-item">
+                    <div class="meta-number">Verified</div>
+                    <div class="meta-label">suppliers & profiles</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-number">Fast</div>
+                    <div class="meta-label">quotes & comparisons</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-number">Secure</div>
+                    <div class="meta-label">accounts & email checks</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="hero-card card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="h5 mb-3">What you can do on RenewExperts</h2>
+                    <ul class="list-unstyled mb-0 d-grid gap-3">
+                        <li class="d-flex gap-3">
+                            <span class="icon-pill">⚡</span>
+                            <div>
+                                <div class="fw-semibold">Compare offers</div>
+                                <div class="text-muted small">Get a clear view of options and pricing.</div>
+                            </div>
+                        </li>
+                        <li class="d-flex gap-3">
+                            <span class="icon-pill">🛡️</span>
+                            <div>
+                                <div class="fw-semibold">Trusted profiles</div>
+                                <div class="text-muted small">Verified emails and supplier pages.</div>
+                            </div>
+                        </li>
+                        <li class="d-flex gap-3">
+                            <span class="icon-pill">📦</span>
+                            <div>
+                                <div class="fw-semibold">Sell faster</div>
+                                <div class="text-muted small">Reach buyers actively searching for equipment.</div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="mt-4 d-grid gap-2">
+                        <a class="btn btn-success" href="{% url 'contact' %}">Talk to us</a>
+                        <a class="btn btn-outline-secondary" href="{% url 'launch' %}">Get launch updates</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+</section>
+
+<section class="mb-5">
+    <div class="row g-3 g-md-4">
+        <div class="col-md-4">
+            <div class="feature-tile h-100 p-4 rounded-4">
+                <div class="tile-icon mb-3">🔎</div>
+                <h2 class="h5">Search & filter</h2>
+                <p class="text-muted mb-0">Find equipment by category, specs, and availability.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-tile h-100 p-4 rounded-4">
+                <div class="tile-icon mb-3">🧾</div>
+                <h2 class="h5">Request quotes</h2>
+                <p class="text-muted mb-0">Send a single request and compare multiple offers.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-tile h-100 p-4 rounded-4">
+                <div class="tile-icon mb-3">🤝</div>
+                <h2 class="h5">Connect directly</h2>
+                <p class="text-muted mb-0">Shorten the path from interest to purchase.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="mb-5">
+    <div class="row g-4 align-items-stretch">
+        <div class="col-lg-6">
+            <div class="info-card p-4 p-md-5 rounded-4 h-100">
+                <h2 class="h4 mb-2">For buyers</h2>
+                <p class="text-muted mb-4">Get clarity fast: compare options, verify suppliers, and make confident decisions.</p>
+                <ul class="mb-0">
+                    <li>Clear, structured listings</li>
+                    <li>Supplier verification signals</li>
+                    <li>Faster quote turnaround</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="info-card info-card-accent p-4 p-md-5 rounded-4 h-100">
+                <h2 class="h4 mb-2">For sellers</h2>
+                <p class="text-muted mb-4">Reach high-intent buyers and showcase your products with a clean, modern profile.</p>
+                <ul class="mb-0">
+                    <li>Better product discovery</li>
+                    <li>Qualified inbound requests</li>
+                    <li>Modern brand presence</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-band rounded-4 p-4 p-md-5 mb-2">
+    <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3">
+        <div>
+            <h2 class="h4 mb-1 text-white">Want launch access?</h2>
+            <p class="mb-0 text-white-75">Join the waitlist and we’ll notify you when RenewExperts goes live.</p>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-light btn-lg" href="{% url 'launch' %}">Join the waitlist</a>
+            <a class="btn btn-outline-light btn-lg" href="{% url 'contact' %}">Contact</a>
+        </div>
+    </div>
+</section>
 {% endblock %}
