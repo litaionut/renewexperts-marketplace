@@ -31,8 +31,6 @@
                     Join the waitlist
                 </a>
                 {% if not user.is_authenticated %}
-                    <a class="btn btn-outline-light btn-lg" href="{% url 'register' %}">Create account</a>
-                    <a class="btn btn-ghost btn-lg" href="{% url 'login' %}">Login</a>
                 {% else %}
                 {% endif %}
             </div>
