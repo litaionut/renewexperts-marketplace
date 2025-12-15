@@ -1,0 +1,28 @@
+## Cursor Rules (RenewExperts Marketplace)
+## Scop: reguli de lucru consistente pentru cod + conținut, cu SEO by default.
+
+### Regula #1 (obligatoriu): SEO-first când creezi conținut
+- Când creezi/editezi pagini publice (landing, home, blog, pagini de produs/categorie), **tratează SEO ca un requirement**, nu ca un “nice to have”.
+- Include mereu (sau propune schimbări dacă lipsesc):
+  - **Titlu de pagină** unic și descriptiv (`<title>`) + `og:title`.
+  - **Meta description** concis (beneficiu + intenție de căutare) + `og:description`.
+  - **Un singur H1** pe pagină; structură logică H2/H3 (fără sărituri haotice).
+  - **Text real** (nu lorem ipsum) orientat pe intenție: ce oferim, pentru cine, de ce noi.
+  - **Link-uri interne** către pagini relevante (ex: login/register/contact), cu ancore descriptive.
+  - **Imagini cu `alt`** relevant (nu keyword stuffing).
+  - **Semantic HTML** (header/nav/main/section/footer) și accesibilitate (label pentru inputuri).
+  - **URL-uri curate** și nume de rute/template clare.
+  - Dacă se potrivește: **Open Graph/Twitter cards**, `canonical`, `robots`, `sitemap`, `schema.org`.
+- Evită:
+  - keyword stuffing, titluri clickbait fără legătură, texte duplicate, heading-uri folosite doar pentru styling.
+
+### Regula #2: Când propui UI/UX, gândește mobile-first + performanță
+- Pagini rapide, CSS minim necesar, imagini optimizate, layout responsiv.
+
+### Regula #3: Conținutul trebuie să fie consistent cu brandul
+- Ton clar, profesionist, orientat pe beneficii; fără promisiuni vagi.
+
+### Regula #4: Când adaugi pagini noi, propune și “SEO checklist”
+- În descrierea PR/commit, notează pe scurt: title/description/H1 + 1-2 link-uri interne + alt.
+
+
