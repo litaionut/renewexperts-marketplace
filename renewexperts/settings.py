@@ -138,7 +138,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
@@ -176,5 +176,5 @@ SITE_LOCKDOWN_ALLOW_PATHS = [
 ]
 SITE_LOCKDOWN_ALLOW_PREFIXES = [
     "/admin/",
-    STATIC_URL,  # /static/ (admin assets, css/js etc.)
+    "/static/",  # assets (CSS/JS/images) + admin assets
 ]
