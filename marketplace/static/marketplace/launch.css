@@ -1,0 +1,73 @@
+:root {
+  --rx-green: #16a34a;
+  --rx-blue: #0ea5e9;
+  --rx-green-2: #047857;
+}
+
+.launch-hero {
+  background: radial-gradient(800px circle at 15% 10%, rgba(255, 255, 255, 0.18), transparent 60%),
+    linear-gradient(135deg, var(--rx-green), var(--rx-blue));
+  position: relative;
+  overflow: hidden;
+}
+
+.launch-hero::after {
+  content: "";
+  position: absolute;
+  inset: -60px -60px auto auto;
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0));
+  transform: rotate(18deg);
+  pointer-events: none;
+}
+
+.text-white-75 {
+  color: rgba(255, 255, 255, 0.82) !important;
+}
+
+.launch-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: rgba(255, 255, 255, 0.92);
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.launch-badge .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #ffffff;
+  opacity: 0.9;
+  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.12);
+}
+
+.launch-card {
+  border-radius: 18px;
+}
+
+.launch-card .btn-success {
+  background-color: var(--rx-green-2);
+  border-color: var(--rx-green-2);
+}
+
+.launch-form .form-control {
+  border-radius: 12px;
+}
+
+.launch-form .btn {
+  border-radius: 12px;
+}
+
+.launch-fineprint {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+
