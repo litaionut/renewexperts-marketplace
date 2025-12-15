@@ -53,6 +53,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'marketplace.middleware.SiteLockdownMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -161,3 +162,19 @@ if not RESEND_API_KEY:
 # Captcha (Cloudflare Turnstile) for waitlist form
 TURNSTILE_SITE_KEY = os.environ.get('TURNSTILE_SITE_KEY')
 TURNSTILE_SECRET_KEY = os.environ.get('TURNSTILE_SECRET_KEY')
+
+# -----------------------------
+# Site Lockdown (testing phase)
+# -----------------------------
+# Când e True, permite acces doar la câteva pagini publice (home/contact/launch) + admin + static.
+SITE_LOCKDOWN = os.environ.get("SITE_LOCKDOWN", "False") == "True"
+SITE_LOCKDOWN_REDIRECT_TO = os.environ.get("SITE_LOCKDOWN_REDIRECT_TO", "home")
+SITE_LOCKDOWN_ALLOW_PATHS = [
+    "/",  # home
+    "/contact/",
+    "/launch/",
+]
+SITE_LOCKDOWN_ALLOW_PREFIXES = [
+    "/admin/",
+    STATIC_URL,  # /static/ (admin assets, css/js etc.)
+]
