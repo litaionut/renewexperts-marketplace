@@ -1,6 +1,15 @@
 ## Cursor Rules (RenewExperts Marketplace)
 ## Scop: reguli de lucru consistente pentru cod + conținut, cu SEO by default.
 
+### Context produs (obligatoriu): descrierea website-ului + scope
+- RenewExperts este un **marketplace** care conectează **experți în energie regenerabilă** (wind, solar, hydrogen, PtX, hidro, electrical, construcții/execuție etc.) cu **companii, proiecte și gig-uri** din industrie.
+- **Experții**:
+  - își creează profilul, se promovează și pot **licita / aplica** la proiecte (bid on projects).
+  - pot publica postări/actualizări care sunt **revizuite/aprobate** de alți consultanți și experți (peer review), pentru credibilitate.
+- **Companiile**:
+  - postează proiecte și roluri; primesc **validare** (checks/verification) pentru a crește încrederea în piață.
+- Mesaj cheie în copy: **ușor de folosit, modern, rapid, fiabil, sigur, transparent**; centrat pe conectarea oamenilor cu oportunități (gigs/proiecte).
+
 ### Regula #1 (obligatoriu): SEO-first când creezi conținut
 - Când creezi/editezi pagini publice (landing, home, blog, pagini de produs/categorie), **tratează SEO ca un requirement**, nu ca un “nice to have”.
 - Include mereu (sau propune schimbări dacă lipsesc):
