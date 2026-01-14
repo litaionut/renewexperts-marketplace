@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RenewExperts — Brand Typography (Type Scale + UI Examples)</title>
+  <meta
+    name="description"
+    content="Tipografie RenewExperts (Light/Dark): type scale (H1–H6, body, small, label, overline), ierarhie text și exemple reale pentru marketplace (profil expert, listare proiect, companie verificată)."
+  />
+
+  <meta property="og:title" content="RenewExperts — Brand Typography (Type Scale + UI Examples)" />
+  <meta
+    property="og:description"
+    content="Type scale + exemple UI reale RenewExperts: headings, body, labels, links și ierarhie text pentru listări, profile și proiecte (Light/Dark)."
+  />
+  <meta property="og:type" content="website" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =========================
+       Design Tokens (Brand)
+       Keep in sync with BrandButtons.html / BrandColors.html
+       ========================= */
+    :root {
+      /* ---------- Primitives (brand / palette) ---------- */
+      --re-green-400: #12ff6f;
+      --re-green-500: #06f957;
+      --re-green-600: #00e050;
+
+      /* Dark “infrastructure” ink (used under neon) */
+      --re-ink-900: #0f2316;
+
+      /* ---------- Semantic brand ---------- */
+      --re-primary: var(--re-green-500);
+      --re-primary-hover: var(--re-green-400);
+      --re-primary-active: var(--re-green-600);
+      --re-text-on-primary: var(--re-ink-900);
+
+      /* Brand transparencies (for overlays / tints) */
+      --re-primary-10: rgba(6, 249, 87, 0.10);
+      --re-primary-20: rgba(6, 249, 87, 0.20);
+      --re-primary-30: rgba(6, 249, 87, 0.30);
+
+      /* ---------- Spacing scale (4-based) ---------- */
+      --re-space-1: 4px;
+      --re-space-2: 8px;
+      --re-space-3: 12px;
+      --re-space-4: 16px;
+      --re-space-5: 24px;
+      --re-space-6: 32px;
+      --re-space-7: 48px;
+      --re-space-8: 64px;
+
+      /* ---------- Radius scale ---------- */
+      --re-radius-1: 6px;
+      --re-radius-2: 8px;
+      --re-radius-3: 10px;
+      --re-radius-4: 14px;
+      --re-radius-5: 18px;
+
+      /* Typography base */
+      --re-font: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+
+      /* Focus ring (accessibility) */
+      --re-focus-offset-color: rgba(15, 35, 22, 0.98);
+      --re-focus-shadow: 0 0 0 2px var(--re-focus-offset-color), 0 0 0 5px rgba(6, 249, 87, 0.38);
+
+      /* ---------- Type scale (desktop-ish defaults) ---------- */
+      --re-h1-size: 34px;
+      --re-h1-line: 1.10;
+      --re-h1-weight: 900;
+      --re-h1-track: -0.03em;
+
+      --re-h2-size: 26px;
+      --re-h2-line: 1.16;
+      --re-h2-weight: 900;
+      --re-h2-track: -0.02em;
+
+      --re-h3-size: 20px;
+      --re-h3-line: 1.22;
+      --re-h3-weight: 800;
+      --re-h3-track: -0.01em;
+
+      --re-h4-size: 16px;
+      --re-h4-line: 1.25;
+      --re-h4-weight: 800;
+      --re-h4-track: -0.01em;
+
+      --re-body-size: 14px;
+      --re-body-line: 1.55;
+      --re-body-weight: 600;
+      --re-body-track: 0;
+
+      --re-small-size: 12px;
+      --re-small-line: 1.45;
+      --re-small-weight: 600;
+      --re-small-track: 0;
+
+      --re-label-size: 12px;
+      --re-label-line: 1.2;
+      --re-label-weight: 800;
+      --re-label-track: 0.06em;
+
+      --re-overline-size: 12px;
+      --re-overline-line: 1.2;
+      --re-overline-weight: 900;
+      --re-overline-track: 0.12em;
+    }
+
+    /* ---------- Theme: Dark (default for brand kit) ---------- */
+    :root[data-theme="dark"] {
+      --re-bg: #0f2316;
+      --re-surface-1: rgba(255, 255, 255, 0.06);
+      --re-surface-2: rgba(255, 255, 255, 0.10);
+      --re-border: rgba(255, 255, 255, 0.14);
+      --re-border-strong: rgba(255, 255, 255, 0.22);
+
+      --re-text: rgba(255, 255, 255, 0.88);
+      --re-text-muted: rgba(255, 255, 255, 0.60);
+      --re-text-subtle: rgba(255, 255, 255, 0.46);
+
+      /* Glass recipe (base) */
+      --re-glass-bg: rgba(255, 255, 255, 0.08);
+      --re-glass-border: rgba(255, 255, 255, 0.16);
+      --re-glass-shadow: 0 18px 44px rgba(0, 0, 0, 0.35);
+      --re-glass-blur: 14px;
+
+      --re-focus-offset-color: rgba(15, 35, 22, 0.98);
+      --re-focus-shadow: 0 0 0 2px var(--re-focus-offset-color), 0 0 0 5px rgba(6, 249, 87, 0.38);
+    }
+
+    /* ---------- Theme: Light ---------- */
+    :root[data-theme="light"] {
+      --re-bg: #f3fbf6;
+      --re-surface-1: rgba(15, 35, 22, 0.04);
+      --re-surface-2: rgba(15, 35, 22, 0.07);
+      --re-border: rgba(15, 35, 22, 0.14);
+      --re-border-strong: rgba(15, 35, 22, 0.22);
+
+      --re-text: rgba(15, 35, 22, 0.92);
+      --re-text-muted: rgba(15, 35, 22, 0.68);
+      --re-text-subtle: rgba(15, 35, 22, 0.55);
+
+      --re-glass-bg: rgba(255, 255, 255, 0.70);
+      --re-glass-border: rgba(15, 35, 22, 0.12);
+      --re-glass-shadow: 0 14px 34px rgba(15, 35, 22, 0.12);
+      --re-glass-blur: 14px;
+
+      --re-focus-offset-color: rgba(243, 251, 246, 0.98);
+      --re-focus-shadow: 0 0 0 2px var(--re-focus-offset-color), 0 0 0 5px rgba(6, 249, 87, 0.42);
+    }
+
+    /* =========================
+       Base Page Layout
+       ========================= */
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: var(--re-font);
+      background:
+        radial-gradient(900px 520px at 20% -10%, rgba(6, 249, 87, 0.18), transparent 60%),
+        radial-gradient(700px 420px at 110% 10%, rgba(6, 249, 87, 0.10), transparent 55%),
+        var(--re-bg);
+      color: var(--re-text);
+    }
+
+    a { color: var(--re-primary); text-decoration: none; }
+    a:hover { color: var(--re-primary-hover); text-decoration: underline; }
+    a:focus-visible { outline: none; box-shadow: var(--re-focus-shadow); border-radius: 8px; }
+
+    .page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 28px 18px 54px;
+    }
+
+    header {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .brand { min-width: 0; }
+
+    .h1 {
+      margin: 0;
+      font-size: 26px;
+      line-height: 1.15;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      margin: 10px 0 0 0;
+      color: var(--re-text-muted);
+      font-size: 14px;
+      line-height: 1.45;
+      max-width: 78ch;
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex: 0 0 auto;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      height: 40px;
+      padding: 0 14px;
+      border-radius: 10px;
+      border: 1px solid var(--re-border);
+      background: var(--re-surface-1);
+      color: var(--re-text);
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    .btn:hover { background: var(--re-surface-2); border-color: var(--re-border-strong); }
+    .btn:focus-visible { outline: none; box-shadow: var(--re-focus-shadow); }
+
+    .btn--primary {
+      border-color: transparent;
+      background: var(--re-primary);
+      color: var(--re-text-on-primary);
+    }
+    .btn--primary:hover { background: var(--re-primary-hover); }
+
+    .nav {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 14px;
+      color: var(--re-text-muted);
+      font-size: 13px;
+    }
+    .nav a { font-weight: 800; letter-spacing: 0.03em; }
+
+    main { display: grid; gap: 16px; }
+
+    .section {
+      background: var(--re-glass-bg);
+      border: 1px solid var(--re-glass-border);
+      border-radius: 18px;
+      box-shadow: var(--re-glass-shadow);
+      backdrop-filter: blur(var(--re-glass-blur));
+      -webkit-backdrop-filter: blur(var(--re-glass-blur));
+      padding: 18px;
+    }
+
+    .section h2 {
+      margin: 0 0 10px 0;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+    }
+
+    .section p {
+      margin: 0 0 12px 0;
+      color: var(--re-text-muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .muted-code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      color: var(--re-text-subtle);
+      font-size: 12px;
+    }
+
+    /* =========================
+       Typography Samples
+       ========================= */
+    .type-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1.9fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .type-sample {
+      border-radius: 16px;
+      border: 1px solid var(--re-border);
+      background: var(--re-surface-1);
+      overflow: hidden;
+    }
+
+    .type-sample__head {
+      padding: 12px 12px 10px;
+      border-bottom: 1px solid var(--re-border);
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .type-sample__label {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--re-text);
+    }
+
+    .type-sample__meta {
+      margin: 0;
+      color: var(--re-text-subtle);
+      font-size: 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      overflow-wrap: anywhere;
+      text-align: right;
+    }
+
+    .type-sample__body { padding: 12px; }
+
+    .t-h1 {
+      margin: 0;
+      font-size: var(--re-h1-size);
+      line-height: var(--re-h1-line);
+      font-weight: var(--re-h1-weight);
+      letter-spacing: var(--re-h1-track);
+    }
+    .t-h2 {
+      margin: 0;
+      font-size: var(--re-h2-size);
+      line-height: var(--re-h2-line);
+      font-weight: var(--re-h2-weight);
+      letter-spacing: var(--re-h2-track);
+    }
+    .t-h3 {
+      margin: 0;
+      font-size: var(--re-h3-size);
+      line-height: var(--re-h3-line);
+      font-weight: var(--re-h3-weight);
+      letter-spacing: var(--re-h3-track);
+    }
+    .t-h4 {
+      margin: 0;
+      font-size: var(--re-h4-size);
+      line-height: var(--re-h4-line);
+      font-weight: var(--re-h4-weight);
+      letter-spacing: var(--re-h4-track);
+    }
+    .t-body {
+      margin: 0;
+      font-size: var(--re-body-size);
+      line-height: var(--re-body-line);
+      font-weight: var(--re-body-weight);
+      letter-spacing: var(--re-body-track);
+      color: var(--re-text);
+    }
+    .t-small {
+      margin: 0;
+      font-size: var(--re-small-size);
+      line-height: var(--re-small-line);
+      font-weight: var(--re-small-weight);
+      letter-spacing: var(--re-small-track);
+      color: var(--re-text-muted);
+    }
+    .t-label {
+      margin: 0;
+      font-size: var(--re-label-size);
+      line-height: var(--re-label-line);
+      font-weight: var(--re-label-weight);
+      letter-spacing: var(--re-label-track);
+      text-transform: uppercase;
+      color: var(--re-text);
+    }
+    .t-overline {
+      margin: 0;
+      font-size: var(--re-overline-size);
+      line-height: var(--re-overline-line);
+      font-weight: var(--re-overline-weight);
+      letter-spacing: var(--re-overline-track);
+      text-transform: uppercase;
+      color: var(--re-text-muted);
+    }
+
+    .stack { display: grid; gap: 10px; }
+
+    /* Marketplace demo blocks */
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .card {
+      border-radius: 18px;
+      border: 1px solid var(--re-glass-border);
+      box-shadow: var(--re-glass-shadow);
+      backdrop-filter: blur(var(--re-glass-blur));
+      -webkit-backdrop-filter: blur(var(--re-glass-blur));
+      background: var(--re-glass-bg);
+      overflow: hidden;
+      position: relative;
+      min-height: 220px;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(500px 220px at 20% 0%, rgba(6, 249, 87, 0.18), transparent 60%),
+        radial-gradient(420px 220px at 120% 40%, rgba(6, 249, 87, 0.10), transparent 55%);
+      opacity: 0.80;
+      pointer-events: none;
+    }
+
+    .card__body {
+      position: relative;
+      padding: 16px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .kicker { margin: 0; }
+
+    .title-strong {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.25;
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      color: var(--re-text);
+    }
+
+    .meta {
+      margin: 0;
+      color: var(--re-text-muted);
+      font-size: 12px;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--re-border);
+      background: var(--re-surface-1);
+      color: var(--re-text);
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      font-size: 12px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .badge--brand {
+      border-color: rgba(6, 249, 87, 0.28);
+      background: var(--re-primary-10);
+      color: var(--re-text);
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--re-primary);
+      box-shadow: 0 0 0 3px rgba(6, 249, 87, 0.18);
+      flex: 0 0 auto;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      height: 40px;
+      padding: 0 14px;
+      border-radius: 12px;
+      border: 0;
+      background: var(--re-primary);
+      color: var(--re-text-on-primary);
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      width: fit-content;
+      max-width: 100%;
+    }
+    .cta:hover { background: var(--re-primary-hover); }
+    .cta:focus-visible { outline: none; box-shadow: var(--re-focus-shadow); }
+
+    footer {
+      margin-top: 18px;
+      color: var(--re-text-subtle);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    @media (max-width: 980px) {
+      header { flex-direction: column; align-items: flex-start; }
+      .type-grid { grid-template-columns: 1fr; }
+      .demo-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .top-actions { width: 100%; }
+      .btn { width: 100%; }
+      :root {
+        --re-h1-size: 30px;
+        --re-h2-size: 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <header>
+      <div class="brand">
+        <h1 class="h1">Brand Typography — RenewExperts</h1>
+        <p class="subtitle">
+          Type scale + ierarhie text pentru marketplace: listări proiecte, profile experți, companii verificate și UI labels.
+          Include Light/Dark și recomandări rapide (claritate, consistență, accesibilitate).
+        </p>
+        <nav class="nav" aria-label="Navigație Brand Kit">
+          <a href="./BrandButtons.html">Brand Buttons</a>
+          <span aria-hidden="true">·</span>
+          <a href="./BrandColors.html">Brand Colors</a>
+          <span aria-hidden="true">·</span>
+          <a href="./BrandTypography.html" aria-current="page">Brand Typography</a>
+        </nav>
+      </div>
+
+      <div class="top-actions">
+        <button type="button" class="btn btn--primary" id="themeToggle" aria-label="Schimbă tema Light/Dark">
+          <span aria-hidden="true">☼</span>
+          <span id="themeToggleLabel">Dark</span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="section" aria-labelledby="scale-title">
+        <h2 id="scale-title">Type scale (tokens + exemple)</h2>
+        <p>
+          Scop: aceeași voce tipografică peste tot. Headings sunt “premium tech” (greutate mare + tracking ușor negativ),
+          iar body rămâne foarte lizibil. Tokenii sunt în CSS (ex: <span class="muted-code">--re-h1-size</span>).
+        </p>
+
+        <div class="type-grid" role="list" aria-label="Mostre tipografie">
+          <article class="type-sample" role="listitem">
+            <div class="type-sample__head">
+              <p class="type-sample__label">Heading H1</p>
+              <p class="type-sample__meta">34px / 1.10 / 900</p>
+            </div>
+            <div class="type-sample__body">
+              <p class="t-h1">Găsește experți verificați pentru proiecte de energie regenerabilă</p>
+            </div>
+          </article>
+
+          <article class="type-sample" role="listitem">
+            <div class="type-sample__head">
+              <p class="type-sample__label">Heading H2</p>
+              <p class="type-sample__meta">26px / 1.16 / 900</p>
+            </div>
+            <div class="type-sample__body">
+              <p class="t-h2">Proiecte deschise: Solar EPC, Wind O&M, Hydrogen (PtX)</p>
+            </div>
+          </article>
+
+          <article class="type-sample" role="listitem">
+            <div class="type-sample__head">
+              <p class="type-sample__label">Heading H3</p>
+              <p class="type-sample__meta">20px / 1.22 / 800</p>
+            </div>
+            <div class="type-sample__body">
+              <p class="t-h3">Expert disponibil · Grid connection & permitting</p>
+            </div>
+          </article>
+
+          <article class="type-sample" role="listitem">
+            <div class="type-sample__head">
+              <p class="type-sample__label">Heading H4</p>
+              <p class="type-sample__meta">16px / 1.25 / 800</p>
+            </div>
+            <div class="type-sample__body">
+              <p class="t-h4">Detalii proiect · Durată, buget, livrabile</p>
+            </div>
+          </article>
+
+          <article class="type-sample" role="listitem">
+            <div class="type-sample__head">
+              <p class="type-sample__label">Body</p>
+              <p class="type-sample__meta">14px / 1.55 / 600</p>
+            </div>
+            <div class="type-sample__body">
+              <div class="stack">
+                <p class="t-body">
+                  RenewExperts conectează companii cu experți în energie regenerabilă pentru proiecte, roluri și consultanță.
+                  Publică un proiect, primește aplicații și colaborează transparent — cu profiluri și postări peer-reviewed.
+                </p>
+                <p class="t-body">
+                  Link-uri interne orientative: <a href="../marketplace/templates/marketplace/coming_soon.html">Coming soon</a>,
+                  <a href="./BrandColors.html">Brand Colors</a>.
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <article class="type-sample" role="listitem">
+            <div class="type-sample__head">
+              <p class="type-sample__label">Small + Label + Overline</p>
+              <p class="type-sample__meta">12px / 1.45</p>
+            </div>
+            <div class="type-sample__body">
+              <div class="stack">
+                <p class="t-overline">Verified company</p>
+                <p class="t-label">Skills & tags</p>
+                <p class="t-small">
+                  Folosește small pentru meta (locație, timp, rating, status). Label/Overline pentru “UI chrome”
+                  (capete de secțiune, badge captions) — nu ca titluri reale.
+                </p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="hierarchy-title">
+        <h2 id="hierarchy-title">Ierarhie & reguli rapide</h2>
+        <p>
+          - Un singur H1 pe pagină (landing/listing).<br />
+          - Headings pentru structură (nu doar styling); folosește <span class="muted-code">label/overline</span> pentru UI microcopy.<br />
+          - Link-uri cu <span class="muted-code">focus-visible</span> clar (ring) — obligatoriu pentru accesibilitate.<br />
+          - Pentru listări: titlu puternic + meta subtil + descriere scurtă (max 2–3 rânduri).
+        </p>
+      </section>
+
+      <section class="section" aria-labelledby="marketplace-title">
+        <h2 id="marketplace-title">Exemple marketplace (copy real + tipografie)</h2>
+        <p>
+          Trei card-uri canonice: Expert, Project, Company. Observă cum heading-ul “ține” atenția, iar meta/labels păstrează claritatea.
+        </p>
+
+        <div class="demo-grid" aria-label="Cards demo marketplace">
+          <article class="card">
+            <div class="card__body">
+              <p class="t-overline kicker"><span class="dot" aria-hidden="true"></span> Expert · Disponibil în 2 săptămâni</p>
+              <p class="title-strong">Ana M. — Solar EPC · Owner’s Engineer</p>
+              <p class="meta">
+                12+ ani · România / Remote · Engleză (C1) · Rată: 65€/h
+              </p>
+              <div class="badge-row" aria-label="Skill tags">
+                <span class="badge badge--brand"><span class="dot" aria-hidden="true"></span>Peer reviewed</span>
+                <span class="badge">Permitting</span>
+                <span class="badge">Grid connection</span>
+                <span class="badge">EPC tendering</span>
+              </div>
+              <p class="t-small">
+                Expert în dezvoltare solar, due diligence și livrabile tehnice pentru finanțare. Prefer proiecte cu scope clar și timeline realist.
+              </p>
+              <button type="button" class="cta">Vezi profil</button>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card__body">
+              <p class="t-overline kicker"><span class="dot" aria-hidden="true"></span> Proiect · Open · Contract</p>
+              <p class="title-strong">Wind O&amp;M Optimization — 18 luni</p>
+              <p class="meta">
+                Locație: EU · Buget: 45k–70k · Start: Feb 2026 · Răspuns în 48h
+              </p>
+              <div class="badge-row" aria-label="Status and scope">
+                <span class="badge badge--brand"><span class="dot" aria-hidden="true"></span>Verified Company</span>
+                <span class="badge">KPI baseline</span>
+                <span class="badge">SCADA review</span>
+                <span class="badge">Field ops</span>
+              </div>
+              <p class="t-small">
+                Căutăm consultant pentru analiză performanță, plan mentenanță și reducerea downtime-ului. Livrabile: raport lunar + playbook.
+              </p>
+              <button type="button" class="cta">Aplică la proiect</button>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card__body">
+              <p class="t-overline kicker"><span class="dot" aria-hidden="true"></span> Companie · Verificată</p>
+              <p class="title-strong">NorthGrid Energy — Developer &amp; EPC</p>
+              <p class="meta">
+                Portofoliu: 420MW · Tehnologii: Solar, Storage · Procurement transparent
+              </p>
+              <div class="badge-row" aria-label="Company badges">
+                <span class="badge badge--brand"><span class="dot" aria-hidden="true"></span>Company checks</span>
+                <span class="badge">Fast hiring</span>
+                <span class="badge">Hybrid teams</span>
+              </div>
+              <p class="t-small">
+                Publicăm proiecte cu scope și buget clar. Căutăm experți care pot livra rapid: due diligence, execuție și supervizare.
+              </p>
+              <button type="button" class="cta">Vezi proiecte</button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="links-title">
+        <h2 id="links-title">Link styles (default / hover / focus)</h2>
+        <p>
+          Link-uri interne cu ancore descriptive (fără “click here”): <a href="./BrandButtons.html">Butoane & stări</a>,
+          <a href="./BrandColors.html">Culori & glass</a>, <a href="./BrandTypography.html">Tipografie</a>.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      RenewExperts Brand Kit · <span class="muted-code">BrandTypography.html</span>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const toggle = document.getElementById("themeToggle");
+      const label = document.getElementById("themeToggleLabel");
+
+      function applyTheme(nextTheme) {
+        root.setAttribute("data-theme", nextTheme);
+        label.textContent = nextTheme === "dark" ? "Dark" : "Light";
+        try {
+          localStorage.setItem("re-brand-theme", nextTheme);
+        } catch (e) {}
+      }
+
+      function getPreferredTheme() {
+        try {
+          const stored = localStorage.getItem("re-brand-theme");
+          if (stored === "dark" || stored === "light") return stored;
+        } catch (e) {}
+        return root.getAttribute("data-theme") || "dark";
+      }
+
+      applyTheme(getPreferredTheme());
+
+      toggle.addEventListener("click", function () {
+        const current = root.getAttribute("data-theme") === "light" ? "light" : "dark";
+        applyTheme(current === "dark" ? "light" : "dark");
+      });
+    })();
+  </script>
+</body>
+</html>
+

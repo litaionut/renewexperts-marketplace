@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RenewExperts — Brand Buttons (Light/Dark, States, Icon Buttons)</title>
+  <meta
+    name="description"
+    content="Butoane RenewExperts pentru marketplace (Light/Dark): primary/secondary, icon buttons, full-width (mobile), loading și disabled, cu stări (hover/active/focus) și focus ring accesibil."
+  />
+
+  <meta property="og:title" content="RenewExperts — Brand Buttons (Light/Dark, States, Icon Buttons)" />
+  <meta
+    property="og:description"
+    content="Brand Buttons RenewExperts: primary/secondary + icon buttons + stări complete (hover/active/focus/disabled), optimizate pentru UI-ul marketplace (Light/Dark)."
+  />
+  <meta property="og:type" content="website" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =========================
+       Design Tokens (Brand)
+       Keep in sync with BrandColors.html / BrandForms.html / BrandTypography.html
+       ========================= */
+    :root {
+      /* ----------
+         Primitives (brand / palette)
+         ---------- */
+      --re-green-400: #12ff6f;
+      --re-green-500: #06f957;
+      --re-green-600: #00e050;
+
+      /* Dark “infrastructure” ink (used under neon) */
+      --re-ink-900: #0f2316;
+
+      /* ----------
+         Semantic brand
+         ---------- */
+      --re-primary: var(--re-green-500);
+      --re-primary-hover: var(--re-green-400);
+      --re-primary-active: var(--re-green-600);
+      --re-text-on-primary: var(--re-ink-900);
+
+      /* Brand transparencies (for overlays / tints) */
+      --re-primary-10: rgba(6, 249, 87, 0.10);
+      --re-primary-20: rgba(6, 249, 87, 0.20);
+      --re-primary-30: rgba(6, 249, 87, 0.30);
+
+      /* ----------
+         Spacing scale (4-based)
+         ---------- */
+      --re-space-1: 4px;
+      --re-space-2: 8px;
+      --re-space-3: 12px;
+      --re-space-4: 16px;
+      --re-space-5: 24px;
+      --re-space-6: 32px;
+      --re-space-7: 48px;
+      --re-space-8: 64px;
+
+      /* ----------
+         Radius scale
+         ---------- */
+      --re-radius-1: 6px;
+      --re-radius-2: 8px;
+      --re-radius-3: 10px;
+      --re-radius-4: 14px;
+      --re-radius-5: 18px;
+
+      /* Back-compat aliases (used by current demo) */
+      --re-radius-sm: var(--re-radius-1);
+      --re-radius-md: var(--re-radius-2);
+      --re-radius-lg: var(--re-radius-3);
+
+      /* ----------
+         Typography
+         ---------- */
+      --re-font: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+
+      /* ----------
+         Component sizing (buttons)
+         ---------- */
+      --re-btn-h-sm: 32px;
+      --re-btn-h-md: 44px;
+      --re-btn-h-lg: 56px;
+
+      --re-btn-px-sm: 14px;
+      --re-btn-px-md: 22px;
+      --re-btn-px-lg: 32px;
+
+      --re-btn-fs-sm: 12px;
+      --re-btn-fs-md: 14px;
+      --re-btn-fs-lg: 16px;
+
+      --re-border-w: 2px;
+
+      /* Icon sizing */
+      --re-icon-sm: 14px;
+      --re-icon-md: 16px;
+      --re-icon-lg: 18px;
+    }
+
+    /* ----------
+       Theme: Dark (default for brand kit)
+       ---------- */
+    :root[data-theme="dark"] {
+      --re-bg: #0f2316;
+      --re-surface-1: rgba(255, 255, 255, 0.06);
+      --re-surface-2: rgba(255, 255, 255, 0.10);
+      --re-border: rgba(255, 255, 255, 0.14);
+      --re-border-strong: rgba(255, 255, 255, 0.22);
+
+      --re-text: rgba(255, 255, 255, 0.88);
+      --re-text-muted: rgba(255, 255, 255, 0.60);
+      --re-text-subtle: rgba(255, 255, 255, 0.46);
+
+      /* Overlays (hero / modal / scrim) */
+      --re-overlay-40: rgba(15, 35, 22, 0.40);
+      --re-overlay-60: rgba(15, 35, 22, 0.60);
+      --re-overlay-80: rgba(15, 35, 22, 0.80);
+
+      /* Glass recipes */
+      --re-glass-bg: rgba(255, 255, 255, 0.08);
+      --re-glass-border: rgba(255, 255, 255, 0.16);
+      --re-glass-shadow: 0 18px 44px rgba(0, 0, 0, 0.35);
+      --re-glass-blur: 14px;
+
+      /* Focus ring (accessibility) */
+      --re-focus-offset-color: rgba(15, 35, 22, 0.98);
+      --re-focus-shadow: 0 0 0 2px var(--re-focus-offset-color), 0 0 0 5px rgba(6, 249, 87, 0.38);
+
+      /* Disabled tokens (explicit, deterministic) */
+      --re-disabled-bg: rgba(255, 255, 255, 0.10);
+      --re-disabled-border: rgba(255, 255, 255, 0.18);
+      --re-disabled-text: rgba(255, 255, 255, 0.35);
+      --re-disabled-text-on-filled: rgba(15, 35, 22, 0.45); /* on neon surfaces */
+
+      /* Back-compat alias used by current demo */
+      --re-bg-dark: var(--re-bg);
+    }
+
+    /* ----------
+       Theme: Light (same tokens, different semantics)
+       ---------- */
+    :root[data-theme="light"] {
+      --re-bg: #f3fbf6;
+      --re-surface-1: rgba(15, 35, 22, 0.04);
+      --re-surface-2: rgba(15, 35, 22, 0.07);
+      --re-border: rgba(15, 35, 22, 0.14);
+      --re-border-strong: rgba(15, 35, 22, 0.22);
+
+      --re-text: rgba(15, 35, 22, 0.92);
+      --re-text-muted: rgba(15, 35, 22, 0.68);
+      --re-text-subtle: rgba(15, 35, 22, 0.55);
+
+      --re-overlay-40: rgba(15, 35, 22, 0.18);
+      --re-overlay-60: rgba(15, 35, 22, 0.28);
+      --re-overlay-80: rgba(15, 35, 22, 0.40);
+
+      --re-glass-bg: rgba(255, 255, 255, 0.70);
+      --re-glass-border: rgba(15, 35, 22, 0.12);
+      --re-glass-shadow: 0 14px 34px rgba(15, 35, 22, 0.12);
+      --re-glass-blur: 14px;
+
+      --re-focus-offset-color: rgba(243, 251, 246, 0.98);
+      --re-focus-shadow: 0 0 0 2px var(--re-focus-offset-color), 0 0 0 5px rgba(6, 249, 87, 0.42);
+
+      --re-disabled-bg: rgba(15, 35, 22, 0.06);
+      --re-disabled-border: rgba(15, 35, 22, 0.14);
+      --re-disabled-text: rgba(15, 35, 22, 0.35);
+      --re-disabled-text-on-filled: rgba(15, 35, 22, 0.50);
+
+      --re-bg-dark: var(--re-ink-900);
+    }
+
+    /* =========================
+       Base Page Layout
+       ========================= */
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: var(--re-font);
+      background: radial-gradient(900px 520px at 20% -10%, rgba(6, 249, 87, 0.18), transparent 60%),
+                  radial-gradient(700px 420px at 110% 10%, rgba(6, 249, 87, 0.10), transparent 55%),
+                  var(--re-bg);
+      color: var(--re-text);
+    }
+
+    a { color: var(--re-primary); text-decoration: none; }
+    a:hover { color: var(--re-primary-hover); text-decoration: underline; }
+    a:focus-visible { outline: none; box-shadow: var(--re-focus-shadow); border-radius: 10px; }
+
+    .page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 28px 18px 54px;
+    }
+
+    header {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .brand { min-width: 0; }
+    .h1 {
+      margin: 0;
+      font-size: 26px;
+      line-height: 1.15;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+    .subtitle {
+      margin: 10px 0 0 0;
+      color: var(--re-text-muted);
+      font-size: 14px;
+      line-height: 1.45;
+      max-width: 86ch;
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex: 0 0 auto;
+    }
+
+    .nav {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 14px;
+      color: var(--re-text-muted);
+      font-size: 13px;
+    }
+    .nav a { font-weight: 900; letter-spacing: 0.03em; }
+
+    main { display: grid; gap: 16px; }
+
+    .section {
+      background: var(--re-glass-bg);
+      border: 1px solid var(--re-glass-border);
+      border-radius: 18px;
+      box-shadow: var(--re-glass-shadow);
+      backdrop-filter: blur(var(--re-glass-blur));
+      -webkit-backdrop-filter: blur(var(--re-glass-blur));
+      padding: 18px;
+    }
+
+    .section h2 {
+      margin: 0 0 10px 0;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+    }
+
+    .section p {
+      margin: 0 0 12px 0;
+      color: var(--re-text-muted);
+      font-size: 13px;
+      line-height: 1.45;
+      max-width: 85ch;
+    }
+
+    .muted-code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      color: var(--re-text-subtle);
+      font-size: 12px;
+    }
+
+    /* =========================
+       Button Component
+       ========================= */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+
+      font-family: inherit;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      white-space: nowrap;
+
+      padding: 0 var(--re-btn-px-md);
+      height: var(--re-btn-h-md);
+      border-radius: 12px;
+
+      border: 0;
+      background: transparent;
+
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Focus (uses tokens; even in demo it’s useful to validate accessibility) */
+    .btn:focus-visible {
+      outline: none;
+      box-shadow: var(--re-focus-shadow);
+    }
+
+    /* Sizes */
+    .btn--sm {
+      height: var(--re-btn-h-sm);
+      padding: 0 var(--re-btn-px-sm);
+      border-radius: 10px;
+      font-size: var(--re-btn-fs-sm);
+    }
+    .btn--md {
+      height: var(--re-btn-h-md);
+      padding: 0 var(--re-btn-px-md);
+      border-radius: 12px;
+      font-size: var(--re-btn-fs-md);
+    }
+    .btn--lg {
+      height: var(--re-btn-h-lg);
+      padding: 0 var(--re-btn-px-lg);
+      border-radius: 14px;
+      font-size: var(--re-btn-fs-lg);
+    }
+
+    /* Icons */
+    .btn__icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 0;
+      flex: 0 0 auto;
+    }
+    .btn__icon svg {
+      width: var(--re-icon-md);
+      height: var(--re-icon-md);
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .btn--sm .btn__icon svg { width: var(--re-icon-sm); height: var(--re-icon-sm); }
+    .btn--lg .btn__icon svg { width: var(--re-icon-lg); height: var(--re-icon-lg); }
+
+    /* Icon-only buttons (square) */
+    .btn--icon-only {
+      width: var(--re-btn-h-md);
+      padding: 0;
+    }
+    .btn--icon-only.btn--sm { width: var(--re-btn-h-sm); }
+    .btn--icon-only.btn--lg { width: var(--re-btn-h-lg); }
+
+    /* Full-width helper (mobile / dense UI) */
+    .btn--full { width: 100%; }
+
+    /* Loading */
+    .btn--loading {
+      position: relative;
+      pointer-events: none;
+    }
+    .btn--loading .btn__label { opacity: 0.72; }
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      border-top-color: rgba(255, 255, 255, 0.90);
+      animation: spin 900ms linear infinite;
+    }
+    :root[data-theme="light"] .spinner {
+      border-color: rgba(15, 35, 22, 0.25);
+      border-top-color: rgba(15, 35, 22, 0.80);
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* =========================
+       States (explicit demo)
+       ========================= */
+    .btn--primary.btn--default { background: var(--re-primary); color: var(--re-text-on-primary); }
+    .btn--primary.btn--hover   { background: var(--re-primary-hover); color: var(--re-text-on-primary); }
+    .btn--primary.btn--active  { background: var(--re-primary-active); color: var(--re-text-on-primary); }
+
+    .btn--secondary {
+      background: transparent;
+      border: var(--re-border-w) solid transparent;
+    }
+    .btn--secondary.btn--default { border-color: var(--re-primary); color: var(--re-primary); }
+    .btn--secondary.btn--hover   { border-color: var(--re-primary-hover); color: var(--re-primary-hover); }
+    .btn--secondary.btn--active  { border-color: var(--re-primary-active); color: var(--re-primary-active); }
+
+    /* =========================
+       Disabled (Best practices)
+       - Use both attribute [disabled] and class .btn--disabled
+       - Remove pointer events / interactions
+       - Keep contrast reasonable (esp. on dark bg)
+       ========================= */
+    .btn[disabled],
+    .btn--disabled {
+      cursor: not-allowed;
+      pointer-events: none;
+      opacity: 1; /* keep deterministic; we control colors explicitly */
+    }
+
+    /* Disabled: Primary (filled) */
+    .btn--primary.btn--disabled,
+    .btn--primary[disabled] {
+      background: rgba(6, 249, 87, 0.22); /* demo: keep same muted brand green */
+      color: var(--re-disabled-text-on-filled);
+    }
+
+    /* Disabled: Secondary (outline/ghost) */
+    .btn--secondary.btn--disabled,
+    .btn--secondary[disabled] {
+      background: transparent;
+      border-color: var(--re-disabled-border);
+      color: var(--re-disabled-text);
+    }
+
+    /* Demo layout helpers */
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 12px;
+    }
+    .demo-card {
+      grid-column: span 4;
+      border-radius: 18px;
+      border: 1px solid var(--re-border);
+      background: var(--re-surface-1);
+      padding: 14px;
+      display: grid;
+      gap: 12px;
+    }
+    .demo-card h3 {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    footer {
+      margin-top: 18px;
+      color: var(--re-text-subtle);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    @media (max-width: 980px) {
+      header { flex-direction: column; align-items: flex-start; }
+      .demo-card { grid-column: span 12; }
+    }
+
+    @media (max-width: 560px) {
+      .top-actions { width: 100%; }
+      .top-actions .btn { width: 100%; }
+      .btn--full { width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <header>
+      <div class="brand">
+        <h1 class="h1">Brand Buttons — RenewExperts</h1>
+        <p class="subtitle">
+          Butoane pentru UI-ul marketplace RenewExperts: <strong>primary</strong> (CTA), <strong>secondary</strong> (ghost/outline),
+          icon buttons, full-width (mobile), loading și disabled — cu <strong>stări clare</strong> și focus ring accesibil.
+        </p>
+        <nav class="nav" aria-label="Navigație Brand Kit">
+          <a href="./BrandColors.html">Brand Colors</a>
+          <span aria-hidden="true">·</span>
+          <a href="./BrandTypography.html">Brand Typography</a>
+          <span aria-hidden="true">·</span>
+          <a href="./BrandForms.html">Brand Forms</a>
+          <span aria-hidden="true">·</span>
+          <a href="./BrandComponentsMarketplace.html">Marketplace Components</a>
+          <span aria-hidden="true">·</span>
+          <a href="./BrandButtons.html" aria-current="page">Brand Buttons</a>
+        </nav>
+      </div>
+
+      <div class="top-actions">
+        <button type="button" class="btn btn--md btn--primary btn--default" id="themeToggle" aria-label="Schimbă tema Light/Dark">
+          <span aria-hidden="true">☼</span>
+          <span id="themeToggleLabel">Dark</span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="section" aria-labelledby="core-title">
+        <h2 id="core-title">Primary & Secondary (3 sizes × 3 states)</h2>
+        <p>
+          Pentru demo, stările sunt “înghețate” cu clase (<span class="muted-code">.btn--default/.btn--hover/.btn--active</span>).
+          În produs, hover/active vin natural, dar păstrăm aceleași culori ca tokens.
+        </p>
+
+        <div class="demo-grid" aria-label="Galerie stări primary/secondary">
+          <article class="demo-card" aria-label="Primary (filled)">
+            <h3>Primary (Filled)</h3>
+            <div class="btn-row">
+              <button class="btn btn--sm btn--primary btn--default">Small · Default</button>
+              <button class="btn btn--sm btn--primary btn--hover">Small · Hover</button>
+              <button class="btn btn--sm btn--primary btn--active">Small · Active</button>
+            </div>
+            <div class="btn-row">
+              <button class="btn btn--md btn--primary btn--default">Medium · Default</button>
+              <button class="btn btn--md btn--primary btn--hover">Medium · Hover</button>
+              <button class="btn btn--md btn--primary btn--active">Medium · Active</button>
+            </div>
+            <div class="btn-row">
+              <button class="btn btn--lg btn--primary btn--default">Large · Default</button>
+              <button class="btn btn--lg btn--primary btn--hover">Large · Hover</button>
+              <button class="btn btn--lg btn--primary btn--active">Large · Active</button>
+            </div>
+          </article>
+
+          <article class="demo-card" aria-label="Secondary (ghost/outline)">
+            <h3>Secondary (Ghost)</h3>
+            <div class="btn-row">
+              <button class="btn btn--sm btn--secondary btn--default">Small · Default</button>
+              <button class="btn btn--sm btn--secondary btn--hover">Small · Hover</button>
+              <button class="btn btn--sm btn--secondary btn--active">Small · Active</button>
+            </div>
+            <div class="btn-row">
+              <button class="btn btn--md btn--secondary btn--default">Medium · Default</button>
+              <button class="btn btn--md btn--secondary btn--hover">Medium · Hover</button>
+              <button class="btn btn--md btn--secondary btn--active">Medium · Active</button>
+            </div>
+            <div class="btn-row">
+              <button class="btn btn--lg btn--secondary btn--default">Large · Default</button>
+              <button class="btn btn--lg btn--secondary btn--hover">Large · Hover</button>
+              <button class="btn btn--lg btn--secondary btn--active">Large · Active</button>
+            </div>
+          </article>
+
+          <article class="demo-card" aria-label="Full-width (mobile) + loading">
+            <h3>Full-width + Loading</h3>
+            <p class="muted-code">
+              Folosește <span class="muted-code">.btn--full</span> în listări mobile. Loading: păstrează textul (screen readers) + spinner vizual.
+            </p>
+            <div class="btn-row" style="flex-direction: column; align-items: stretch;">
+              <button class="btn btn--md btn--primary btn--default btn--full">Aplică la proiect</button>
+              <button class="btn btn--md btn--secondary btn--default btn--full">Vezi detalii</button>
+              <button type="button" class="btn btn--md btn--primary btn--default btn--full btn--loading" aria-busy="true">
+                <span class="spinner" aria-hidden="true"></span>
+                <span class="btn__label">Se trimite…</span>
+              </button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="icons-title">
+        <h2 id="icons-title">Icon Buttons (left / right / icon-only)</h2>
+        <p>
+          Iconurile decorative au <span class="muted-code">aria-hidden</span>. Butoanele doar-cu-icon au <span class="muted-code">aria-label</span>.
+        </p>
+
+        <div class="demo-grid" aria-label="Galerie icon buttons">
+          <article class="demo-card" aria-label="Icon left">
+            <h3>Icon left</h3>
+            <div class="btn-row">
+              <button type="button" class="btn btn--sm btn--primary btn--default">
+                <span class="btn__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M12 20V4"/><path d="M7 9l5-5 5 5"/></svg>
+                </span>
+                <span>Upload CV</span>
+              </button>
+              <button type="button" class="btn btn--md btn--secondary btn--default">
+                <span class="btn__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M12 20V4"/><path d="M7 9l5-5 5 5"/></svg>
+                </span>
+                <span>Import profile</span>
+              </button>
+            </div>
+          </article>
+
+          <article class="demo-card" aria-label="Icon right">
+            <h3>Icon right</h3>
+            <div class="btn-row">
+              <button type="button" class="btn btn--md btn--primary btn--default">
+                <span>Continuă</span>
+                <span class="btn__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M4 12h16"/><path d="M14 6l6 6-6 6"/></svg>
+                </span>
+              </button>
+              <button type="button" class="btn btn--md btn--secondary btn--default">
+                <span>Vezi proiecte</span>
+                <span class="btn__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M4 12h16"/><path d="M14 6l6 6-6 6"/></svg>
+                </span>
+              </button>
+            </div>
+          </article>
+
+          <article class="demo-card" aria-label="Icon-only">
+            <h3>Icon-only</h3>
+            <div class="btn-row">
+              <button type="button" class="btn btn--md btn--secondary btn--default btn--icon-only" aria-label="Salvează la favorite">
+                <span class="btn__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M12 21l-7-4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v12l-7 4Z"/></svg>
+                </span>
+              </button>
+              <button type="button" class="btn btn--md btn--primary btn--default btn--icon-only" aria-label="Creează proiect">
+                <span class="btn__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                </span>
+              </button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="disabled-title">
+        <h2 id="disabled-title">Disabled</h2>
+        <p>
+          Disabled = acțiune nepermisă (ex: user neautentificat / fără permisiuni). Ideal: afișează și motivul în UI (tooltip / helper text).
+        </p>
+
+        <div class="demo-grid" aria-label="Galerie disabled">
+          <article class="demo-card" aria-label="Primary disabled">
+            <h3>Primary</h3>
+            <div class="btn-row">
+              <button class="btn btn--sm btn--primary" disabled>Small · Disabled</button>
+              <button class="btn btn--md btn--primary" disabled>Medium · Disabled</button>
+              <button class="btn btn--lg btn--primary" disabled>Large · Disabled</button>
+            </div>
+          </article>
+          <article class="demo-card" aria-label="Secondary disabled">
+            <h3>Secondary</h3>
+            <div class="btn-row">
+              <button class="btn btn--sm btn--secondary" disabled>Small · Disabled</button>
+              <button class="btn btn--md btn--secondary" disabled>Medium · Disabled</button>
+              <button class="btn btn--lg btn--secondary" disabled>Large · Disabled</button>
+            </div>
+          </article>
+          <article class="demo-card" aria-label="Focus ring reminder">
+            <h3>Focus ring</h3>
+            <p>
+              Test rapid: apasă <span class="muted-code">Tab</span> pe butoane. Focus ring trebuie să fie vizibil în Light + Dark.
+            </p>
+            <div class="btn-row">
+              <a class="btn btn--md btn--secondary btn--default" href="./BrandColors.html">Vezi tokens</a>
+              <a class="btn btn--md btn--primary btn--default" href="./BrandComponentsMarketplace.html">Vezi cards</a>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      RenewExperts Brand Kit · <span class="muted-code">BrandButtons.html</span>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const toggle = document.getElementById("themeToggle");
+      const label = document.getElementById("themeToggleLabel");
+
+      function applyTheme(nextTheme) {
+        root.setAttribute("data-theme", nextTheme);
+        label.textContent = nextTheme === "dark" ? "Dark" : "Light";
+        try {
+          localStorage.setItem("re-brand-theme", nextTheme);
+        } catch (e) {}
+      }
+
+      function getPreferredTheme() {
+        try {
+          const stored = localStorage.getItem("re-brand-theme");
+          if (stored === "dark" || stored === "light") return stored;
+        } catch (e) {}
+        return root.getAttribute("data-theme") || "dark";
+      }
+
+      applyTheme(getPreferredTheme());
+
+      toggle.addEventListener("click", function () {
+        const current = root.getAttribute("data-theme") === "light" ? "light" : "dark";
+        applyTheme(current === "dark" ? "light" : "dark");
+      });
+    })();
+  </script>
+</body>
+</html>

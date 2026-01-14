@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RenewExperts — Brand Colors (Paletă, Overlays, Glass)</title>
+  <meta
+    name="description"
+    content="Paleta RenewExperts (Light/Dark): brand green, neutrals, surfaces, overlays și rețete glass. Include variante derivate (alpha) și exemple de utilizare pentru marketplace."
+  />
+
+  <meta property="og:title" content="RenewExperts — Brand Colors (Paletă, Overlays, Glass)" />
+  <meta
+    property="og:description"
+    content="Paleta RenewExperts (Light/Dark): tokens, variante derivate, overlays și glass panels — cu exemple reale de utilizare."
+  />
+  <meta property="og:type" content="website" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =========================
+       Design Tokens (Brand)
+       Keep in sync with BrandButtons.html
+       ========================= */
+    :root {
+      /* ---------- Primitives (brand / palette) ---------- */
+      --re-green-400: #12ff6f;
+      --re-green-500: #06f957;
+      --re-green-600: #00e050;
+
+      /* Dark “infrastructure” ink (used under neon) */
+      --re-ink-900: #0f2316;
+
+      /* ---------- Semantic brand ---------- */
+      --re-primary: var(--re-green-500);
+      --re-primary-hover: var(--re-green-400);
+      --re-primary-active: var(--re-green-600);
+      --re-text-on-primary: var(--re-ink-900);
+
+      /* Brand transparencies (for overlays / tints) */
+      --re-primary-10: rgba(6, 249, 87, 0.10);
+      --re-primary-20: rgba(6, 249, 87, 0.20);
+      --re-primary-30: rgba(6, 249, 87, 0.30);
+
+      /* ---------- Spacing scale (4-based) ---------- */
+      --re-space-1: 4px;
+      --re-space-2: 8px;
+      --re-space-3: 12px;
+      --re-space-4: 16px;
+      --re-space-5: 24px;
+      --re-space-6: 32px;
+      --re-space-7: 48px;
+      --re-space-8: 64px;
+
+      /* ---------- Radius scale ---------- */
+      --re-radius-1: 6px;
+      --re-radius-2: 8px;
+      --re-radius-3: 10px;
+      --re-radius-4: 14px;
+      --re-radius-5: 18px;
+
+      /* Typography */
+      --re-font: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+
+      /* Focus ring (accessibility) */
+      --re-focus-offset-color: rgba(15, 35, 22, 0.98);
+      --re-focus-shadow: 0 0 0 2px var(--re-focus-offset-color), 0 0 0 5px rgba(6, 249, 87, 0.38);
+    }
+
+    /* ---------- Theme: Dark (default for brand kit) ---------- */
+    :root[data-theme="dark"] {
+      --re-bg: #0f2316;
+      --re-surface-1: rgba(255, 255, 255, 0.06);
+      --re-surface-2: rgba(255, 255, 255, 0.10);
+      --re-border: rgba(255, 255, 255, 0.14);
+      --re-border-strong: rgba(255, 255, 255, 0.22);
+
+      --re-text: rgba(255, 255, 255, 0.88);
+      --re-text-muted: rgba(255, 255, 255, 0.60);
+      --re-text-subtle: rgba(255, 255, 255, 0.46);
+
+      /* Overlays (hero / modal / scrim) */
+      --re-overlay-40: rgba(15, 35, 22, 0.40);
+      --re-overlay-60: rgba(15, 35, 22, 0.60);
+      --re-overlay-80: rgba(15, 35, 22, 0.80);
+
+      /* Glass recipe (base) */
+      --re-glass-bg: rgba(255, 255, 255, 0.08);
+      --re-glass-border: rgba(255, 255, 255, 0.16);
+      --re-glass-shadow: 0 18px 44px rgba(0, 0, 0, 0.35);
+      --re-glass-blur: 14px;
+
+      /* Back-compat */
+      --re-bg-dark: var(--re-bg);
+      --re-focus-offset-color: rgba(15, 35, 22, 0.98);
+      --re-focus-shadow: 0 0 0 2px var(--re-focus-offset-color), 0 0 0 5px rgba(6, 249, 87, 0.38);
+    }
+
+    /* ---------- Theme: Light ---------- */
+    :root[data-theme="light"] {
+      --re-bg: #f3fbf6;
+      --re-surface-1: rgba(15, 35, 22, 0.04);
+      --re-surface-2: rgba(15, 35, 22, 0.07);
+      --re-border: rgba(15, 35, 22, 0.14);
+      --re-border-strong: rgba(15, 35, 22, 0.22);
+
+      --re-text: rgba(15, 35, 22, 0.92);
+      --re-text-muted: rgba(15, 35, 22, 0.68);
+      --re-text-subtle: rgba(15, 35, 22, 0.55);
+
+      --re-overlay-40: rgba(15, 35, 22, 0.18);
+      --re-overlay-60: rgba(15, 35, 22, 0.28);
+      --re-overlay-80: rgba(15, 35, 22, 0.40);
+
+      --re-glass-bg: rgba(255, 255, 255, 0.70);
+      --re-glass-border: rgba(15, 35, 22, 0.12);
+      --re-glass-shadow: 0 14px 34px rgba(15, 35, 22, 0.12);
+      --re-glass-blur: 14px;
+
+      --re-bg-dark: var(--re-ink-900);
+      --re-focus-offset-color: rgba(243, 251, 246, 0.98);
+      --re-focus-shadow: 0 0 0 2px var(--re-focus-offset-color), 0 0 0 5px rgba(6, 249, 87, 0.42);
+    }
+
+    /* =========================
+       Base Page Layout
+       ========================= */
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: var(--re-font);
+      background: radial-gradient(900px 520px at 20% -10%, rgba(6, 249, 87, 0.18), transparent 60%),
+                  radial-gradient(700px 420px at 110% 10%, rgba(6, 249, 87, 0.10), transparent 55%),
+                  var(--re-bg);
+      color: var(--re-text);
+    }
+
+    a { color: var(--re-primary); text-decoration: none; }
+    a:hover { color: var(--re-primary-hover); text-decoration: underline; }
+    a:focus-visible { outline: none; box-shadow: var(--re-focus-shadow); border-radius: 8px; }
+
+    .page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 28px 18px 54px;
+    }
+
+    header {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .brand {
+      min-width: 0;
+    }
+
+    .h1 {
+      margin: 0;
+      font-size: 26px;
+      line-height: 1.15;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      margin: 10px 0 0 0;
+      color: var(--re-text-muted);
+      font-size: 14px;
+      line-height: 1.45;
+      max-width: 72ch;
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex: 0 0 auto;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      height: 40px;
+      padding: 0 14px;
+      border-radius: 10px;
+      border: 1px solid var(--re-border);
+      background: var(--re-surface-1);
+      color: var(--re-text);
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    .btn:hover { background: var(--re-surface-2); border-color: var(--re-border-strong); }
+    .btn:focus-visible { outline: none; box-shadow: var(--re-focus-shadow); }
+
+    .btn--primary {
+      border-color: transparent;
+      background: var(--re-primary);
+      color: var(--re-text-on-primary);
+    }
+    .btn--primary:hover { background: var(--re-primary-hover); }
+
+    .nav {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 14px;
+      color: var(--re-text-muted);
+      font-size: 13px;
+    }
+    .nav a { font-weight: 800; letter-spacing: 0.03em; }
+
+    main { display: grid; gap: 16px; }
+
+    .section {
+      background: var(--re-glass-bg);
+      border: 1px solid var(--re-glass-border);
+      border-radius: 18px;
+      box-shadow: var(--re-glass-shadow);
+      backdrop-filter: blur(var(--re-glass-blur));
+      -webkit-backdrop-filter: blur(var(--re-glass-blur));
+      padding: 18px;
+    }
+
+    .section h2 {
+      margin: 0 0 10px 0;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+    }
+
+    .section p {
+      margin: 0 0 12px 0;
+      color: var(--re-text-muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 12px;
+    }
+
+    .swatch {
+      grid-column: span 4;
+      border-radius: 14px;
+      border: 1px solid var(--re-border);
+      overflow: hidden;
+      background: var(--re-surface-1);
+      min-height: 92px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .swatch__color {
+      height: 48px;
+      background: var(--swatch);
+      border-bottom: 1px solid var(--re-border);
+      position: relative;
+    }
+
+    .swatch__color::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(45deg, rgba(255,255,255,0.06) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(255,255,255,0.06) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(255,255,255,0.06) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(255,255,255,0.06) 75%);
+      background-size: 14px 14px;
+      background-position: 0 0, 0 7px, 7px -7px, -7px 0px;
+      mix-blend-mode: overlay;
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    .swatch__meta {
+      padding: 10px 10px 12px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .swatch__name {
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      font-size: 13px;
+      margin: 0;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--re-border);
+      background: var(--re-surface-1);
+      color: var(--re-text-muted);
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      font-weight: 800;
+    }
+
+    .swatch__var {
+      margin: 0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      font-size: 12px;
+      color: var(--re-text-subtle);
+      overflow-wrap: anywhere;
+    }
+
+    .demo-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .tile {
+      border-radius: 16px;
+      border: 1px solid var(--re-border);
+      background: var(--re-surface-1);
+      overflow: hidden;
+      min-height: 132px;
+      position: relative;
+    }
+
+    .tile__bg {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(700px 320px at 10% 0%, rgba(6, 249, 87, 0.26), transparent 60%),
+                  radial-gradient(560px 320px at 110% 20%, rgba(6, 249, 87, 0.14), transparent 55%),
+                  var(--re-bg);
+      filter: saturate(1.05);
+    }
+
+    .tile__overlay {
+      position: absolute;
+      inset: 0;
+      background: var(--overlay);
+    }
+
+    .tile__content {
+      position: relative;
+      padding: 14px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .tile__label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--re-text);
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      font-size: 13px;
+      margin: 0;
+    }
+
+    .tile__note {
+      margin: 0;
+      color: var(--re-text-muted);
+      font-size: 12px;
+      line-height: 1.4;
+      max-width: 52ch;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--re-border);
+      background: var(--re-surface-1);
+      color: var(--re-text);
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      font-size: 12px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .badge--brand {
+      border-color: rgba(6, 249, 87, 0.28);
+      background: var(--re-primary-10);
+      color: var(--re-text);
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--re-primary);
+      box-shadow: 0 0 0 3px rgba(6, 249, 87, 0.18);
+      flex: 0 0 auto;
+    }
+
+    .glass-stack {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .glass {
+      min-height: 170px;
+      border-radius: 18px;
+      border: 1px solid var(--re-glass-border);
+      box-shadow: var(--re-glass-shadow);
+      backdrop-filter: blur(var(--re-glass-blur));
+      -webkit-backdrop-filter: blur(var(--re-glass-blur));
+      background: var(--glass-bg);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .glass::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(500px 220px at 20% 0%, rgba(6, 249, 87, 0.18), transparent 60%),
+                  radial-gradient(420px 220px at 120% 40%, rgba(6, 249, 87, 0.10), transparent 55%);
+      opacity: 0.85;
+      pointer-events: none;
+    }
+
+    .glass__body {
+      position: relative;
+      padding: 16px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .glass__title {
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      font-size: 14px;
+    }
+
+    .glass__text {
+      margin: 0;
+      color: var(--re-text-muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      height: 40px;
+      padding: 0 14px;
+      border-radius: 12px;
+      border: 0;
+      background: var(--re-primary);
+      color: var(--re-text-on-primary);
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+    }
+    .cta:hover { background: var(--re-primary-hover); }
+    .cta:focus-visible { outline: none; box-shadow: var(--re-focus-shadow); }
+
+    .muted-code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      color: var(--re-text-subtle);
+      font-size: 12px;
+    }
+
+    footer {
+      margin-top: 18px;
+      color: var(--re-text-subtle);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    @media (max-width: 980px) {
+      .swatch { grid-column: span 6; }
+      .demo-row, .glass-stack { grid-template-columns: 1fr; }
+      header { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 560px) {
+      .swatch { grid-column: span 12; }
+      .top-actions { width: 100%; }
+      .btn { width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <header>
+      <div class="brand">
+        <h1 class="h1">Brand Colors — RenewExperts</h1>
+        <p class="subtitle">
+          Paletă + exemple de utilizare (Light/Dark): <strong>brand green</strong>, neutrals/surfaces, transparențe derivate,
+          overlays (scrims) și rețete de <strong>glass panels</strong> pentru UI-ul marketplace-ului.
+        </p>
+        <nav class="nav" aria-label="Navigație Brand Kit">
+          <a href="./BrandButtons.html">Brand Buttons</a>
+          <span aria-hidden="true">·</span>
+          <a href="./BrandColors.html" aria-current="page">Brand Colors</a>
+        </nav>
+      </div>
+
+      <div class="top-actions">
+        <button type="button" class="btn btn--primary" id="themeToggle" aria-label="Schimbă tema Light/Dark">
+          <span aria-hidden="true">☼</span>
+          <span id="themeToggleLabel">Dark</span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="section" aria-labelledby="core-title">
+        <h2 id="core-title">Core brand (primitives + semantic)</h2>
+        <p>
+          Folosește semantic: <span class="muted-code">--re-primary</span>, <span class="muted-code">--re-primary-hover</span>,
+          <span class="muted-code">--re-primary-active</span> și <span class="muted-code">--re-text-on-primary</span>.
+          Primitives (<span class="muted-code">--re-green-*</span>) sunt doar pentru design system.
+        </p>
+
+        <div class="grid" role="list" aria-label="Swatches core brand">
+          <div class="swatch" role="listitem" style="--swatch: var(--re-green-400);">
+            <div class="swatch__color"></div>
+            <div class="swatch__meta">
+              <p class="swatch__name">Green 400 <span class="pill">#12ff6f</span></p>
+              <p class="swatch__var">--re-green-400</p>
+            </div>
+          </div>
+
+          <div class="swatch" role="listitem" style="--swatch: var(--re-green-500);">
+            <div class="swatch__color"></div>
+            <div class="swatch__meta">
+              <p class="swatch__name">Green 500 <span class="pill">#06f957</span></p>
+              <p class="swatch__var">--re-green-500</p>
+            </div>
+          </div>
+
+          <div class="swatch" role="listitem" style="--swatch: var(--re-green-600);">
+            <div class="swatch__color"></div>
+            <div class="swatch__meta">
+              <p class="swatch__name">Green 600 <span class="pill">#00e050</span></p>
+              <p class="swatch__var">--re-green-600</p>
+            </div>
+          </div>
+
+          <div class="swatch" role="listitem" style="--swatch: var(--re-ink-900);">
+            <div class="swatch__color"></div>
+            <div class="swatch__meta">
+              <p class="swatch__name">Ink 900 <span class="pill">#0f2316</span></p>
+              <p class="swatch__var">--re-ink-900</p>
+            </div>
+          </div>
+
+          <div class="swatch" role="listitem" style="--swatch: var(--re-primary);">
+            <div class="swatch__color"></div>
+            <div class="swatch__meta">
+              <p class="swatch__name">Primary <span class="pill">var()</span></p>
+              <p class="swatch__var">--re-primary</p>
+            </div>
+          </div>
+
+          <div class="swatch" role="listitem" style="--swatch: var(--re-primary-hover);">
+            <div class="swatch__color"></div>
+            <div class="swatch__meta">
+              <p class="swatch__name">Primary Hover <span class="pill">var()</span></p>
+              <p class="swatch__var">--re-primary-hover</p>
+            </div>
+          </div>
+
+          <div class="swatch" role="listitem" style="--swatch: var(--re-primary-active);">
+            <div class="swatch__color"></div>
+            <div class="swatch__meta">
+              <p class="swatch__name">Primary Active <span class="pill">var()</span></p>
+              <p class="swatch__var">--re-primary-active</p>
+            </div>
+          </div>
+
+          <div class="swatch" role="listitem" style="--swatch: var(--re-text-on-primary);">
+            <div class="swatch__color"></div>
+            <div class="swatch__meta">
+              <p class="swatch__name">Text on Primary <span class="pill">var()</span></p>
+              <p class="swatch__var">--re-text-on-primary</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="surfaces-title">
+        <h2 id="surfaces-title">Neutrals & surfaces (UI semantics)</h2>
+        <p>
+          Fundal, suprafețe și borduri pentru listări, cards și layout. Acestea se schimbă pe temă, dar păstrează rolul.
+        </p>
+
+        <div class="grid" role="list" aria-label="Swatches surfaces and text">
+          <div class="swatch" role="listitem" style="--swatch: var(--re-bg);">
+            <div class="swatch__color"></div>
+            <div class="swatch__meta">
+              <p class="swatch__name">Background <span class="pill">theme</span></p>
+              <p class="swatch__var">--re-bg</p>
+            </div>
+          </div>
+          <div class="swatch" role="listitem" style="--swatch: var(--re-surface-1);">
+            <div class="swatch__color"></div>
+            <div class="swatch__meta">
+              <p class="swatch__name">Surface 1 <span class="pill">theme</span></p>
+              <p class="swatch__var">--re-surface-1</p>
+            </div>
+          </div>
+          <div class="swatch" role="listitem" style="--swatch: var(--re-surface-2);">
+            <div class="swatch__color"></div>
+            <div class="swatch__meta">
+              <p class="swatch__name">Surface 2 <span class="pill">theme</span></p>
+              <p class="swatch__var">--re-surface-2</p>
+            </div>
+          </div>
+          <div class="swatch" role="listitem" style="--swatch: var(--re-border);">
+            <div class="swatch__color"></div>
+            <div class="swatch__meta">
+              <p class="swatch__name">Border <span class="pill">theme</span></p>
+              <p class="swatch__var">--re-border</p>
+            </div>
+          </div>
+          <div class="swatch" role="listitem" style="--swatch: var(--re-border-strong);">
+            <div class="swatch__color"></div>
+            <div class="swatch__meta">
+              <p class="swatch__name">Border Strong <span class="pill">theme</span></p>
+              <p class="swatch__var">--re-border-strong</p>
+            </div>
+          </div>
+          <div class="swatch" role="listitem" style="--swatch: var(--re-text);">
+            <div class="swatch__color"></div>
+            <div class="swatch__meta">
+              <p class="swatch__name">Text <span class="pill">theme</span></p>
+              <p class="swatch__var">--re-text</p>
+            </div>
+          </div>
+          <div class="swatch" role="listitem" style="--swatch: var(--re-text-muted);">
+            <div class="swatch__color"></div>
+            <div class="swatch__meta">
+              <p class="swatch__name">Text Muted <span class="pill">theme</span></p>
+              <p class="swatch__var">--re-text-muted</p>
+            </div>
+          </div>
+          <div class="swatch" role="listitem" style="--swatch: var(--re-text-subtle);">
+            <div class="swatch__color"></div>
+            <div class="swatch__meta">
+              <p class="swatch__name">Text Subtle <span class="pill">theme</span></p>
+              <p class="swatch__var">--re-text-subtle</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="derived-title">
+        <h2 id="derived-title">Variante derivate (alpha / tints)</h2>
+        <p>
+          Folosește <span class="muted-code">--re-primary-10/20/30</span> pentru badges, highlights, chips și “selected states” fără
+          să strici ierarhia de culoare.
+        </p>
+
+        <div class="grid" role="list" aria-label="Swatches derived primary alphas">
+          <div class="swatch" role="listitem" style="--swatch: var(--re-primary-10);">
+            <div class="swatch__color"></div>
+            <div class="swatch__meta">
+              <p class="swatch__name">Primary 10% <span class="pill">rgba</span></p>
+              <p class="swatch__var">--re-primary-10</p>
+            </div>
+          </div>
+          <div class="swatch" role="listitem" style="--swatch: var(--re-primary-20);">
+            <div class="swatch__color"></div>
+            <div class="swatch__meta">
+              <p class="swatch__name">Primary 20% <span class="pill">rgba</span></p>
+              <p class="swatch__var">--re-primary-20</p>
+            </div>
+          </div>
+          <div class="swatch" role="listitem" style="--swatch: var(--re-primary-30);">
+            <div class="swatch__color"></div>
+            <div class="swatch__meta">
+              <p class="swatch__name">Primary 30% <span class="pill">rgba</span></p>
+              <p class="swatch__var">--re-primary-30</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="badge-row" aria-label="Exemple badges">
+          <span class="badge badge--brand"><span class="dot" aria-hidden="true"></span>Verified Company</span>
+          <span class="badge badge--brand"><span class="dot" aria-hidden="true"></span>Open Project</span>
+          <span class="badge badge--brand"><span class="dot" aria-hidden="true"></span>Solar · EPC</span>
+          <span class="badge"><span class="dot" aria-hidden="true"></span>Peer reviewed</span>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="overlays-title">
+        <h2 id="overlays-title">Overlays (scrims)</h2>
+        <p>
+          Overlays sunt pentru hero, modal backdrop și “image readability”. Evită text direct peste imagini fără scrim.
+        </p>
+
+        <div class="demo-row" aria-label="Exemple overlays">
+          <div class="tile">
+            <div class="tile__bg" aria-hidden="true"></div>
+            <div class="tile__overlay" aria-hidden="true" style="--overlay: var(--re-overlay-40);"></div>
+            <div class="tile__content">
+              <p class="tile__label"><span class="dot" aria-hidden="true"></span>Overlay 40%</p>
+              <p class="tile__note"><span class="muted-code">--re-overlay-40</span> — pentru hero / imagine discretă.</p>
+            </div>
+          </div>
+
+          <div class="tile">
+            <div class="tile__bg" aria-hidden="true"></div>
+            <div class="tile__overlay" aria-hidden="true" style="--overlay: var(--re-overlay-60);"></div>
+            <div class="tile__content">
+              <p class="tile__label"><span class="dot" aria-hidden="true"></span>Overlay 60%</p>
+              <p class="tile__note"><span class="muted-code">--re-overlay-60</span> — pentru readability mai puternic.</p>
+            </div>
+          </div>
+
+          <div class="tile">
+            <div class="tile__bg" aria-hidden="true"></div>
+            <div class="tile__overlay" aria-hidden="true" style="--overlay: var(--re-overlay-80);"></div>
+            <div class="tile__content">
+              <p class="tile__label"><span class="dot" aria-hidden="true"></span>Overlay 80%</p>
+              <p class="tile__note"><span class="muted-code">--re-overlay-80</span> — pentru modal / focus maxim pe conținut.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="glass-title">
+        <h2 id="glass-title">Glass panels (rețete)</h2>
+        <p>
+          Același “glass language”, trei intensități. În UI real: cards pentru Expert/Project/Company, sidebar și highlights.
+        </p>
+
+        <div class="glass-stack" aria-label="Exemple glass panels">
+          <article class="glass" style="--glass-bg: rgba(255, 255, 255, 0.06);">
+            <div class="glass__body">
+              <h3 class="glass__title">
+                Glass · Subtle
+                <span class="pill">bg 0.06</span>
+              </h3>
+              <p class="glass__text">
+                Pentru liste dense (ex: rezultate căutare experți) — păstrează fundalul “respirabil”.
+              </p>
+              <button type="button" class="cta">Vezi profil expert</button>
+            </div>
+          </article>
+
+          <article class="glass" style="--glass-bg: var(--re-glass-bg);">
+            <div class="glass__body">
+              <h3 class="glass__title">
+                Glass · Standard
+                <span class="pill">token</span>
+              </h3>
+              <p class="glass__text">
+                Default pentru cards: project card, company card, highlights. Echilibru între contrast și “glass look”.
+              </p>
+              <button type="button" class="cta">Aplică la proiect</button>
+            </div>
+          </article>
+
+          <article class="glass" style="--glass-bg: rgba(255, 255, 255, 0.12);">
+            <div class="glass__body">
+              <h3 class="glass__title">
+                Glass · Strong
+                <span class="pill">bg 0.12</span>
+              </h3>
+              <p class="glass__text">
+                Pentru “hero info panel”, side panel sau zone unde ai nevoie de separare vizuală mai fermă.
+              </p>
+              <button type="button" class="cta">Creează proiect</button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="usage-title">
+        <h2 id="usage-title">Reguli rapide (ca să rămânem consistenți)</h2>
+        <p>
+          - Primary (solid) este pentru CTA-uri clare (Apply, Post project).<br />
+          - Tints (10/20/30) sunt pentru badges/selected/highlights (nu pentru CTA principale).<br />
+          - Overlays sunt “readability tools”, nu decor: folosește-le când ai text peste imagini.<br />
+          - Glass trebuie să arate “same family”: blur + border + shadow constant.
+        </p>
+        <p>
+          Link intern rapid: <a href="./BrandButtons.html">Buttons</a> (stări + focus ring).
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      RenewExperts Brand Kit · <span class="muted-code">BrandColors.html</span>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const toggle = document.getElementById("themeToggle");
+      const label = document.getElementById("themeToggleLabel");
+
+      function applyTheme(nextTheme) {
+        root.setAttribute("data-theme", nextTheme);
+        label.textContent = nextTheme === "dark" ? "Dark" : "Light";
+        try {
+          localStorage.setItem("re-brand-theme", nextTheme);
+        } catch (e) {}
+      }
+
+      function getPreferredTheme() {
+        try {
+          const stored = localStorage.getItem("re-brand-theme");
+          if (stored === "dark" || stored === "light") return stored;
+        } catch (e) {}
+        return root.getAttribute("data-theme") || "dark";
+      }
+
+      applyTheme(getPreferredTheme());
+
+      toggle.addEventListener("click", function () {
+        const current = root.getAttribute("data-theme") === "light" ? "light" : "dark";
+        applyTheme(current === "dark" ? "light" : "dark");
+      });
+    })();
+  </script>
+</body>
+</html>

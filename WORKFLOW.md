@@ -114,3 +114,10 @@ git status
 git log --oneline --graph --all
 ```
 
+
+
+
+
+
+
+

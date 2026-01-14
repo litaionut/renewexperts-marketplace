@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="ro" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RenewExperts — Brand Forms (Inputs, Select, Checkbox, Toggle)</title>
+  <meta
+    name="description"
+    content="Componente de formulare RenewExperts (Light/Dark): input, textarea, select, checkbox, radio și toggle (switch), cu stări focus/error/success/disabled și exemple UI reale pentru marketplace."
+  />
+
+  <meta property="og:title" content="RenewExperts — Brand Forms (Inputs, Select, Checkbox, Toggle)" />
+  <meta
+    property="og:description"
+    content="Brand Forms RenewExperts: inputs + stări (focus/error/success/disabled) pentru UI marketplace (Light/Dark)."
+  />
+  <meta property="og:type" content="website" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =========================
+       Design Tokens (Brand)
+       Keep in sync with BrandButtons.html / BrandColors.html / BrandTypography.html
+       ========================= */
+    :root {
+      /* ---------- Primitives (brand / palette) ---------- */
+      --re-green-400: #12ff6f;
+      --re-green-500: #06f957;
+      --re-green-600: #00e050;
+
+      /* Dark “infrastructure” ink (used under neon) */
+      --re-ink-900: #0f2316;
+
+      /* Additional primitives (status) */
+      --re-red-500: #ff3b57;
+      --re-amber-500: #ffbf3c;
+
+      /* ---------- Semantic brand ---------- */
+      --re-primary: var(--re-green-500);
+      --re-primary-hover: var(--re-green-400);
+      --re-primary-active: var(--re-green-600);
+      --re-text-on-primary: var(--re-ink-900);
+
+      /* Brand transparencies (for overlays / tints) */
+      --re-primary-10: rgba(6, 249, 87, 0.10);
+      --re-primary-20: rgba(6, 249, 87, 0.20);
+      --re-primary-30: rgba(6, 249, 87, 0.30);
+
+      /* Status transparencies */
+      --re-danger-10: rgba(255, 59, 87, 0.10);
+      --re-danger-20: rgba(255, 59, 87, 0.20);
+
+      /* ---------- Spacing scale (4-based) ---------- */
+      --re-space-1: 4px;
+      --re-space-2: 8px;
+      --re-space-3: 12px;
+      --re-space-4: 16px;
+      --re-space-5: 24px;
+      --re-space-6: 32px;
+      --re-space-7: 48px;
+      --re-space-8: 64px;
+
+      /* ---------- Radius scale ---------- */
+      --re-radius-1: 6px;
+      --re-radius-2: 8px;
+      --re-radius-3: 10px;
+      --re-radius-4: 14px;
+      --re-radius-5: 18px;
+
+      /* Typography base */
+      --re-font: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+
+      /* Focus ring (accessibility) */
+      --re-focus-offset-color: rgba(15, 35, 22, 0.98);
+      --re-focus-shadow: 0 0 0 2px var(--re-focus-offset-color), 0 0 0 5px rgba(6, 249, 87, 0.38);
+
+      /* ---------- Form sizing ---------- */
+      --re-field-h: 44px;
+      --re-field-px: 14px;
+      --re-field-radius: 14px;
+      --re-field-border-w: 1px;
+    }
+
+    /* ---------- Theme: Dark (default for brand kit) ---------- */
+    :root[data-theme="dark"] {
+      --re-bg: #0f2316;
+      --re-surface-1: rgba(255, 255, 255, 0.06);
+      --re-surface-2: rgba(255, 255, 255, 0.10);
+      --re-border: rgba(255, 255, 255, 0.14);
+      --re-border-strong: rgba(255, 255, 255, 0.22);
+
+      --re-text: rgba(255, 255, 255, 0.88);
+      --re-text-muted: rgba(255, 255, 255, 0.60);
+      --re-text-subtle: rgba(255, 255, 255, 0.46);
+
+      /* Glass recipe (base) */
+      --re-glass-bg: rgba(255, 255, 255, 0.08);
+      --re-glass-border: rgba(255, 255, 255, 0.16);
+      --re-glass-shadow: 0 18px 44px rgba(0, 0, 0, 0.35);
+      --re-glass-blur: 14px;
+
+      /* Form semantics */
+      --re-field-bg: rgba(255, 255, 255, 0.06);
+      --re-field-bg-hover: rgba(255, 255, 255, 0.09);
+      --re-field-border: rgba(255, 255, 255, 0.18);
+      --re-field-border-hover: rgba(255, 255, 255, 0.26);
+
+      --re-placeholder: rgba(255, 255, 255, 0.42);
+      --re-danger: var(--re-red-500);
+      --re-warning: var(--re-amber-500);
+
+      --re-disabled-bg: rgba(255, 255, 255, 0.08);
+      --re-disabled-border: rgba(255, 255, 255, 0.14);
+      --re-disabled-text: rgba(255, 255, 255, 0.35);
+
+      --re-focus-offset-color: rgba(15, 35, 22, 0.98);
+      --re-focus-shadow: 0 0 0 2px var(--re-focus-offset-color), 0 0 0 5px rgba(6, 249, 87, 0.38);
+    }
+
+    /* ---------- Theme: Light ---------- */
+    :root[data-theme="light"] {
+      --re-bg: #f3fbf6;
+      --re-surface-1: rgba(15, 35, 22, 0.04);
+      --re-surface-2: rgba(15, 35, 22, 0.07);
+      --re-border: rgba(15, 35, 22, 0.14);
+      --re-border-strong: rgba(15, 35, 22, 0.22);
+
+      --re-text: rgba(15, 35, 22, 0.92);
+      --re-text-muted: rgba(15, 35, 22, 0.68);
+      --re-text-subtle: rgba(15, 35, 22, 0.55);
+
+      --re-glass-bg: rgba(255, 255, 255, 0.70);
+      --re-glass-border: rgba(15, 35, 22, 0.12);
+      --re-glass-shadow: 0 14px 34px rgba(15, 35, 22, 0.12);
+      --re-glass-blur: 14px;
+
+      --re-field-bg: rgba(255, 255, 255, 0.92);
+      --re-field-bg-hover: rgba(255, 255, 255, 0.98);
+      --re-field-border: rgba(15, 35, 22, 0.18);
+      --re-field-border-hover: rgba(15, 35, 22, 0.26);
+
+      --re-placeholder: rgba(15, 35, 22, 0.45);
+      --re-danger: var(--re-red-500);
+      --re-warning: var(--re-amber-500);
+
+      --re-disabled-bg: rgba(15, 35, 22, 0.05);
+      --re-disabled-border: rgba(15, 35, 22, 0.12);
+      --re-disabled-text: rgba(15, 35, 22, 0.40);
+
+      --re-focus-offset-color: rgba(243, 251, 246, 0.98);
+      --re-focus-shadow: 0 0 0 2px var(--re-focus-offset-color), 0 0 0 5px rgba(6, 249, 87, 0.42);
+    }
+
+    /* =========================
+       Base Page Layout
+       ========================= */
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: var(--re-font);
+      background:
+        radial-gradient(900px 520px at 20% -10%, rgba(6, 249, 87, 0.18), transparent 60%),
+        radial-gradient(700px 420px at 110% 10%, rgba(6, 249, 87, 0.10), transparent 55%),
+        var(--re-bg);
+      color: var(--re-text);
+    }
+
+    a { color: var(--re-primary); text-decoration: none; }
+    a:hover { color: var(--re-primary-hover); text-decoration: underline; }
+    a:focus-visible { outline: none; box-shadow: var(--re-focus-shadow); border-radius: 8px; }
+
+    .page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 28px 18px 54px;
+    }
+
+    header {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .brand { min-width: 0; }
+
+    .h1 {
+      margin: 0;
+      font-size: 26px;
+      line-height: 1.15;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      margin: 10px 0 0 0;
+      color: var(--re-text-muted);
+      font-size: 14px;
+      line-height: 1.45;
+      max-width: 86ch;
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex: 0 0 auto;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      height: 40px;
+      padding: 0 14px;
+      border-radius: 10px;
+      border: 1px solid var(--re-border);
+      background: var(--re-surface-1);
+      color: var(--re-text);
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    .btn:hover { background: var(--re-surface-2); border-color: var(--re-border-strong); }
+    .btn:focus-visible { outline: none; box-shadow: var(--re-focus-shadow); }
+
+    .btn--primary {
+      border-color: transparent;
+      background: var(--re-primary);
+      color: var(--re-text-on-primary);
+    }
+    .btn--primary:hover { background: var(--re-primary-hover); }
+
+    .nav {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 14px;
+      color: var(--re-text-muted);
+      font-size: 13px;
+    }
+    .nav a { font-weight: 800; letter-spacing: 0.03em; }
+
+    main { display: grid; gap: 16px; }
+
+    .section {
+      background: var(--re-glass-bg);
+      border: 1px solid var(--re-glass-border);
+      border-radius: 18px;
+      box-shadow: var(--re-glass-shadow);
+      backdrop-filter: blur(var(--re-glass-blur));
+      -webkit-backdrop-filter: blur(var(--re-glass-blur));
+      padding: 18px;
+    }
+
+    .section h2 {
+      margin: 0 0 10px 0;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+    }
+
+    .section p {
+      margin: 0 0 12px 0;
+      color: var(--re-text-muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .muted-code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      color: var(--re-text-subtle);
+      font-size: 12px;
+    }
+
+    /* =========================
+       Forms (components)
+       ========================= */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 12px;
+    }
+
+    .card {
+      grid-column: span 6;
+      border-radius: 18px;
+      border: 1px solid var(--re-border);
+      background: var(--re-surface-1);
+      overflow: hidden;
+    }
+
+    .card__head {
+      padding: 12px 12px 10px;
+      border-bottom: 1px solid var(--re-border);
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .card__title {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--re-text);
+    }
+
+    .card__meta {
+      margin: 0;
+      color: var(--re-text-subtle);
+      font-size: 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      overflow-wrap: anywhere;
+      text-align: right;
+    }
+
+    .card__body { padding: 12px; display: grid; gap: 12px; }
+
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+
+    .label {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--re-text);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .label__hint {
+      color: var(--re-text-subtle);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      text-transform: none;
+    }
+
+    .control {
+      width: 100%;
+      min-height: var(--re-field-h);
+      padding: 0 var(--re-field-px);
+      border-radius: var(--re-field-radius);
+      border: var(--re-field-border-w) solid var(--re-field-border);
+      background: var(--re-field-bg);
+      color: var(--re-text);
+      font: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0;
+      outline: none;
+      transition: border-color 140ms ease, background 140ms ease, box-shadow 140ms ease;
+    }
+
+    .control::placeholder { color: var(--re-placeholder); font-weight: 700; }
+    .control:hover { background: var(--re-field-bg-hover); border-color: var(--re-field-border-hover); }
+    .control:focus-visible { box-shadow: var(--re-focus-shadow); border-color: rgba(6, 249, 87, 0.42); }
+
+    .control[disabled] {
+      background: var(--re-disabled-bg);
+      border-color: var(--re-disabled-border);
+      color: var(--re-disabled-text);
+      cursor: not-allowed;
+    }
+    .control[disabled]::placeholder { color: var(--re-disabled-text); }
+
+    textarea.control {
+      min-height: 112px;
+      padding: 12px var(--re-field-px);
+      resize: vertical;
+    }
+
+    select.control {
+      appearance: none;
+      background-image:
+        linear-gradient(45deg, transparent 50%, var(--re-text-muted) 50%),
+        linear-gradient(135deg, var(--re-text-muted) 50%, transparent 50%);
+      background-position:
+        calc(100% - 18px) 50%,
+        calc(100% - 12px) 50%;
+      background-size: 6px 6px, 6px 6px;
+      background-repeat: no-repeat;
+      padding-right: 40px;
+    }
+
+    /* Helper / status text */
+    .help {
+      margin: 0;
+      color: var(--re-text-muted);
+      font-size: 12px;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .help--error { color: var(--re-danger); }
+    .help--success { color: var(--re-primary); }
+
+    /* Error / Success states (class-based to demo deterministically) */
+    .is-error .control {
+      border-color: rgba(255, 59, 87, 0.70);
+      background: linear-gradient(0deg, var(--re-danger-10), var(--re-danger-10)), var(--re-field-bg);
+    }
+    .is-error .control:focus-visible {
+      box-shadow: 0 0 0 2px var(--re-focus-offset-color), 0 0 0 5px rgba(255, 59, 87, 0.34);
+    }
+
+    .is-success .control {
+      border-color: rgba(6, 249, 87, 0.55);
+      background: linear-gradient(0deg, var(--re-primary-10), var(--re-primary-10)), var(--re-field-bg);
+    }
+
+    .is-focus .control {
+      border-color: rgba(6, 249, 87, 0.42);
+      box-shadow: var(--re-focus-shadow);
+    }
+
+    /* =========================
+       Checkbox / Radio (native + accent-color)
+       ========================= */
+    .choice-row { display: grid; gap: 10px; }
+
+    .choice {
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      gap: 10px;
+      align-items: start;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--re-border);
+      background: var(--re-surface-1);
+    }
+
+    .choice:hover { border-color: var(--re-border-strong); background: var(--re-surface-2); }
+
+    .choice input {
+      margin-top: 2px;
+      width: 18px;
+      height: 18px;
+      accent-color: var(--re-primary);
+    }
+
+    .choice input:focus-visible {
+      outline: none;
+      box-shadow: var(--re-focus-shadow);
+      border-radius: 6px;
+    }
+
+    .choice__label {
+      display: grid;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    .choice__title {
+      margin: 0;
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      font-size: 14px;
+      line-height: 1.2;
+      color: var(--re-text);
+    }
+
+    .choice__desc {
+      margin: 0;
+      color: var(--re-text-muted);
+      font-size: 12px;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .choice.is-disabled {
+      border-color: var(--re-disabled-border);
+      background: var(--re-disabled-bg);
+      color: var(--re-disabled-text);
+    }
+    .choice.is-disabled .choice__title,
+    .choice.is-disabled .choice__desc { color: var(--re-disabled-text); }
+    .choice.is-disabled input { accent-color: rgba(6, 249, 87, 0.35); }
+
+    .choice.is-error { border-color: rgba(255, 59, 87, 0.65); background: linear-gradient(0deg, var(--re-danger-10), var(--re-danger-10)), var(--re-surface-1); }
+    .choice.is-success { border-color: rgba(6, 249, 87, 0.55); background: linear-gradient(0deg, var(--re-primary-10), var(--re-primary-10)), var(--re-surface-1); }
+
+    /* =========================
+       Toggle / Switch (checkbox)
+       ========================= */
+    .switch {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 12px;
+      border-radius: 18px;
+      border: 1px solid var(--re-border);
+      background: var(--re-surface-1);
+    }
+
+    .switch:hover { border-color: var(--re-border-strong); background: var(--re-surface-2); }
+
+    .switch__text { display: grid; gap: 4px; min-width: 0; }
+    .switch__title {
+      margin: 0;
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      font-size: 14px;
+      line-height: 1.2;
+      color: var(--re-text);
+    }
+    .switch__desc {
+      margin: 0;
+      color: var(--re-text-muted);
+      font-size: 12px;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
+    .switch__control {
+      position: relative;
+      width: 48px;
+      height: 28px;
+      flex: 0 0 auto;
+    }
+
+    .switch__control input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    .switch__track {
+      position: absolute;
+      inset: 0;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid var(--re-border);
+      transition: background 140ms ease, border-color 140ms ease;
+    }
+
+    .switch__thumb {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.84);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+      transition: transform 160ms ease, background 160ms ease;
+    }
+
+    :root[data-theme="light"] .switch__track { background: rgba(15, 35, 22, 0.06); }
+    :root[data-theme="light"] .switch__thumb { background: rgba(15, 35, 22, 0.14); box-shadow: 0 10px 20px rgba(15, 35, 22, 0.16); }
+
+    .switch__control input:checked + .switch__track {
+      background: rgba(6, 249, 87, 0.26);
+      border-color: rgba(6, 249, 87, 0.45);
+    }
+    .switch__control input:checked + .switch__track .switch__thumb {
+      transform: translateX(20px);
+      background: var(--re-primary);
+      box-shadow: 0 0 0 3px rgba(6, 249, 87, 0.18), 0 10px 24px rgba(0,0,0,0.25);
+    }
+
+    .switch__control input:focus-visible + .switch__track {
+      box-shadow: var(--re-focus-shadow);
+    }
+
+    .switch.is-disabled {
+      border-color: var(--re-disabled-border);
+      background: var(--re-disabled-bg);
+    }
+    .switch.is-disabled .switch__title,
+    .switch.is-disabled .switch__desc { color: var(--re-disabled-text); }
+    .switch.is-disabled .switch__control input { cursor: not-allowed; }
+
+    footer {
+      margin-top: 18px;
+      color: var(--re-text-subtle);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    @media (max-width: 980px) {
+      header { flex-direction: column; align-items: flex-start; }
+      .card { grid-column: span 12; }
+    }
+
+    @media (max-width: 560px) {
+      .top-actions { width: 100%; }
+      .btn { width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <header>
+      <div class="brand">
+        <h1 class="h1">Brand Forms — RenewExperts</h1>
+        <p class="subtitle">
+          Inputs, select, textarea, checkbox, radio și toggle (switch) — cu stări clare: <strong>focus</strong>,
+          <strong>error</strong>, <strong>success</strong>, <strong>disabled</strong>. Copy-ul este orientat pe marketplace:
+          experți, proiecte și companii verificate.
+        </p>
+        <nav class="nav" aria-label="Navigație Brand Kit">
+          <a href="./BrandButtons.html">Brand Buttons</a>
+          <span aria-hidden="true">·</span>
+          <a href="./BrandColors.html">Brand Colors</a>
+          <span aria-hidden="true">·</span>
+          <a href="./BrandTypography.html">Brand Typography</a>
+          <span aria-hidden="true">·</span>
+          <a href="./BrandForms.html" aria-current="page">Brand Forms</a>
+        </nav>
+      </div>
+
+      <div class="top-actions">
+        <button type="button" class="btn btn--primary" id="themeToggle" aria-label="Schimbă tema Light/Dark">
+          <span aria-hidden="true">☼</span>
+          <span id="themeToggleLabel">Dark</span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="section" aria-labelledby="live-title">
+        <h2 id="live-title">Form “live” (interactiv) — Postare proiect</h2>
+        <p>
+          Folosește această secțiune pentru a valida rapid: <span class="muted-code">label/for</span>,
+          <span class="muted-code">focus-visible</span>, placeholder, disabled și comportament nativ.
+        </p>
+
+        <form class="grid" action="#" method="post" aria-label="Form demo: postare proiect (mock)">
+          <div class="field" style="grid-column: span 6;">
+            <label class="label" for="companyName">
+              <span>Nume companie</span>
+              <span class="label__hint">ex: NorthGrid Energy</span>
+            </label>
+            <input
+              class="control"
+              id="companyName"
+              name="companyName"
+              type="text"
+              autocomplete="organization"
+              placeholder="Introdu numele companiei"
+              aria-describedby="companyNameHelp"
+            />
+            <p class="help" id="companyNameHelp">Apare public pe pagina proiectului; compania poate fi verificată (checks).</p>
+          </div>
+
+          <div class="field" style="grid-column: span 6;">
+            <label class="label" for="projectTitle">
+              <span>Titlu proiect</span>
+              <span class="label__hint">clar + specific</span>
+            </label>
+            <input
+              class="control"
+              id="projectTitle"
+              name="projectTitle"
+              type="text"
+              placeholder="ex: Solar EPC · Owner’s Engineer (6 luni)"
+              aria-describedby="projectTitleHelp"
+            />
+            <p class="help" id="projectTitleHelp">Max 80 caractere. Ajută la SEO + la scanarea rapidă în listări.</p>
+          </div>
+
+          <div class="field" style="grid-column: span 4;">
+            <label class="label" for="tech">
+              <span>Tehnologie</span>
+              <span class="label__hint">select</span>
+            </label>
+            <select class="control" id="tech" name="tech" aria-describedby="techHelp">
+              <option value="">Alege…</option>
+              <option>Solar</option>
+              <option>Wind</option>
+              <option>Hydrogen (PtX)</option>
+              <option>Hydro</option>
+              <option>Electrical / Grid</option>
+            </select>
+            <p class="help" id="techHelp">Folosit în filtre și badge-uri (ex: “Wind · O&amp;M”).</p>
+          </div>
+
+          <div class="field" style="grid-column: span 4;">
+            <label class="label" for="budget">
+              <span>Buget estimat</span>
+              <span class="label__hint">€</span>
+            </label>
+            <input class="control" id="budget" name="budget" type="text" inputmode="decimal" placeholder="ex: 45k–70k" />
+          </div>
+
+          <div class="field" style="grid-column: span 4;">
+            <label class="label" for="startDate">
+              <span>Start</span>
+              <span class="label__hint">dată</span>
+            </label>
+            <input class="control" id="startDate" name="startDate" type="date" />
+          </div>
+
+          <div class="field" style="grid-column: span 12;">
+            <label class="label" for="scope">
+              <span>Scope & livrabile</span>
+              <span class="label__hint">2–5 puncte clare</span>
+            </label>
+            <textarea
+              class="control"
+              id="scope"
+              name="scope"
+              placeholder="ex: due diligence tehnic, review documentație, raport de risc, recomandări + timeline"
+              aria-describedby="scopeHelp"
+            ></textarea>
+            <p class="help" id="scopeHelp">Un scope clar reduce fricțiunea la aplicare și crește calitatea ofertelor.</p>
+          </div>
+        </form>
+      </section>
+
+      <section class="section" aria-labelledby="states-title">
+        <h2 id="states-title">Stări deterministe (gallery)</h2>
+        <p>
+          Pentru demo, stările sunt “înghețate” cu clase (<span class="muted-code">.is-focus</span>,
+          <span class="muted-code">.is-error</span>, <span class="muted-code">.is-success</span>). În UI real, focus/error vin din
+          <span class="muted-code">:focus-visible</span> și validare.
+        </p>
+
+        <div class="grid" aria-label="Galerie stări pentru inputs">
+          <article class="card" aria-label="Input (default/focus/error/success/disabled)">
+            <div class="card__head">
+              <p class="card__title">Input</p>
+              <p class="card__meta">text / email / password</p>
+            </div>
+            <div class="card__body">
+              <div class="field">
+                <label class="label" for="demoDefault"><span>Default</span><span class="label__hint">placeholder</span></label>
+                <input class="control" id="demoDefault" type="text" placeholder="ex: Ana M. — Solar EPC" />
+                <p class="help">Helper text subtil (ex: “Vizibil pe profilul public”).</p>
+              </div>
+
+              <div class="field is-focus">
+                <label class="label" for="demoFocus"><span>Focus</span><span class="label__hint">ring vizibil</span></label>
+                <input class="control" id="demoFocus" type="email" value="ana@renewexperts.example" aria-describedby="demoFocusHelp" />
+                <p class="help" id="demoFocusHelp">Focus ring trebuie să fie vizibil pe Light + Dark.</p>
+              </div>
+
+              <div class="field is-error">
+                <label class="label" for="demoError"><span>Error</span><span class="label__hint">aria-invalid</span></label>
+                <input class="control" id="demoError" type="text" value="@" aria-invalid="true" aria-describedby="demoErrorHelp" />
+                <p class="help help--error" id="demoErrorHelp">Te rog completează un nume valid (min 2 caractere).</p>
+              </div>
+
+              <div class="field is-success">
+                <label class="label" for="demoSuccess"><span>Success</span><span class="label__hint">confirmare</span></label>
+                <input class="control" id="demoSuccess" type="text" value="NorthGrid Energy" aria-describedby="demoSuccessHelp" />
+                <p class="help help--success" id="demoSuccessHelp">Ok — compania va fi afișată ca “Verified (pending checks)”.</p>
+              </div>
+
+              <div class="field">
+                <label class="label" for="demoDisabled"><span>Disabled</span><span class="label__hint">read-only UX</span></label>
+                <input class="control" id="demoDisabled" type="text" value="Buget (doar pentru companie)" disabled />
+                <p class="help">Folosește disabled doar când acțiunea nu e permisă (nu ca “stil”).</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="card" aria-label="Textarea + select (stări)">
+            <div class="card__head">
+              <p class="card__title">Textarea + Select</p>
+              <p class="card__meta">multi-line / dropdown</p>
+            </div>
+            <div class="card__body">
+              <div class="field is-focus">
+                <label class="label" for="demoSelect"><span>Select</span><span class="label__hint">focus</span></label>
+                <select class="control" id="demoSelect" aria-describedby="demoSelectHelp">
+                  <option>Wind</option>
+                  <option selected>Solar</option>
+                  <option>Hydrogen (PtX)</option>
+                  <option>Electrical / Grid</option>
+                </select>
+                <p class="help" id="demoSelectHelp">Select-ul rămâne nativ (accesibil), dar primește styling consistent.</p>
+              </div>
+
+              <div class="field is-error">
+                <label class="label" for="demoTextarea"><span>Textarea</span><span class="label__hint">error</span></label>
+                <textarea
+                  class="control"
+                  id="demoTextarea"
+                  aria-invalid="true"
+                  aria-describedby="demoTextareaHelp"
+                >ex: “Vrem un expert bun.”</textarea>
+                <p class="help help--error" id="demoTextareaHelp">Mai specific: 2–5 livrabile, timeline și criterii de acceptanță.</p>
+              </div>
+
+              <div class="field is-success">
+                <label class="label" for="demoTextareaOk"><span>Textarea</span><span class="label__hint">success</span></label>
+                <textarea class="control" id="demoTextareaOk" aria-describedby="demoTextareaOkHelp">- Due diligence tehnic
+- Review documentație proiect
+- Raport de risc + recomandări (2 săpt.)
+</textarea>
+                <p class="help help--success" id="demoTextareaOkHelp">Perfect — scope-ul este “scanabil” și ușor de evaluat.</p>
+              </div>
+
+              <div class="field">
+                <label class="label" for="demoSelectDisabled"><span>Select</span><span class="label__hint">disabled</span></label>
+                <select class="control" id="demoSelectDisabled" disabled>
+                  <option>Doar după verificare companie</option>
+                </select>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="choices-title">
+        <h2 id="choices-title">Checkbox / Radio / Toggle</h2>
+        <p>
+          Recomandare: păstrează controalele native (accesibile) și controlează stilul prin container + <span class="muted-code">accent-color</span>.
+        </p>
+
+        <div class="grid" aria-label="Exemple choices">
+          <article class="card" aria-label="Checkboxes">
+            <div class="card__head">
+              <p class="card__title">Checkbox</p>
+              <p class="card__meta">skills / preferințe</p>
+            </div>
+            <div class="card__body">
+              <div class="choice-row" role="group" aria-label="Skills (checkbox)">
+                <div class="choice is-success">
+                  <input id="cb1" type="checkbox" checked />
+                  <label class="choice__label" for="cb1">
+                    <p class="choice__title">Grid connection</p>
+                    <p class="choice__desc">Subiect relevant pentru proiecte Solar/Wind (permits, DSO/TSO).</p>
+                  </label>
+                </div>
+
+                <div class="choice">
+                  <input id="cb2" type="checkbox" />
+                  <label class="choice__label" for="cb2">
+                    <p class="choice__title">EPC tendering</p>
+                    <p class="choice__desc">RFP, comparare oferte, termeni contractuali.</p>
+                  </label>
+                </div>
+
+                <div class="choice is-error">
+                  <input id="cb3" type="checkbox" />
+                  <label class="choice__label" for="cb3">
+                    <p class="choice__title">Hydrogen (PtX)</p>
+                    <p class="choice__desc">Selectat greșit (ex: skill nevalidat / lipsă documente).</p>
+                  </label>
+                </div>
+
+                <div class="choice is-disabled">
+                  <input id="cb4" type="checkbox" disabled />
+                  <label class="choice__label" for="cb4">
+                    <p class="choice__title">Peer review publishing</p>
+                    <p class="choice__desc">Disponibil după completarea profilului (minim 80%).</p>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card" aria-label="Radio group">
+            <div class="card__head">
+              <p class="card__title">Radio</p>
+              <p class="card__meta">disponibilitate</p>
+            </div>
+            <div class="card__body">
+              <div class="choice-row" role="radiogroup" aria-label="Disponibilitate (radio)">
+                <div class="choice">
+                  <input id="r1" name="availability" type="radio" checked />
+                  <label class="choice__label" for="r1">
+                    <p class="choice__title">Disponibil acum</p>
+                    <p class="choice__desc">Pentru roluri urgente /FP / consultanță scurtă.</p>
+                  </label>
+                </div>
+
+                <div class="choice is-success">
+                  <input id="r2" name="availability" type="radio" />
+                  <label class="choice__label" for="r2">
+                    <p class="choice__title">În 2–4 săptămâni</p>
+                    <p class="choice__desc">Default recomandat pentru planificare proiecte.</p>
+                  </label>
+                </div>
+
+                <div class="choice is-disabled">
+                  <input id="r3" name="availability" type="radio" disabled />
+                  <label class="choice__label" for="r3">
+                    <p class="choice__title">Indisponibil</p>
+                    <p class="choice__desc">Dezactivat în demo (doar ca exemplu de disabled).</p>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card" aria-label="Toggles (switch)">
+            <div class="card__head">
+              <p class="card__title">Toggle (Switch)</p>
+              <p class="card__meta">setări / vizibilitate</p>
+            </div>
+            <div class="card__body">
+              <div class="switch">
+                <div class="switch__text">
+                  <p class="switch__title">Afișează “Verified company”</p>
+                  <p class="switch__desc">Activează badge-ul după verificarea companiei (checks).</p>
+                </div>
+                <label class="switch__control">
+                  <input type="checkbox" role="switch" aria-label="Afișează Verified company" checked />
+                  <span class="switch__track" aria-hidden="true">
+                    <span class="switch__thumb" aria-hidden="true"></span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="switch">
+                <div class="switch__text">
+                  <p class="switch__title">Notificări pentru proiecte noi</p>
+                  <p class="switch__desc">Trimite email când apare un proiect pe skill-urile tale.</p>
+                </div>
+                <label class="switch__control">
+                  <input type="checkbox" role="switch" aria-label="Notificări proiecte noi" />
+                  <span class="switch__track" aria-hidden="true">
+                    <span class="switch__thumb" aria-hidden="true"></span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="switch is-disabled" aria-disabled="true">
+                <div class="switch__text">
+                  <p class="switch__title">Publică postări (peer-reviewed)</p>
+                  <p class="switch__desc">Disponibil după verificare identitate + profil complet.</p>
+                </div>
+                <label class="switch__control">
+                  <input type="checkbox" role="switch" aria-label="Publică postări peer-reviewed (disabled)" disabled />
+                  <span class="switch__track" aria-hidden="true">
+                    <span class="switch__thumb" aria-hidden="true"></span>
+                  </span>
+                </label>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="rules-title">
+        <h2 id="rules-title">Reguli rapide (best practices)</h2>
+        <p>
+          - Folosește <span class="muted-code">label + for</span> pentru toate câmpurile (click target mai mare).<br />
+          - <strong>Focus ring</strong> obligatoriu (WCAG): <span class="muted-code">:focus-visible</span> + contrast bun.<br />
+          - Error: mesaj scurt, acționabil (ce e greșit + cum repari).<br />
+          - Success: confirmare discretă (nu “verde agresiv”).<br />
+          - Disabled doar când o acțiune chiar nu e permisă (nu pentru “read-only”).
+        </p>
+        <p>
+          Link intern: <a href="./BrandButtons.html">Butoane</a> (focus ring), <a href="./BrandColors.html">Culori & glass</a>.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      RenewExperts Brand Kit · <span class="muted-code">BrandForms.html</span>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const toggle = document.getElementById("themeToggle");
+      const label = document.getElementById("themeToggleLabel");
+
+      function applyTheme(nextTheme) {
+        root.setAttribute("data-theme", nextTheme);
+        label.textContent = nextTheme === "dark" ? "Dark" : "Light";
+        try {
+          localStorage.setItem("re-brand-theme", nextTheme);
+        } catch (e) {}
+      }
+
+      function getPreferredTheme() {
+        try {
+          const stored = localStorage.getItem("re-brand-theme");
+          if (stored === "dark" || stored === "light") return stored;
+        } catch (e) {}
+        return root.getAttribute("data-theme") || "dark";
+      }
+
+      applyTheme(getPreferredTheme());
+
+      toggle.addEventListener("click", function () {
+        const current = root.getAttribute("data-theme") === "light" ? "light" : "dark";
+        applyTheme(current === "dark" ? "light" : "dark");
+      });
+    })();
+  </script>
+</body>
+</html>
+
