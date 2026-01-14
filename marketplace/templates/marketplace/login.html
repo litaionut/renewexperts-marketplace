@@ -1,46 +1,54 @@
-{% extends 'marketplace/base.html' %}
-{% block title %}Login - RenewExperts{% endblock %}
+{% extends 'marketplace/base_glass.html' %}
+{% block title %}Login — RenewExperts{% endblock %}
+{% block meta_description %}Sign in to RenewExperts to apply to gigs, bid transparently, and collaborate with verified companies.{% endblock %}
+{% block og_title %}Login — RenewExperts{% endblock %}
+{% block og_description %}Access your RenewExperts account for gigs and projects in renewable energy.{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-6 col-lg-4">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <h2 class="text-center mb-4 text-success">Login</h2>
-                <form method="post">
-                    {% csrf_token %}
-                    {% for field in form %}
-                        <div class="mb-3">
-                            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-                            <input type="{{ field.field.widget.input_type }}" 
-                                   name="{{ field.name }}" 
-                                   id="{{ field.id_for_label }}" 
-                                   class="form-control {% if field.errors %}is-invalid{% endif %}"
-                                   {% if field.value %}value="{{ field.value }}"{% endif %}
-                                   {% if field.name == 'password' %}autocomplete="current-password"{% endif %}>
-                            {% if field.errors %}
-                                <div class="invalid-feedback">
-                                    {{ field.errors|join:", " }}
-                                </div>
-                            {% endif %}
-                            {% if field.help_text %}
-                                <div class="form-text text-muted small">{{ field.help_text }}</div>
-                            {% endif %}
-                        </div>
-                    {% endfor %}
-                    <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-success">Login</button>
-                    </div>
-                </form>
-                <div class="text-center mt-3">
-                    <p class="small">
-                        <a href="{% url 'password_reset' %}" class="text-decoration-none">Forgot password?</a>
-                    </p>
-                    <p class="small mt-2">Don't have an account? <a href="{% url 'register' %}" class="text-decoration-none">Register here</a></p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-{% endblock %}
+  <section class="relative z-10 py-14 px-4">
+    <div class="max-w-md mx-auto glass-card rounded-2xl p-8 md:p-9">
+      <div class="mb-6 text-center space-y-2">
+        <p class="text-xs font-extrabold tracking-widest uppercase text-brand-400">Account access</p>
+        <h1 class="text-3xl font-extrabold text-white">Login</h1>
+        <p class="text-gray-300/80 text-sm">Continue to projects, gigs, and verification.</p>
+      </div>
 
+      <form method="post" class="space-y-4">
+        {% csrf_token %}
+        {% for field in form %}
+          <div>
+            <label for="{{ field.id_for_label }}" class="block text-sm font-semibold text-white mb-1">{{ field.label }}</label>
+            <input
+              type="{{ field.field.widget.input_type }}"
+              name="{{ field.name }}"
+              id="{{ field.id_for_label }}"
+              value="{{ field.value|default_if_none:'' }}"
+              {% if field.name == 'password' %}autocomplete="current-password"{% endif %}
+              class="w-full rounded-lg border border-white/10 bg-white/5 text-white placeholder-gray-500 focus:border-brand-400 focus:ring-brand-400 {% if field.errors %}!border-red-400{% endif %}"
+            />
+            {% if field.errors %}
+              <p class="text-red-400 text-sm mt-1">{{ field.errors|join:', ' }}</p>
+            {% endif %}
+            {% if field.help_text %}
+              <p class="text-gray-400 text-xs mt-1">{{ field.help_text }}</p>
+            {% endif %}
+          </div>
+        {% endfor %}
+
+        <button
+          type="submit"
+          class="w-full inline-flex items-center justify-center rounded-lg bg-brand-400 hover:bg-brand-500 text-ink-900 font-extrabold px-5 py-3 btn-neon"
+        >
+          Login
+        </button>
+      </form>
+
+      <div class="text-center mt-4 space-y-2 text-sm">
+        <a class="text-brand-400 hover:text-brand-300" href="{% url 'password_reset' %}">Forgot password?</a>
+        <p class="text-gray-300/80">
+          Don’t have an account? <a class="text-brand-400 hover:text-brand-300 font-semibold" href="{% url 'register' %}">Register</a>
+        </p>
+      </div>
+    </div>
+  </section>
+{% endblock %}

@@ -1,83 +1,99 @@
-{% extends 'marketplace/base.html' %}
-{% block title %}Contact Us - RenewExperts{% endblock %}
+{% extends 'marketplace/base_glass.html' %}
+{% block title %}Contact RenewExperts — Questions & partnerships{% endblock %}
+{% block meta_description %}Contact the RenewExperts team for projects, gigs, or partnerships in renewable energy. We respond quickly and securely.{% endblock %}
+{% block og_title %}Contact RenewExperts — Renewable energy{% endblock %}
+{% block og_description %}Send us a message for projects, gigs, or partnerships. Safe, fast, transparent.{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-8 col-lg-6">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <h2 class="text-center mb-4 text-primary">Contact Us</h2>
-                <p class="text-center text-muted mb-4">
-                    Have a question or want to get in touch? Fill out the form below and we'll get back to you as soon as possible.
-                </p>
-                
-                <form method="post">
-                    {% csrf_token %}
-                    
-                    <div class="mb-3">
-                        <label for="{{ form.name.id_for_label }}" class="form-label">
-                            {{ form.name.label }}
-                        </label>
-                        {{ form.name }}
-                        {% if form.name.errors %}
-                            <div class="text-danger small mt-1">
-                                {{ form.name.errors|join:", " }}
-                            </div>
-                        {% endif %}
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="{{ form.email.id_for_label }}" class="form-label">
-                            {{ form.email.label }}
-                        </label>
-                        {{ form.email }}
-                        {% if form.email.errors %}
-                            <div class="text-danger small mt-1">
-                                {{ form.email.errors|join:", " }}
-                            </div>
-                        {% endif %}
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="{{ form.subject.id_for_label }}" class="form-label">
-                            {{ form.subject.label }}
-                        </label>
-                        {{ form.subject }}
-                        {% if form.subject.errors %}
-                            <div class="text-danger small mt-1">
-                                {{ form.subject.errors|join:", " }}
-                            </div>
-                        {% endif %}
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="{{ form.message.id_for_label }}" class="form-label">
-                            {{ form.message.label }}
-                        </label>
-                        {{ form.message }}
-                        {% if form.message.errors %}
-                            <div class="text-danger small mt-1">
-                                {{ form.message.errors|join:", " }}
-                            </div>
-                        {% endif %}
-                    </div>
-                    
-                    <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-primary btn-lg">
-                            <i class="bi bi-send"></i> Send Message
-                        </button>
-                    </div>
-                </form>
-            </div>
+  <section class="relative z-10 py-14 px-4">
+    <div class="max-w-4xl mx-auto glass-card rounded-2xl p-8 md:p-10">
+      <div class="mb-6">
+        <p class="text-xs font-extrabold tracking-widest uppercase text-brand-400">Contact</p>
+        <h1 class="text-3xl font-extrabold text-white">Tell us about your project</h1>
+        <p class="text-gray-300/80 mt-2 text-sm md:text-base">Fill in the form and we’ll get back quickly with details.</p>
+      </div>
+
+      <form method="post" class="space-y-5">
+        {% csrf_token %}
+
+        <div>
+          <label for="{{ form.name.id_for_label }}" class="block text-sm font-semibold text-white mb-1">{{ form.name.label }}</label>
+          <input
+            type="text"
+            name="{{ form.name.name }}"
+            id="{{ form.name.id_for_label }}"
+            value="{{ form.name.value|default_if_none:'' }}"
+            class="w-full rounded-lg border border-white/10 bg-white/5 text-white placeholder-gray-500 focus:border-brand-400 focus:ring-brand-400"
+            placeholder="Full name"
+            required
+          />
+          {% if form.name.errors %}
+            <p class="text-red-400 text-sm mt-1">{{ form.name.errors|join:', ' }}</p>
+          {% endif %}
         </div>
+
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label for="{{ form.email.id_for_label }}" class="block text-sm font-semibold text-white mb-1">{{ form.email.label }}</label>
+            <input
+              type="email"
+              name="{{ form.email.name }}"
+              id="{{ form.email.id_for_label }}"
+              value="{{ form.email.value|default_if_none:'' }}"
+              class="w-full rounded-lg border border-white/10 bg-white/5 text-white placeholder-gray-500 focus:border-brand-400 focus:ring-brand-400"
+              placeholder="email@company.com"
+              required
+            />
+            {% if form.email.errors %}
+              <p class="text-red-400 text-sm mt-1">{{ form.email.errors|join:', ' }}</p>
+            {% endif %}
+          </div>
+          <div>
+            <label for="{{ form.subject.id_for_label }}" class="block text-sm font-semibold text-white mb-1">{{ form.subject.label }}</label>
+            <input
+              type="text"
+              name="{{ form.subject.name }}"
+              id="{{ form.subject.id_for_label }}"
+              value="{{ form.subject.value|default_if_none:'' }}"
+              class="w-full rounded-lg border border-white/10 bg-white/5 text-white placeholder-gray-500 focus:border-brand-400 focus:ring-brand-400"
+              placeholder="Subject"
+              required
+            />
+            {% if form.subject.errors %}
+              <p class="text-red-400 text-sm mt-1">{{ form.subject.errors|join:', ' }}</p>
+            {% endif %}
+          </div>
+        </div>
+
+        <div>
+          <label for="{{ form.message.id_for_label }}" class="block text-sm font-semibold text-white mb-1">{{ form.message.label }}</label>
+          <textarea
+            name="{{ form.message.name }}"
+            id="{{ form.message.id_for_label }}"
+            class="w-full rounded-lg border border-white/10 bg-white/5 text-white placeholder-gray-500 focus:border-brand-400 focus:ring-brand-400 h-32"
+            placeholder="Tell us about your project, domain, timeline, budget..."
+            required
+          >{{ form.message.value|default_if_none:'' }}</textarea>
+          {% if form.message.errors %}
+            <p class="text-red-400 text-sm mt-1">{{ form.message.errors|join:', ' }}</p>
+          {% endif %}
+        </div>
+
+        <div class="flex flex-wrap gap-3 pt-2">
+          <button
+            type="submit"
+            class="inline-flex items-center justify-center rounded-lg bg-brand-400 hover:bg-brand-500 text-ink-900 font-extrabold px-5 py-3 btn-neon"
+          >
+            Send message
+          </button>
+          <a
+            href="{% url 'launch' %}"
+            class="inline-flex items-center justify-center rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 text-white font-extrabold px-5 py-3"
+          >
+            Join the waitlist
+          </a>
+        </div>
+      </form>
     </div>
-</div>
+  </section>
 {% endblock %}
-
-
-
-
-
-
-
-

@@ -1,156 +1,129 @@
-{% extends 'marketplace/base.html' %}
+{% extends 'marketplace/base_glass.html' %}
 
 {% load static %}
 
-{% block title %}RenewExperts Marketplace | Renewable Energy Experts & Projects{% endblock %}
-{% block meta_description %}A modern marketplace that connects renewable energy experts (solar, wind, hydrogen, PtX, hydro, electrical, construction) with companies and projects—bid transparently, get validated, and move faster.{% endblock %}
-{% block og_title %}RenewExperts Marketplace — Experts, Projects, and Trusted Bids{% endblock %}
-{% block og_description %}Connect experts with projects in solar, wind, hydrogen, PtX, hydro and more. Transparent bidding, validation, peer review, and a fast, secure experience.{% endblock %}
-
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'marketplace/home.css' %}">
-{% endblock %}
+{% block title %}RenewExperts — Renewable energy marketplace{% endblock %}
+{% block meta_description %}Modern marketplace connecting renewable energy experts (wind, solar, PtX, hydro, electrical, construction) with verified companies. Clear gigs, transparent bidding, peer review, and company verification.{% endblock %}
+{% block og_title %}RenewExperts — experts, projects, transparent bids{% endblock %}
+{% block og_description %}Platform for experts and companies: gigs, projects, fast bidding, validation, and secure collaboration in renewable energy.{% endblock %}
 
 {% block content %}
-<section class="home-hero rounded-4 p-4 p-md-5 mb-4">
-    <div class="row align-items-center g-4">
-        <div class="col-lg-7">
-            <div class="hero-badge mb-3">
-                <span class="dot"></span>
-                Early access is live — join the waitlist
-            </div>
-            <h1 class="display-5 fw-bold text-white mb-3">
-                Connect renewable energy experts with real projects — fast, secure, transparent.
-            </h1>
-            <p class="lead text-white-75 mb-4">
-                A modern marketplace for solar, wind, hydrogen, PtX, hydro, electrical, and construction: experts promote themselves, bid on gigs, and build trust through validation and peer review.
-            </p>
-
-            <div class="d-flex flex-wrap gap-2">
-                <a class="btn btn-light btn-lg" href="{% url 'launch' %}">
-                    Join the waitlist
-                </a>
-                {% if not user.is_authenticated %}
-                {% else %}
-                {% endif %}
-            </div>
-
-            <div class="hero-meta mt-4">
-                <div class="meta-item">
-                    <div class="meta-number">Verified</div>
-                    <div class="meta-label">experts & companies</div>
-                </div>
-                <div class="meta-item">
-                    <div class="meta-number">Transparent</div>
-                    <div class="meta-label">bids & decisions</div>
-                </div>
-                <div class="meta-item">
-                    <div class="meta-number">Secure</div>
-                    <div class="meta-label">accounts & checks</div>
-                </div>
-            </div>
+  <section class="relative z-10 pt-14 pb-14 px-4">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
+      <div class="space-y-5">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-brand-400/30 bg-brand-400/10 text-brand-400 text-xs font-bold uppercase tracking-[0.2em]">
+          Modern · Fast · Transparent
         </div>
-
-        <div class="col-lg-5">
-            <div class="hero-card card border-0 shadow-sm">
-                <div class="card-body p-4">
-                    <h2 class="h5 mb-3">What you can do on RenewExperts</h2>
-                    <ul class="list-unstyled mb-0 d-grid gap-3">
-                        <li class="d-flex gap-3">
-                            <span class="icon-pill">⚡</span>
-                            <div>
-                                <div class="fw-semibold">Find gigs & projects</div>
-                                <div class="text-muted small">Discover opportunities across renewable energy domains.</div>
-                            </div>
-                        </li>
-                        <li class="d-flex gap-3">
-                            <span class="icon-pill">🛡️</span>
-                            <div>
-                                <div class="fw-semibold">Validation & trust</div>
-                                <div class="text-muted small">Verified companies and expert profiles with clear signals.</div>
-                            </div>
-                        </li>
-                        <li class="d-flex gap-3">
-                            <span class="icon-pill">🧩</span>
-                            <div>
-                                <div class="fw-semibold">Bid & collaborate</div>
-                                <div class="text-muted small">Submit bids, align expectations, and move faster to delivery.</div>
-                            </div>
-                        </li>
-                    </ul>
-                    <div class="mt-4 d-grid gap-2">
-                        <a class="btn btn-success" href="{% url 'contact' %}">Talk to us</a>
-                        <a class="btn btn-outline-secondary" href="{% url 'launch' %}">Get launch updates</a>
-                    </div>
-                </div>
-            </div>
+        <h1 class="text-3xl md:text-4xl font-extrabold text-white leading-tight">
+          We connect renewable energy experts with verified projects and clear gigs.
+        </h1>
+        <p class="text-gray-300/80 text-base leading-relaxed">
+          Wind, solar, hydrogen (PtX), hydro, electrical, construction. Clear scope, timeline, and transparent budgets; apply or bid, and collaborate with verified companies and peer review.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-3">
+          <a
+            class="inline-flex items-center justify-center rounded-lg bg-brand-400 hover:bg-brand-500 text-ink-900 font-extrabold px-5 py-3 btn-neon"
+            href="{% url 'launch' %}"
+          >
+            Join early access
+          </a>
+          <a
+            class="inline-flex items-center justify-center rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 text-white font-extrabold px-5 py-3"
+            href="{% url 'contact' %}"
+          >
+            Contact
+          </a>
         </div>
+        <div class="flex flex-wrap gap-3 text-xs text-gray-400">
+          <span class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 font-semibold text-white/90">Verified companies</span>
+          <span class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 font-semibold text-white/90">Peer review</span>
+          <span class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 font-semibold text-white/90">Transparent bids</span>
+        </div>
+      </div>
+
+      <div class="relative">
+        <div class="absolute -inset-4 bg-gradient-to-r from-brand-400/15 to-blue-500/15 rounded-2xl blur-3xl opacity-70"></div>
+        <div class="relative rounded-2xl border border-white/10 bg-black/40 shadow-2xl overflow-hidden">
+          <img
+            src="{% static 'marketplace/dashboard_generated_img.png' %}"
+            alt="Dashboard RenewExperts cu proiecte, aplicații și analytics"
+            class="w-full h-auto object-cover"
+            loading="lazy"
+          />
+        </div>
+      </div>
     </div>
-</section>
+  </section>
 
-<section class="mb-5">
-    <div class="row g-3 g-md-4">
-        <div class="col-md-4">
-            <div class="feature-tile h-100 p-4 rounded-4">
-                <div class="tile-icon mb-3">🔎</div>
-                <h2 class="h5">Search experts</h2>
-                <p class="text-muted mb-0">Find specialists by domain, location, skills, and availability.</p>
-            </div>
+  <section class="relative z-10 py-14 px-4">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-10">
+        <p class="text-xs font-extrabold tracking-widest uppercase text-brand-400">For experts and companies</p>
+        <h2 class="text-2xl md:text-3xl font-extrabold text-white">Fast, secure, outcome-driven</h2>
+        <p class="text-gray-300/80 mt-2 text-sm md:text-base">Fast applications, transparent bidding, validation, and clear collaboration.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="glass-card rounded-2xl p-6 hover:border-brand-400/30 transition">
+          <div class="w-10 h-10 rounded-lg bg-brand-400/10 flex items-center justify-center mb-4 text-brand-400">🔎</div>
+          <h3 class="text-lg font-extrabold text-white mb-2">Descoperă și filtrează</h3>
+          <p class="text-gray-300/80 text-sm leading-relaxed">Find projects and gigs across wind, solar, PtX, hydro, electrical, construction.</p>
         </div>
-        <div class="col-md-4">
-            <div class="feature-tile h-100 p-4 rounded-4">
-                <div class="tile-icon mb-3">📣</div>
-                <h2 class="h5">Post projects</h2>
-                <p class="text-muted mb-0">Companies publish gigs and receive structured bids from experts.</p>
-            </div>
+        <div class="glass-card rounded-2xl p-6 hover:border-brand-400/30 transition">
+          <div class="w-10 h-10 rounded-lg bg-brand-400/10 flex items-center justify-center mb-4 text-brand-400">🛡️</div>
+          <h3 class="text-lg font-extrabold text-white mb-2">Aplică sau licitează</h3>
+          <p class="text-gray-300/80 text-sm leading-relaxed">Profile, relevant experience, and transparent pricing — apply with confidence to verified companies.</p>
         </div>
-        <div class="col-md-4">
-            <div class="feature-tile h-100 p-4 rounded-4">
-                <div class="tile-icon mb-3">✅</div>
-                <h2 class="h5">Peer review</h2>
-                <p class="text-muted mb-0">Expert posts and claims can be reviewed for stronger credibility.</p>
-            </div>
+        <div class="glass-card rounded-2xl p-6 hover:border-brand-400/30 transition">
+          <div class="w-10 h-10 rounded-lg bg-brand-400/10 flex items-center justify-center mb-4 text-brand-400">🤝</div>
+          <h3 class="text-lg font-extrabold text-white mb-2">Colaborare clară</h3>
+          <p class="text-gray-300/80 text-sm leading-relaxed">Clear scope, timelines, budgets, and peer review for credibility and frictionless delivery.</p>
         </div>
+      </div>
     </div>
-</section>
+  </section>
 
-<section class="mb-5">
-    <div class="row g-4 align-items-stretch">
-        <div class="col-lg-6">
-            <div class="info-card p-4 p-md-5 rounded-4 h-100">
-                <h2 class="h4 mb-2">For companies & projects</h2>
-                <p class="text-muted mb-4">Hire faster with transparent bids, validated profiles, and a simple workflow.</p>
-                <ul class="mb-0">
-                    <li>Structured project posts and requirements</li>
-                    <li>Company validation signals</li>
-                    <li>Comparable bids and clear timelines</li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="info-card info-card-accent p-4 p-md-5 rounded-4 h-100">
-                <h2 class="h4 mb-2">For experts & consultants</h2>
-                <p class="text-muted mb-4">Promote your expertise, build trust through approvals, and win better gigs.</p>
-                <ul class="mb-0">
-                    <li>Expert profile built for credibility</li>
-                    <li>Transparent bidding and fair comparisons</li>
-                    <li>Validation via peer review and checks</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="cta-band rounded-4 p-4 p-md-5 mb-2">
-    <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3">
+  <section class="relative z-10 py-14 px-4">
+    <div class="max-w-6xl mx-auto glass-card rounded-2xl p-8 md:p-10">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
         <div>
-            <h2 class="h4 mb-1 text-white">Want launch access?</h2>
-            <p class="mb-0 text-white-75">Join the waitlist and we’ll notify you when RenewExperts goes live.</p>
+        <p class="text-xs font-extrabold tracking-widest uppercase text-brand-400">For companies</p>
+        <h3 class="text-xl md:text-2xl font-extrabold text-white mt-2">Publish clear gigs and get comparable applications</h3>
+          <ul class="mt-5 space-y-3 text-sm text-gray-300/80">
+          <li class="flex gap-2"><span class="text-brand-400">✓</span><span>Structured brief (scope, timeline, budget)</span></li>
+          <li class="flex gap-2"><span class="text-brand-400">✓</span><span>Verified companies and trust signals</span></li>
+          <li class="flex gap-2"><span class="text-brand-400">✓</span><span>Comparable applications/bids for fast decisions</span></li>
+          </ul>
+          <div class="mt-6 flex gap-3">
+            <a class="inline-flex items-center rounded-lg bg-brand-400 px-4 py-2.5 text-ink-900 font-extrabold hover:bg-brand-500 btn-neon" href="{% url 'launch' %}">Post a gig</a>
+            <a class="inline-flex items-center rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-white font-semibold hover:bg-white/10" href="{% url 'contact' %}">Book a call</a>
+          </div>
         </div>
-        <div class="d-flex flex-wrap gap-2">
-            <a class="btn btn-light btn-lg" href="{% url 'launch' %}">Join the waitlist</a>
-            <a class="btn btn-outline-light btn-lg" href="{% url 'contact' %}">Contact</a>
+        <div>
+          <p class="text-xs font-extrabold tracking-widest uppercase text-brand-400">For experts</p>
+          <h3 class="text-xl md:text-2xl font-extrabold text-white mt-2">Apply or bid with a credible profile</h3>
+          <ul class="mt-5 space-y-3 text-sm text-gray-300/80">
+            <li class="flex gap-2"><span class="text-brand-400">✓</span><span>Profile built for credibility (roles, portfolio, certifications)</span></li>
+            <li class="flex gap-2"><span class="text-brand-400">✓</span><span>Peer review and visible trust signals</span></li>
+            <li class="flex gap-2"><span class="text-brand-400">✓</span><span>Secure flow for collaboration and payments (clear workflow)</span></li>
+          </ul>
+          <div class="mt-6 flex gap-3">
+            <a class="inline-flex items-center rounded-lg bg-brand-400 px-4 py-2.5 text-ink-900 font-extrabold hover:bg-brand-500 btn-neon" href="{% url 'register' %}">Create profile</a>
+            <a class="inline-flex items-center rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-white font-semibold hover:bg-white/10" href="{% url 'launch' %}">Join waitlist</a>
+          </div>
         </div>
+      </div>
     </div>
-</section>
+  </section>
+
+  <section class="relative z-10 py-14 px-4">
+    <div class="max-w-5xl mx-auto glass-card rounded-2xl p-8 md:p-10 text-center">
+      <h3 class="text-2xl md:text-3xl font-extrabold text-white">Want launch access?</h3>
+      <p class="text-gray-300/80 mt-3 text-sm md:text-base">Join the waitlist and get notified when we open the platform.</p>
+      <div class="mt-6 flex flex-col sm:flex-row justify-center gap-3">
+        <a class="inline-flex items-center justify-center rounded-lg bg-brand-400 px-5 py-3 text-ink-900 font-extrabold hover:bg-brand-500 btn-neon" href="{% url 'launch' %}">Join the waitlist</a>
+        <a class="inline-flex items-center justify-center rounded-lg border border-white/15 bg-white/5 px-5 py-3 text-white font-extrabold hover:bg-white/10" href="{% url 'contact' %}">Contact</a>
+      </div>
+    </div>
+  </section>
 {% endblock %}

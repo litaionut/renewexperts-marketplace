@@ -1,0 +1,140 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>{% block title %}RenewExperts Marketplace — Modern, fast, transparent{% endblock %}</title>
+    <meta
+      name="description"
+      content="{% block meta_description %}Marketplace pentru experți în energie regenerabilă și companii verificate: proiecte, gig-uri, licitații transparente, peer review și verificare companii.{% endblock %}"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="{% block og_title %}RenewExperts Marketplace — Experts & Projects{% endblock %}" />
+    <meta
+      property="og:description"
+      content="{% block og_description %}Conectăm experți în energie regenerabilă (wind, solar, PtX, hidro, electrical, construcții) cu companii și proiecte verificate.{% endblock %}"
+    />
+    <meta property="og:url" content="{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}" />
+    <link rel="canonical" href="{% block canonical_link %}{{ request.build_absolute_uri }}{% endblock %}" />
+    <meta name="robots" content="index,follow" />
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: { sans: ["Inter", "sans-serif"] },
+            colors: {
+              brand: { 400: "#12ff6f", 500: "#06f957", 600: "#00e050" },
+              ink: { 900: "#0f2316" },
+              dark: { 900: "#0f2316", 800: "#0b1a11", 700: "#102318" },
+            },
+            backgroundImage: {
+              "hero-glow":
+                "radial-gradient(circle at 50% 0%, rgba(6, 249, 87, 0.18) 0%, rgba(15, 35, 22, 0) 60%)",
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Custom glass effects -->
+    <style>
+      body {
+        background-color: #0f2316;
+        color: #ffffff;
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      }
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .glass-card {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .btn-neon {
+        box-shadow: 0 0 15px rgba(18, 255, 111, 0.4);
+        transition: all 0.2s ease;
+      }
+      .btn-neon:hover {
+        box-shadow: 0 0 24px rgba(18, 255, 111, 0.5);
+        transform: translateY(-1px);
+      }
+    </style>
+    {% block extra_head %}{% endblock %}
+  </head>
+  <body class="antialiased bg-dark-900">
+    <div class="absolute top-0 left-0 w-full h-[600px] bg-hero-glow pointer-events-none"></div>
+
+    <!-- Navbar -->
+    <header class="sticky top-0 z-40 border-b border-white/5 backdrop-blur-xl bg-dark-900/70">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-14">
+          <a class="flex items-center gap-2 font-bold text-white tracking-wide" href="{% url 'home' %}">
+            <img
+              src="{% static 'marketplace/renewexperts_simple.png' %}"
+              alt="RenewExperts logo"
+              class="h-8 w-auto"
+              loading="lazy"
+            />
+            <span>RenewExperts</span>
+          </a>
+          <nav class="flex items-center gap-4 text-sm text-gray-300">
+            <a class="hover:text-white" href="{% url 'home' %}">Home</a>
+            <a class="hover:text-white" href="{% url 'contact' %}">Contact</a>
+            <a class="hover:text-white" href="{% url 'launch' %}">Launch</a>
+            {% if user.is_authenticated %}
+              <a class="hover:text-white" href="{% url 'dashboard' %}">Dashboard</a>
+              <a class="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-white font-semibold hover:bg-white/10" href="{% url 'logout' %}">
+                Logout
+              </a>
+            {% else %}
+              <a class="hover:text-white" href="{% url 'login' %}">Login</a>
+            <a class="inline-flex items-center gap-2 rounded-lg bg-brand-400 px-3 py-1.5 text-ink-900 font-extrabold hover:bg-brand-500 btn-neon" href="{% url 'register' %}">Register</a>
+            {% endif %}
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Messages -->
+    {% if messages %}
+      <div class="max-w-3xl mx-auto px-4 pt-4">
+        <div class="space-y-2">
+          {% for message in messages %}
+            <div class="rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-white">
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+    <main class="relative z-10">
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="border-t border-white/5 mt-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-sm text-gray-400 flex flex-col sm:flex-row justify-between gap-3">
+        <span>© {{ now|date:"Y" }} RenewExperts. All rights reserved.</span>
+        <div class="flex gap-4">
+          <a class="hover:text-brand-400" href="{% url 'contact' %}">Contact</a>
+          <a class="hover:text-brand-400" href="https://www.linkedin.com/company/108215466/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

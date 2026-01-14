@@ -124,7 +124,12 @@
         <div class="flex items-center justify-between h-16">
           <!-- Logo -->
           <a href="{% url 'home' %}" class="flex-shrink-0 flex items-center gap-2 group" aria-label="RenewExperts Home">
-            <div class="w-6 h-6 rounded bg-gradient-to-tr from-brand-400 to-green-600 group-hover:animate-pulse"></div>
+            <img
+              src="{% static 'marketplace/renewexperts_simple.png' %}"
+              alt="RenewExperts logo"
+              class="h-7 w-auto"
+              loading="lazy"
+            />
             <span class="font-semibold text-white tracking-wide text-sm md:text-base">RenewExperts</span>
           </a>
 
@@ -287,7 +292,7 @@
               <img
                 alt="Dashboard preview showing projects, applications and analytics"
                 class="w-full h-auto object-cover opacity-90 group-hover:opacity-100 transition duration-700"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuC86ptUQgutLb036pn7kcBla_b3w7MTW-UXCSAikdABx3uG5tJjztJO2a1Peg7aFAj7wOzUaw98VnrpIaxMJJ2Pp74hubXGUlUkYmDu36NkKLFemlKINTAwLxDn7PcUNZZxTYSPxo0IrgbWI3hvwKYLlecI4JY_PYp-WMQnMwlxr-HM8_QJtPh4brzt8d6E9E0hy7YnoV4JWokU92RlmoA29IPLVOMW7WFVEZ7j3OF6vmeY93bblJsY1t0dxRLq-PQQfSjThjwOcDER"
+                src="{% static 'marketplace/dashboard_generated_img.png' %}"
                 style="aspect-ratio: 16/9; object-fit: cover; object-position: top center"
                 loading="lazy"
               />
@@ -386,7 +391,7 @@
                     <div class="flex-shrink-0">
                       <div class="rounded-lg border border-white/10 bg-black/30 px-3 py-2 text-right">
                         <div class="text-[10px] font-extrabold tracking-widest uppercase text-brand-400">Budget</div>
-                        <div class="mt-1 text-base font-black text-white font-mono">€45k–€70k</div>
+                        <div class="mt-1 text-base font-black text-white font-mono">$5k–$7k</div>
                         <div class="mt-1 text-[10px] text-gray-400">3–6 months</div>
                       </div>
                     </div>
@@ -416,8 +421,9 @@
                   <div class="mt-5">
                     <button
                       type="button"
-                      class="w-full inline-flex items-center justify-center rounded-lg bg-brand-400 hover:bg-brand-500 text-ink-900 font-extrabold px-4 py-3 btn-neon"
+                      class="w-full inline-flex items-center justify-center rounded-lg bg-brand-400 hover:bg-brand-500 text-ink-900 font-extrabold px-4 py-3 btn-neon cursor-default"
                       aria-label="Apply to gig (preview)"
+                      onclick="return false;"
                     >
                       Apply to this gig
                     </button>
