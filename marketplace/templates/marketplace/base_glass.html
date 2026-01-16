@@ -7,13 +7,13 @@
     <title>{% block title %}RenewExperts Marketplace — Modern, fast, transparent{% endblock %}</title>
     <meta
       name="description"
-      content="{% block meta_description %}Marketplace pentru experți în energie regenerabilă și companii verificate: proiecte, gig-uri, licitații transparente, peer review și verificare companii.{% endblock %}"
+      content="{% block meta_description %}Marketplace for renewable energy experts and verified companies: projects, gigs, transparent bidding, peer review, and company verification.{% endblock %}"
     />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="{% block og_title %}RenewExperts Marketplace — Experts & Projects{% endblock %}" />
     <meta
       property="og:description"
-      content="{% block og_description %}Conectăm experți în energie regenerabilă (wind, solar, PtX, hidro, electrical, construcții) cu companii și proiecte verificate.{% endblock %}"
+      content="{% block og_description %}We connect renewable energy experts (wind, solar, PtX, hydro, electrical, construction) with verified companies and projects.{% endblock %}"
     />
     <meta property="og:url" content="{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}" />
     <link rel="canonical" href="{% block canonical_link %}{{ request.build_absolute_uri }}{% endblock %}" />
@@ -102,8 +102,9 @@
                 Logout
               </a>
             {% else %}
-              <a class="hover:text-white" href="{% url 'login' %}">Login</a>
-            <a class="inline-flex items-center gap-2 rounded-lg bg-brand-400 px-3 py-1.5 text-ink-900 font-extrabold hover:bg-brand-500 btn-neon" href="{% url 'register' %}">Register</a>
+              {# Temporarily hide auth links during testing #}
+              <!-- <a class="hover:text-white" href="{% url 'login' %}">Login</a> -->
+              <!-- <a class="inline-flex items-center gap-2 rounded-lg bg-brand-400 px-3 py-1.5 text-ink-900 font-extrabold hover:bg-brand-500 btn-neon" href="{% url 'register' %}">Register</a> -->
             {% endif %}
           </nav>
         </div>

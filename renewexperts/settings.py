@@ -177,6 +177,7 @@ SITE_LOCKDOWN_ALLOW_PATHS = [
     "/",  # home
     "/contact/",
     "/launch/",
+    "/launch/companies/",
 ]
 SITE_LOCKDOWN_ALLOW_PREFIXES = [
     "/admin/",

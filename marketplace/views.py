@@ -27,6 +27,9 @@ def home(request):
 @ratelimit(key='ip', rate='5/m', method='POST', block=False)
 @ratelimit(key='post:email', rate='3/h', method='POST', block=False)
 def launch_view(request):
+    """
+    Waitlist for experts (default launch page).
+    """
     if request.method == 'POST':
         if getattr(request, 'limited', False):
             messages.error(request, "Too many attempts. Please try again later.")
@@ -115,6 +118,102 @@ def launch_view(request):
         return redirect('launch')
 
     return render(request, 'marketplace/coming_soon.html', {
+        "turnstile_site_key": getattr(settings, "TURNSTILE_SITE_KEY", None),
+    })
+
+@ratelimit(key='ip', rate='5/m', method='POST', block=False)
+@ratelimit(key='post:email', rate='3/h', method='POST', block=False)
+def launch_companies_view(request):
+    """
+    Waitlist for companies looking to hire experts (company-focused launch page).
+    Mirrors launch_view behavior to keep CSRF, Turnstile, rate limiting, and emails.
+    """
+    if request.method == 'POST':
+        if getattr(request, 'limited', False):
+            messages.error(request, "Too many attempts. Please try again later.")
+            return redirect('launch_companies')
+
+        email = (request.POST.get('email') or '').strip().lower()
+        if not email:
+            messages.error(request, "Please enter your work email address.")
+            return redirect('launch_companies')
+
+        try:
+            validate_email(email)
+        except ValidationError:
+            messages.error(request, "Please enter a valid email address.")
+            return redirect('launch_companies')
+
+        # Captcha verification (Cloudflare Turnstile) - enforced only if configured
+        if getattr(settings, 'TURNSTILE_SECRET_KEY', None):
+            token = (request.POST.get('cf-turnstile-response') or '').strip()
+            if not token:
+                messages.error(request, "Captcha is required. Please try again.")
+                return redirect('launch_companies')
+
+            try:
+                verify_resp = requests.post(
+                    "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+                    data={
+                        "secret": settings.TURNSTILE_SECRET_KEY,
+                        "response": token,
+                        "remoteip": request.META.get("REMOTE_ADDR"),
+                    },
+                    timeout=5,
+                )
+                verify_data = verify_resp.json()
+                if not verify_data.get("success"):
+                    messages.error(request, "Captcha verification failed. Please try again.")
+                    return redirect('launch_companies')
+            except Exception as e:
+                logger.error(f"Turnstile verification error: {str(e)}")
+                messages.error(request, "Captcha verification failed. Please try again.")
+                return redirect('launch_companies')
+
+        signup, created = WaitlistSignup.objects.get_or_create(email=email)
+
+        if not settings.RESEND_API_KEY:
+            messages.warning(request, "Waitlist saved, but email service is not configured.")
+            return redirect('launch_companies')
+
+        def send_waitlist_confirmation(to_email: str):
+            try:
+                resend.api_key = settings.RESEND_API_KEY
+                resend.Emails.send({
+                    "from": settings.RESEND_FROM_EMAIL,
+                    "to": [to_email],
+                    "subject": "You're on the RenewExperts company waitlist",
+                    "html": f"""
+                    <html>
+                      <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+                        <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+                          <h2 style="color: #059669;">Thanks for joining the company waitlist!</h2>
+                          <p>We’ve added <strong>{to_email}</strong> to the RenewExperts Marketplace company launch list.</p>
+                          <p>We’ll reach out as soon as we open access for companies to post projects and gigs.</p>
+                          <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
+                          <p style="color: #999; font-size: 12px;">This is an automated message, please do not reply.</p>
+                        </div>
+                      </body>
+                    </html>
+                    """,
+                })
+            except Exception as e:
+                logger.error(f"Failed to send company waitlist confirmation email: {str(e)}")
+
+        try:
+            t = Thread(target=send_waitlist_confirmation, args=(email,))
+            t.daemon = True
+            t.start()
+        except Exception as e:
+            logger.error(f"Failed to start email thread: {str(e)}")
+
+        if created:
+            messages.success(request, "You're on the list! We’ll contact you when company access opens.")
+        else:
+            messages.info(request, "You're already on the list — we'll notify you at company launch.")
+        return redirect('launch_companies')
+
+    return render(request, 'marketplace/coming_soon_companies.html', {
         "turnstile_site_key": getattr(settings, "TURNSTILE_SITE_KEY", None),
     })
 

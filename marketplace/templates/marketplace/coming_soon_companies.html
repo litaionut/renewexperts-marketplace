@@ -1,0 +1,469 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <title>RenewExperts for Companies — Hire Verified Renewable Energy Experts</title>
+    <meta
+      name="description"
+      content="Post projects and gigs, get bids from vetted renewable energy experts, and manage delivery with transparency. Join the company waitlist."
+    />
+
+    <meta property="og:title" content="RenewExperts for Companies — Hire Experts" />
+    <meta
+      property="og:description"
+      content="Verified experts in wind, solar, hydrogen, hydro, electrical, and construction. Post projects and gigs with confidence."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+    <link rel="canonical" href="{{ request.build_absolute_uri }}" />
+    <meta name="robots" content="index,follow" />
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- Tailwind Configuration (aligned with RenewExperts brand tokens) -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: { sans: ["Inter", "sans-serif"] },
+            colors: {
+              brand: {
+                400: "#12ff6f",
+                500: "#06f957",
+                600: "#00e050",
+              },
+              ink: {
+                900: "#0f2316",
+              },
+              dark: {
+                900: "#0f2316",
+                800: "#0b1a11",
+                700: "#102318",
+              },
+            },
+            backgroundImage: {
+              "hero-glow":
+                "radial-gradient(circle at 50% 0%, rgba(6, 249, 87, 0.18) 0%, rgba(15, 35, 22, 0) 60%)",
+              "card-gradient":
+                "linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%)",
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Custom effects (glass + glow) -->
+    <style data-purpose="custom-effects">
+      body {
+        background-color: #0f2316;
+        color: #ffffff;
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      }
+
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+      }
+
+      .glass-card {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
+        border: 1px solid rgba(6, 249, 87, 0.14);
+      }
+
+      .text-glow {
+        text-shadow: 0 0 20px rgba(6, 249, 87, 0.28);
+      }
+
+      .btn-neon {
+        box-shadow: 0 0 18px rgba(6, 249, 87, 0.32);
+        transition: all 0.2s ease;
+      }
+
+      .btn-neon:hover {
+        box-shadow: 0 0 26px rgba(6, 249, 87, 0.48);
+        transform: translateY(-1px);
+      }
+
+      /* Custom scrollbar for webkit */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #0f2316;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #143121;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #06f957;
+      }
+    </style>
+  </head>
+
+  <body class="antialiased selection:bg-brand-400 selection:text-black">
+    <!-- BEGIN: Navbar -->
+    <header class="fixed top-0 w-full z-50 glass-panel border-b border-white/5">
+      <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Primary">
+        <div class="flex items-center justify-between h-16">
+          <!-- Logo -->
+          <a href="{% url 'home' %}" class="flex-shrink-0 flex items-center gap-2 group" aria-label="RenewExperts Home">
+            <img
+              src="{% static 'marketplace/renewexperts_simple.png' %}"
+              alt="RenewExperts logo"
+              class="h-7 w-auto"
+              loading="lazy"
+            />
+            <span class="font-semibold text-white tracking-wide text-sm md:text-base">RenewExperts</span>
+          </a>
+
+          <!-- Right Side -->
+          <div class="flex items-center gap-4 md:gap-6">
+            <a class="hidden md:block text-sm text-gray-300/80 hover:text-white transition-colors" href="{% url 'contact' %}">
+              Contact
+            </a>
+            <a
+              class="bg-brand-400 hover:bg-brand-500 text-ink-900 font-extrabold text-xs md:text-sm px-5 py-2 rounded-full btn-neon transition-colors"
+              href="#early-access"
+            >
+              Book early access
+            </a>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <!-- END: Navbar -->
+
+    <main class="relative overflow-hidden">
+      <!-- Background Glow Effect -->
+      <div class="absolute top-0 left-0 w-full h-[800px] bg-hero-glow pointer-events-none z-0" aria-hidden="true"></div>
+
+      <!-- BEGIN: Hero Section -->
+      <section class="relative z-10 pt-32 pb-16 md:pt-40 md:pb-24 px-4 text-center">
+        <div class="max-w-4xl mx-auto flex flex-col items-center">
+          <!-- Pill Tag -->
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-brand-400 text-[10px] md:text-xs font-extrabold tracking-widest uppercase mb-6 bg-black/50 border-brand-400"
+            aria-label="Launch status"
+          >
+            <span class="w-1.5 h-1.5 rounded-full bg-brand-400 animate-pulse" aria-hidden="true"></span>
+            For project owners & companies
+          </div>
+
+          <!-- Heading (single H1) -->
+          <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-6 leading-tight tracking-tight">
+            Verified renewable energy experts,
+            <br />
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-brand-400 to-brand-500 text-glow">
+              ready for your projects.
+            </span>
+          </h1>
+
+          <!-- Subtext -->
+          <p class="text-gray-300/80 text-base md:text-lg max-w-2xl mb-10 leading-relaxed">
+            Post projects and gigs, get bids from vetted specialists in wind, solar, hydrogen (PtX), hydro, electrical, and construction.
+            Transparent scopes, peer validation, and secure delivery.
+          </p>
+
+          <!-- Alerts -->
+          {% if messages %}
+            <div class="w-full max-w-md mb-6 text-left" aria-live="polite">
+              {% for message in messages %}
+                <div
+                  class="mb-2 rounded-lg border px-4 py-3 text-sm
+                  {% if 'success' in message.tags %} border-brand-400/40 bg-brand-400/10 text-white
+                  {% elif 'error' in message.tags or 'danger' in message.tags %} border-red-400/40 bg-red-500/10 text-white
+                  {% elif 'warning' in message.tags %} border-yellow-400/40 bg-yellow-500/10 text-white
+                  {% else %} border-white/10 bg-white/5 text-white {% endif %}"
+                  data-message-tags="{{ message.tags|default:'info' }}"
+                >
+                  {{ message }}
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          <!-- CTA Form -->
+          <form
+            id="early-access"
+            class="mt-2 grid grid-cols-1 sm:grid-cols-[1.1fr_auto] gap-3 w-full max-w-xl scroll-mt-28"
+            method="POST"
+            action="{% url 'launch_companies' %}"
+          >
+            {% csrf_token %}
+            <label class="sr-only" for="email">Work email</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              class="w-full bg-white/5 border text-white text-sm rounded-lg focus:ring-brand-400 focus:border-brand-400 block px-4 py-3 placeholder-gray-400 hover:bg-white/10 border-brand-400/60"
+              placeholder="Work email (company domain preferred)"
+              required
+            />
+
+            <button
+              class="bg-brand-400 hover:bg-brand-500 text-ink-900 font-extrabold text-sm px-6 py-3 rounded-lg btn-neon whitespace-nowrap"
+              type="submit"
+            >
+              Request access
+            </button>
+
+            {% if turnstile_site_key %}
+              <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+              <div class="w-full sm:col-span-2 flex justify-center sm:justify-start mt-2">
+                <div class="cf-turnstile" data-sitekey="{{ turnstile_site_key }}"></div>
+              </div>
+            {% endif %}
+          </form>
+
+          <p class="text-gray-400 text-xs mt-4">
+            We’ll notify you when the company portal opens. No spam.
+          </p>
+
+          <div class="mt-3">
+            <a
+              class="inline-flex items-center gap-2 text-xs font-extrabold text-brand-400 hover:text-brand-500 transition-colors"
+              href="https://www.linkedin.com/company/108215466/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Follow us on LinkedIn
+              <svg class="w-4 h-4" viewBox="0 0 24 24" aria-hidden="true" focusable="false" role="img">
+                <title>LinkedIn</title>
+                <defs>
+                  <linearGradient id="li-blue" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#0A66C2" />
+                    <stop offset="100%" stop-color="#004182" />
+                  </linearGradient>
+                </defs>
+                <rect width="24" height="24" rx="4" fill="url(#li-blue)" />
+                <path
+                  fill="#FFFFFF"
+                  d="M5.16 9.08h3.03V19H5.16zm1.51-4.03a1.76 1.76 0 1 1-.01-3.52 1.76 1.76 0 0 1 .01 3.52zM10.91 9.08h2.9v1.36h.04c.4-.75 1.37-1.54 2.82-1.54 3.01 0 3.57 1.97 3.57 4.53V19h-3.03v-4.66c0-1.11-.02-2.54-1.55-2.54-1.55 0-1.79 1.2-1.79 2.45V19h-2.96z"
+                />
+              </svg>
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+      </section>
+      <!-- END: Hero Section -->
+
+      <!-- BEGIN: Features Grid -->
+      <section class="relative z-10 py-16 px-4">
+        <div class="max-w-6xl mx-auto">
+          <div class="text-center mb-10">
+            <h2 class="text-2xl md:text-3xl font-extrabold text-white">Built for energy project owners</h2>
+            <p class="text-gray-300/80 mt-2 text-sm">Fast sourcing, verified expertise, transparent delivery.</p>
+          </div>
+
+          <div class="glass-panel rounded-2xl p-6 md:p-8" style="background-color: rgba(255, 255, 255, 0.06)">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div class="bg-dark-800/50 rounded-xl p-6 border border-white/5 hover:border-brand-400/30 transition-colors">
+                <div class="w-10 h-10 rounded-lg bg-brand-400/10 flex items-center justify-center mb-4 text-brand-400" aria-hidden="true">
+                  <svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><line x1="18" x2="18" y1="20" y2="10"></line><line x1="12" x2="12" y1="20" y2="4"></line><line x1="6" x2="6" y1="20" y2="14"></line></svg>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-3">Vetted experts, faster sourcing</h3>
+                <p class="text-gray-300/80 text-sm leading-relaxed">
+                  Publish scopes and receive proposals from peer-reviewed specialists matched to your tech stack and region.
+                </p>
+                <ul class="mt-4 space-y-2">
+                  <li class="flex items-start gap-2 text-sm text-gray-300/80">
+                    <svg class="w-4 h-4 text-brand-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                    <span>Pre-vetted experts across wind, solar, hydrogen, hydro, electrical.</span>
+                  </li>
+                  <li class="flex items-start gap-2 text-sm text-gray-300/80">
+                    <svg class="w-4 h-4 text-brand-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+                    <span>Shortlists ready in days, not weeks.</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="bg-dark-800/50 rounded-xl p-6 border border-white/5 hover:border-brand-400/30 transition-colors">
+                <div class="w-10 h-10 rounded-lg bg-brand-400/10 flex items-center justify-center mb-4 text-brand-400" aria-hidden="true">
+                  <svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-3">Transparent bids & milestones</h3>
+                <p class="text-gray-300/80 text-sm leading-relaxed">
+                  Compare proposals, milestones, and credentials side-by-side. Align on scope before kickoff.
+                </p>
+              </div>
+
+              <div class="bg-dark-800/50 rounded-xl p-6 border border-white/5 hover:border-brand-400/30 transition-colors">
+                <div class="w-10 h-10 rounded-lg bg-brand-400/10 flex items-center justify-center mb-4 text-brand-400" aria-hidden="true">
+                  <svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><line x1="12" x2="12" y1="1" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-3">Contracts, payments, compliance</h3>
+                <p class="text-gray-300/80 text-sm leading-relaxed">
+                  Standardized terms, transparent budgets, and milestone-based payments handled securely.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- END: Features Grid -->
+
+      <!-- BEGIN: Dashboard Showcase -->
+      <section class="relative z-10 py-14 px-4">
+        <div class="max-w-6xl mx-auto">
+          <div class="text-center mb-10">
+            <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-3">Manage your projects with clarity</h2>
+            <p class="text-gray-300/80 max-w-2xl mx-auto text-sm md:text-base">
+              Track bids, milestones, and delivery. Keep stakeholders aligned with transparent reporting.
+            </p>
+          </div>
+
+          <div
+            class="relative group rounded-xl bg-dark-800 p-2 md:p-3 border border-white/10 shadow-2xl shadow-brand-400/10 mx-auto w-[90%] max-w-[1000px]"
+          >
+            <div
+              class="absolute -inset-1 bg-gradient-to-r from-brand-400/20 to-blue-500/20 rounded-xl blur opacity-25 group-hover:opacity-40 transition duration-1000"
+              aria-hidden="true"
+            ></div>
+            <div class="relative rounded-lg overflow-hidden bg-black aspect-[16/9]">
+              <img
+                alt="Dashboard preview showing projects, bids and analytics"
+                class="w-full h-auto object-cover opacity-90 group-hover:opacity-100 transition duration-700"
+                src="{% static 'marketplace/dashboard_generated_img.png' %}"
+                style="aspect-ratio: 16/9; object-fit: cover; object-position: top center"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- END: Dashboard Showcase -->
+
+      <!-- BEGIN: Featured Initiative -->
+      <section class="relative z-10 py-12 px-4 mb-20">
+        <div class="max-w-5xl mx-auto">
+          <div class="glass-card rounded-2xl overflow-hidden flex flex-col md:flex-row relative">
+            <div class="absolute top-0 right-0 w-1/2 h-full bg-brand-400/5 blur-3xl pointer-events-none"></div>
+
+            <!-- Left (mock gig) -->
+            <div class="w-full md:w-6/12 relative p-6 md:p-10">
+              <div class="relative rounded-2xl border border-white/10 bg-black/20 p-4 md:p-5">
+                <div class="rounded-xl border border-white/10 bg-gradient-to-b from-white/5 to-white/0 p-5">
+                  <p class="text-xs font-bold uppercase tracking-[0.2em] text-brand-400">Sample project</p>
+                  <div class="mt-3 flex items-center justify-between gap-3">
+                    <div>
+                      <h3 class="text-xl font-extrabold text-white">Offshore wind grid interconnect</h3>
+                      <p class="text-gray-400 text-sm mt-1">Grid code compliance & telemetry</p>
+                    </div>
+                    <div class="rounded-lg border border-white/10 bg-black/30 px-3 py-2 text-right">
+                      <p class="text-[11px] text-gray-400 uppercase tracking-[0.12em]">Budget</p>
+                      <div class="mt-1 text-base font-black text-white font-mono">$85k–$120k</div>
+                    </div>
+                  </div>
+
+                  <div class="mt-5 grid grid-cols-2 gap-3 text-xs text-gray-300/80">
+                    <span class="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2">
+                      <span class="w-2 h-2 rounded-full bg-brand-400"></span> Contract 4-6 months
+                    </span>
+                    <span class="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2">
+                      <span class="w-2 h-2 rounded-full bg-brand-400"></span> Hybrid (EU/UK)
+                    </span>
+                    <span class="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2">
+                      <span class="w-2 h-2 rounded-full bg-brand-400"></span> Grid / SCADA / EMS
+                    </span>
+                    <span class="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2">
+                      <span class="w-2 h-2 rounded-full bg-brand-400"></span> Compliance & testing
+                    </span>
+                  </div>
+
+                  <div class="mt-5 space-y-2 text-sm text-gray-300/80 leading-relaxed">
+                    <p>Experts deliver telemetry design, grid code validation, and on-site commissioning support.</p>
+                    <p>Milestones: scope sign-off, FAT/SAT, grid compliance report, handover.</p>
+                  </div>
+
+                  <div class="mt-5">
+                    <button
+                      type="button"
+                      class="w-full inline-flex items-center justify-center rounded-lg bg-brand-400 hover:bg-brand-500 text-ink-900 font-extrabold px-4 py-3 btn-neon cursor-default"
+                      aria-label="Apply to gig (preview)"
+                      onclick="return false;"
+                    >
+                      Preview only — company view
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right (pitch) -->
+            <div class="w-full md:w-6/12 relative p-6 md:p-10">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-full bg-brand-400/20 flex items-center justify-center text-brand-400">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2m16 0v-2a4 4 0 0 0-3-3.87m-5 3.87v-2a4 4 0 0 1 3-3.87m-6 3.87a4 4 0 0 1 3-3.87M16 3.13a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"/></svg>
+                </div>
+                <div>
+                  <p class="text-xs uppercase tracking-[0.2em] text-gray-400">For companies</p>
+                  <h3 class="text-2xl font-extrabold text-white leading-tight">Launch with confidence</h3>
+                </div>
+              </div>
+
+              <p class="text-gray-300/85 text-sm leading-relaxed mb-6">
+                Discover experts with validated track records, contract on standardized terms, and keep delivery on track with milestone-based payouts.
+              </p>
+
+              <div class="space-y-3">
+                <div class="flex items-start gap-3">
+                  <span class="w-2 h-2 mt-2 rounded-full bg-brand-400" aria-hidden="true"></span>
+                  <p class="text-sm text-gray-200">Project briefs reviewed for clarity before they go live.</p>
+                </div>
+                <div class="flex items-start gap-3">
+                  <span class="w-2 h-2 mt-2 rounded-full bg-brand-400" aria-hidden="true"></span>
+                  <p class="text-sm text-gray-200">Peer-reviewed experts with references and credentials.</p>
+                </div>
+                <div class="flex items-start gap-3">
+                  <span class="w-2 h-2 mt-2 rounded-full bg-brand-400" aria-hidden="true"></span>
+                  <p class="text-sm text-gray-200">Milestone tracking, invoices, and payouts in one place.</p>
+                </div>
+              </div>
+
+              <div class="mt-8">
+                <a
+                  href="#early-access"
+                  class="inline-flex items-center justify-center rounded-lg bg-brand-400 px-5 py-3 text-ink-900 font-extrabold hover:bg-brand-500 btn-neon"
+                >
+                  Join the company waitlist
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- END: Featured Initiative -->
+    </main>
+
+    <!-- BEGIN: Footer -->
+    <footer class="border-t border-white/5 bg-black py-8">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="text-gray-400 text-xs text-center md:text-left">
+          Ready to hire? Join the company waitlist &gt;
+        </div>
+        <div class="flex gap-6 text-xs text-gray-500">
+          <a class="hover:text-brand-400 transition-colors" href="https://www.linkedin.com/company/108215466/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a class="hover:text-brand-400 transition-colors" href="{% url 'contact' %}">Contact</a>
+          <span>© {% now "Y" %} RenewExperts. All rights reserved.</span>
+        </div>
+      </div>
+    </footer>
+    <!-- END: Footer -->
+  </body>
+</html>
