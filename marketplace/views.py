@@ -112,7 +112,7 @@ def launch_view(request):
             logger.error(f"Failed to start email thread: {str(e)}")
 
         if created:
-            messages.success(request, "You're on the list! Please check your email for confirmation.")
+            messages.success(request, "You're on the list! We'll notify you at launch.")
         else:
             messages.info(request, "You're already on the list — we’ll notify you at launch.")
         return redirect('launch')
