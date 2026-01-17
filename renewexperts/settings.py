@@ -79,6 +79,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'marketplace.context_processors.linkedin',
             ],
         },
     },
@@ -166,6 +167,9 @@ if not RESEND_API_KEY:
 # Captcha (Cloudflare Turnstile) for waitlist form
 TURNSTILE_SITE_KEY = os.environ.get('TURNSTILE_SITE_KEY')
 TURNSTILE_SECRET_KEY = os.environ.get('TURNSTILE_SECRET_KEY')
+
+# LinkedIn Insight Tag
+LINKEDIN_PARTNER_ID = os.environ.get("LINKEDIN_PARTNER_ID")
 
 # -----------------------------
 # Site Lockdown (testing phase)

@@ -75,6 +75,33 @@
       }
     </style>
     {% block extra_head %}{% endblock %}
+    {% if linkedin_partner_id %}
+      <!-- LinkedIn Insight Tag -->
+      <script type="text/javascript">
+        _linkedin_partner_id = "{{ linkedin_partner_id }}";
+        window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+        window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+      </script>
+      <script type="text/javascript">
+        (function () {
+          var s = document.getElementsByTagName("script")[0];
+          var b = document.createElement("script");
+          b.type = "text/javascript";
+          b.async = true;
+          b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+          s.parentNode.insertBefore(b, s);
+        })();
+      </script>
+      <noscript>
+        <img
+          height="1"
+          width="1"
+          style="display:none;"
+          alt=""
+          src="https://px.ads.linkedin.com/collect/?pid={{ linkedin_partner_id }}&fmt=gif"
+        />
+      </noscript>
+    {% endif %}
   </head>
   <body class="antialiased bg-dark-900">
     <div class="absolute top-0 left-0 w-full h-[600px] bg-hero-glow pointer-events-none"></div>
